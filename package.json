@@ -1,0 +1,16 @@
+{
+  "name": "d3-meets-chart.js",
+  "version": "0.0.0",
+  "description": "",
+  "main": "d3-meets-chart.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ruedap",
+  "license": "MIT",
+  "devDependencies": {
+    "coffee-script": "~1.7.1",
+    "gulp": "~3.5.5",
+    "gulp-coffee": "~1.4.1"
+  }
+}
