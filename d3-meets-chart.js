@@ -7,7 +7,7 @@ Chart = (function() {
   }
 
   Chart.prototype.Doughnut = function(data, options) {
-    var config;
+    var mergedOptions;
     this.Doughnut.defaults = {
       segmentShowStroke: true,
       segmentStrokeColor: '#fff',
@@ -20,8 +20,8 @@ Chart = (function() {
       animateScale: false,
       onAnimationComplete: null
     };
-    config = _.extend({}, this.Doughnut.defaults, options);
-    return new Chart.D3Doughnut(data, config, this.element);
+    mergedOptions = _.extend({}, this.Doughnut.defaults, options);
+    return new Chart.D3Doughnut(data, mergedOptions, this.element);
   };
 
   return Chart;
@@ -29,7 +29,7 @@ Chart = (function() {
 })();
 
 Chart.D3Doughnut = (function() {
-  function D3Doughnut(data, config, element) {
+  function D3Doughnut(data, options, element) {
     var arc, innerRadius, margin, outerRadius, path;
     this.data = data;
     this.element = element;
@@ -40,19 +40,19 @@ Chart.D3Doughnut = (function() {
     this.rootSvg = __bind(this.rootSvg, this);
     margin = 5;
     outerRadius = Math.min(this.rootSvgWidth(), this.rootSvgHeight()) / 2 - margin;
-    innerRadius = outerRadius * (config.percentageInnerCutout / 100);
+    innerRadius = outerRadius * (options.percentageInnerCutout / 100);
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-    path = this.drawChart(arc, config);
-    this.setAnimationComplete(config);
-    this.animateRotate(path, arc, config);
-    this.animateScale(config);
+    path = this.drawChart(arc, options);
+    this.setAnimationComplete(options);
+    this.animateRotate(path, arc, options);
+    this.animateScale(options);
   }
 
-  D3Doughnut.prototype.animateRotate = function(path, arc, config) {
-    if (!(config.animation && config.animateRotate)) {
+  D3Doughnut.prototype.animateRotate = function(path, arc, options) {
+    if (!(options.animation && options.animateRotate)) {
       return;
     }
-    return path.transition().call(this.transitionEndAll, config).duration(this.duration(config)).ease('bounce').attrTween('d', function(d) {
+    return path.transition().call(this.transitionEndAll, options).duration(this.duration(options)).ease('bounce').attrTween('d', function(d) {
       var interpolate;
       interpolate = d3.interpolate({
         startAngle: 0,
@@ -64,22 +64,22 @@ Chart.D3Doughnut = (function() {
     });
   };
 
-  D3Doughnut.prototype.animateScale = function(config) {
-    if (!(config.animation && config.animateScale)) {
+  D3Doughnut.prototype.animateScale = function(options) {
+    if (!(options.animation && options.animateScale)) {
       return;
     }
     return this.rootSvg().selectAll('g').attr({
       transform: "" + (this.translateToCenter(svg)) + " scale(0)"
-    }).transition().call(this.transitionEndAll, config).duration(this.duration(config)).ease('bounce').attr({
+    }).transition().call(this.transitionEndAll, options).duration(this.duration(options)).ease('bounce').attr({
       transform: 'scale(1)'
     });
   };
 
-  D3Doughnut.prototype.attrSegmentStroke = function(config) {
-    if (config.segmentShowStroke) {
+  D3Doughnut.prototype.attrSegmentStroke = function(options) {
+    if (options.segmentShowStroke) {
       return {
-        stroke: config.segmentStrokeColor,
-        'stroke-width': config.segmentStrokeWidth
+        stroke: options.segmentStrokeColor,
+        'stroke-width': options.segmentStrokeWidth
       };
     } else {
       return {
@@ -89,7 +89,7 @@ Chart.D3Doughnut = (function() {
     }
   };
 
-  D3Doughnut.prototype.drawChart = function(arc, config) {
+  D3Doughnut.prototype.drawChart = function(arc, options) {
     var colors, pie;
     pie = d3.layout.pie().value(function(d) {
       return d.value;
@@ -97,17 +97,17 @@ Chart.D3Doughnut = (function() {
     colors = _.map(this.data, function(d) {
       return d.color;
     });
-    return this.rootSvg().append('g').selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(config)).attr({
+    return this.rootSvg().append('g').selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(options)).attr({
       d: arc,
-      transform: this.translateToCenter,
+      transform: this.translateToCenter(),
       fill: function(d, i) {
         return colors[i];
       }
     });
   };
 
-  D3Doughnut.prototype.duration = function(config) {
-    return config.animationSteps * 16.666;
+  D3Doughnut.prototype.duration = function(options) {
+    return options.animationSteps * 16.666;
   };
 
   D3Doughnut.prototype.rootSvg = function() {
@@ -122,17 +122,17 @@ Chart.D3Doughnut = (function() {
     return this.rootSvg().property('height').baseVal.value;
   };
 
-  D3Doughnut.prototype.setAnimationComplete = function(config) {
-    if (typeof config.onAnimationComplete !== 'function') {
+  D3Doughnut.prototype.setAnimationComplete = function(options) {
+    if (typeof options.onAnimationComplete !== 'function') {
       return;
     }
-    this.transitionEndAllCount = config.animation && config.animateRotate && config.animateScale ? 2 : config.animation && (config.animateRotate || config.animateScale) ? 1 : NaN;
+    this.transitionEndAllCount = options.animation && options.animateRotate && options.animateScale ? 2 : options.animation && (options.animateRotate || options.animateScale) ? 1 : NaN;
     if (isNaN(this.transitionEndAllCount)) {
-      return config.onAnimationComplete.call(this);
+      return options.onAnimationComplete.call(this);
     }
   };
 
-  D3Doughnut.prototype.transitionEndAll = function(transition, config) {
+  D3Doughnut.prototype.transitionEndAll = function(transition, options) {
     var n;
     n = 0;
     return transition.each(function() {
@@ -140,7 +140,7 @@ Chart.D3Doughnut = (function() {
     }).each('end', (function(_this) {
       return function() {
         if (!--n && (--_this.transitionEndAllCount === 0)) {
-          return config.onAnimationComplete.apply(_this, arguments);
+          return options.onAnimationComplete.apply(_this, arguments);
         }
       };
     })(this));

@@ -24,56 +24,56 @@ class Chart
       # Function - Will fire on animation completion.
       onAnimationComplete: null
 
-    config = _.extend({}, @Doughnut.defaults, options)
-    new Chart.D3Doughnut(data, config, @element)
+    mergedOptions = _.extend({}, @Doughnut.defaults, options)
+    new Chart.D3Doughnut(data, mergedOptions, @element)
 
 class Chart.D3Doughnut
-  constructor: (@data, config, @element) ->
+  constructor: (@data, options, @element) ->
 
     margin = 5
     outerRadius = Math.min(@rootSvgWidth(), @rootSvgHeight()) / 2 - margin
-    innerRadius = outerRadius * (config.percentageInnerCutout / 100)
+    innerRadius = outerRadius * (options.percentageInnerCutout / 100)
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
 
-    path = @drawChart(arc, config)
+    path = @drawChart(arc, options)
 
-    @setAnimationComplete(config)
-    @animateRotate(path, arc, config)
-    @animateScale(config)
+    @setAnimationComplete(options)
+    @animateRotate(path, arc, options)
+    @animateScale(options)
 
-  animateRotate: (path, arc, config) ->
-    return if !(config.animation and config.animateRotate)
+  animateRotate: (path, arc, options) ->
+    return if !(options.animation and options.animateRotate)
     path
       .transition()
-      .call(@transitionEndAll, config)
-      .duration @duration(config)
+      .call @transitionEndAll, options
+      .duration @duration(options)
       .ease 'bounce'
       .attrTween 'd', (d) ->
         interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d)
         (t)-> arc interpolate(t)
 
-  animateScale: (config) ->
-    return if !(config.animation and config.animateScale)
+  animateScale: (options) ->
+    return if !(options.animation and options.animateScale)
     @rootSvg()
       .selectAll 'g'
       .attr
         transform: "#{@translateToCenter(svg)} scale(0)"
       .transition()
-      .call(@transitionEndAll, config)
-      .duration @duration(config)
+      .call @transitionEndAll, options
+      .duration @duration(options)
       .ease 'bounce'
       .attr
         transform: 'scale(1)'
 
-  attrSegmentStroke: (config) ->
-    if config.segmentShowStroke
-      stroke: config.segmentStrokeColor
-      'stroke-width': config.segmentStrokeWidth
+  attrSegmentStroke: (options) ->
+    if options.segmentShowStroke
+      stroke: options.segmentStrokeColor
+      'stroke-width': options.segmentStrokeWidth
     else
       stroke: 'none'
       'stroke-width': 0
 
-  drawChart: (arc, config) ->
+  drawChart: (arc, options) ->
     pie = d3.layout.pie().value((d) -> d.value).sort(null)
     colors = _.map @data, (d) -> d.color
     @rootSvg()
@@ -82,14 +82,14 @@ class Chart.D3Doughnut
       .data pie(@data)
       .enter()
       .append 'path'
-      .attr @attrSegmentStroke(config)
+      .attr @attrSegmentStroke(options)
       .attr
         d: arc
-        transform: @translateToCenter
+        transform: @translateToCenter()
         fill: (d, i) -> colors[i]
 
-  duration: (config) ->
-    config.animationSteps * 16.666
+  duration: (options) ->
+    options.animationSteps * 16.666
 
   rootSvg: =>
     d3.select(@element)
@@ -100,26 +100,26 @@ class Chart.D3Doughnut
   rootSvgHeight: =>
     @rootSvg().property('height').baseVal.value
 
-  setAnimationComplete: (config) ->
-    return unless typeof(config.onAnimationComplete) is 'function'
+  setAnimationComplete: (options) ->
+    return unless typeof(options.onAnimationComplete) is 'function'
     # TODO: need test
     @transitionEndAllCount =
-      if config.animation and config.animateRotate and config.animateScale
+      if options.animation and options.animateRotate and options.animateScale
         2
-      else if config.animation and (config.animateRotate or config.animateScale)
+      else if options.animation and (options.animateRotate or options.animateScale)
         1
       else
         NaN
-    config.onAnimationComplete.call(@) if isNaN(@transitionEndAllCount)
+    options.onAnimationComplete.call(@) if isNaN(@transitionEndAllCount)
 
-  transitionEndAll: (transition, config) =>
+  transitionEndAll: (transition, options) =>
     n = 0
     transition
       .each -> ++n
       .each 'end', =>
         # TODO: need test
         if !--n and (--@transitionEndAllCount == 0)
-          config.onAnimationComplete.apply(@, arguments)
+          options.onAnimationComplete.apply(@, arguments)
 
   # FIXME: resopnsive and unit bug
   translateToCenter: =>
