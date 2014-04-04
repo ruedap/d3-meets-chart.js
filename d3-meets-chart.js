@@ -29,9 +29,8 @@ Chart = (function() {
 
 Chart.D3Doughnut = (function() {
   function D3Doughnut(data, config, element) {
-    var arc, duration, innerRadius, margin, outerRadius, pie, svg;
+    var arc, innerRadius, margin, outerRadius, path, pie, svg;
     this.data = data;
-    this.config = config;
     this.element = element;
     pie = d3.layout.pie().value(function(d) {
       return d.value;
@@ -39,16 +38,26 @@ Chart.D3Doughnut = (function() {
     svg = d3.select(this.element);
     margin = 5;
     outerRadius = Math.min(this.svgWidth(svg), this.svgHeight(svg)) / 2 - margin;
-    innerRadius = outerRadius * (this.config.percentageInnerCutout / 100);
+    innerRadius = outerRadius * (config.percentageInnerCutout / 100);
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-    duration = this.config.animationSteps * 17.5;
-    svg.selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(this.config)).attr({
+    path = svg.append('g').selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(config)).attr({
       d: arc,
       transform: this.translateToCenter(svg),
       fill: function(d, i) {
         return data[i].color;
       }
-    }).transition().duration(duration).ease('bounce').attrTween('d', function(d) {
+    });
+    this.animateRotate(path, arc, config);
+    this.animateScale(config);
+  }
+
+  D3Doughnut.prototype.animateRotate = function(path, arc, config) {
+    var duration;
+    if (!(config.animation && config.animateRotate)) {
+      return;
+    }
+    duration = config.animationSteps * 16.666;
+    return path.transition().duration(duration).ease('bounce').attrTween('d', function(d) {
       var interpolate;
       interpolate = d3.interpolate({
         startAngle: 0,
@@ -58,7 +67,23 @@ Chart.D3Doughnut = (function() {
         return arc(interpolate(t));
       };
     });
-  }
+  };
+
+  D3Doughnut.prototype.animateScale = function(config) {
+    var duration, svg, transformOriginX, transformOriginY;
+    if (!(config.animation && config.animateScale)) {
+      return;
+    }
+    duration = config.animationSteps * 16.666;
+    svg = d3.select(this.element);
+    transformOriginX = this.svgWidth(svg) / 2;
+    transformOriginY = this.svgHeight(svg) / 2;
+    return svg.selectAll('g').attr({
+      transform: "" + (this.translateToCenter(svg)) + " scale(0)"
+    }).transition().duration(duration).ease('bounce').attr({
+      transform: 'scale(1)'
+    });
+  };
 
   D3Doughnut.prototype.attrSegmentStroke = function(config) {
     if (config.segmentShowStroke) {

@@ -42,7 +42,16 @@
       ];
 
       var options = {
-        animationSteps: 200
+        segmentShowStroke: true,
+        // segmentStrokeColor: '#000',
+        // segmentStrokeWidth: 10,
+        percentageInnerCutout: 50,
+        animation: true,
+        animationSteps: 300,
+        animationEasing: 'easeOutBounce',
+        animateRotate: true,
+        animateScale: true,
+        onAnimationComplete: null
       };
 
       var myDoughnut = new OrigChart(document.getElementById("canvas").getContext("2d")).Doughnut(doughnutData, options);
