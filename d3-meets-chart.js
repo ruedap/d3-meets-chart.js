@@ -29,24 +29,15 @@ Chart = (function() {
 
 Chart.D3Doughnut = (function() {
   function D3Doughnut(data, config, element) {
-    var arc, innerRadius, margin, outerRadius, path, pie, svg;
+    var arc, innerRadius, margin, outerRadius, path, svg;
     this.data = data;
     this.element = element;
-    pie = d3.layout.pie().value(function(d) {
-      return d.value;
-    }).sort(null);
     svg = d3.select(this.element);
     margin = 5;
     outerRadius = Math.min(this.svgWidth(svg), this.svgHeight(svg)) / 2 - margin;
     innerRadius = outerRadius * (config.percentageInnerCutout / 100);
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-    path = svg.append('g').selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(config)).attr({
-      d: arc,
-      transform: this.translateToCenter(svg),
-      fill: function(d, i) {
-        return data[i].color;
-      }
-    });
+    path = this.drawChart(arc, config);
     this.animateRotate(path, arc, config);
     this.animateScale(config);
   }
@@ -103,14 +94,20 @@ Chart.D3Doughnut = (function() {
     }
   };
 
-  D3Doughnut.prototype.transitionEndAll = function(transition, callback) {
-    var n;
-    n = 0;
-    return transition.each(function() {
-      return ++n;
-    }).each('end', function() {
-      if (!--n) {
-        return callback.apply(this, arguments);
+  D3Doughnut.prototype.drawChart = function(arc, config) {
+    var colors, pie, svg;
+    pie = d3.layout.pie().value(function(d) {
+      return d.value;
+    }).sort(null);
+    svg = d3.select(this.element);
+    colors = _.map(this.data, function(d) {
+      return d.color;
+    });
+    return svg.append('g').selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(config)).attr({
+      d: arc,
+      transform: this.translateToCenter(svg),
+      fill: function(d, i) {
+        return colors[i];
       }
     });
   };
@@ -121,6 +118,18 @@ Chart.D3Doughnut = (function() {
 
   D3Doughnut.prototype.svgHeight = function(svg) {
     return svg.property('height').baseVal.value;
+  };
+
+  D3Doughnut.prototype.transitionEndAll = function(transition, callback) {
+    var n;
+    n = 0;
+    return transition.each(function() {
+      return ++n;
+    }).each('end', function() {
+      if (!--n) {
+        return callback.apply(this, arguments);
+      }
+    });
   };
 
   D3Doughnut.prototype.translateToCenter = function(svg) {

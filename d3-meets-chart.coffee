@@ -29,24 +29,13 @@ class Chart
 
 class Chart.D3Doughnut
   constructor: (@data, config, @element) ->
-    pie = d3.layout.pie().value((d) -> d.value).sort(null)
     svg = d3.select(@element)
     margin = 5
     outerRadius = Math.min(@svgWidth(svg), @svgHeight(svg)) / 2 - margin
     innerRadius = outerRadius * (config.percentageInnerCutout / 100)
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
 
-    path = svg
-      .append 'g'
-      .selectAll 'path'
-      .data pie(@data)
-      .enter()
-      .append 'path'
-      .attr @attrSegmentStroke(config)
-      .attr
-        d: arc
-        transform: @translateToCenter(svg)
-        fill: (d, i) -> data[i].color  # FIXME: data(?)
+    path = @drawChart(arc, config)
 
     @animateRotate(path, arc, config)
     @animateScale(config)
@@ -88,17 +77,33 @@ class Chart.D3Doughnut
       stroke: 'none'
       'stroke-width': 0
 
-  transitionEndAll: (transition, callback) ->
-    n = 0
-    transition
-      .each -> ++n
-      .each 'end', -> callback.apply(@, arguments) if (!--n)
+  drawChart: (arc, config) ->
+    pie = d3.layout.pie().value((d) -> d.value).sort(null)
+    svg = d3.select(@element)
+    colors = _.map @data, (d) -> d.color
+    svg
+      .append 'g'
+      .selectAll 'path'
+      .data pie(@data)
+      .enter()
+      .append 'path'
+      .attr @attrSegmentStroke(config)
+      .attr
+        d: arc
+        transform: @translateToCenter(svg)
+        fill: (d, i) -> colors[i]
 
   svgWidth: (svg) ->
     svg.property('width').baseVal.value
 
   svgHeight: (svg) ->
     svg.property('height').baseVal.value
+
+  transitionEndAll: (transition, callback) ->
+    n = 0
+    transition
+      .each -> ++n
+      .each 'end', -> callback.apply(@, arguments) if (!--n)
 
   # FIXME: resopnsive and unit bug
   translateToCenter: (svg) ->
