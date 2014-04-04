@@ -8,6 +8,10 @@
   },
   "author": "ruedap",
   "license": "MIT",
+  "dependencies": {
+    "d3": ">=3.4.4",
+    "underscore": ">=1.6.0"
+  },
   "devDependencies": {
     "coffee-script": "~1.7.1",
     "gulp": "~3.5.5",
