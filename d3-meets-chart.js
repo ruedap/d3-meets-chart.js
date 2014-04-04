@@ -34,6 +34,7 @@ Chart.D3Doughnut = (function() {
     this.data = data;
     this.element = element;
     this.translateToCenter = __bind(this.translateToCenter, this);
+    this.transitionEndAll = __bind(this.transitionEndAll, this);
     this.rootSvgHeight = __bind(this.rootSvgHeight, this);
     this.rootSvgWidth = __bind(this.rootSvgWidth, this);
     this.rootSvg = __bind(this.rootSvg, this);
@@ -42,6 +43,7 @@ Chart.D3Doughnut = (function() {
     innerRadius = outerRadius * (config.percentageInnerCutout / 100);
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
     path = this.drawChart(arc, config);
+    this.setAnimationComplete(config);
     this.animateRotate(path, arc, config);
     this.animateScale(config);
   }
@@ -50,9 +52,7 @@ Chart.D3Doughnut = (function() {
     if (!(config.animation && config.animateRotate)) {
       return;
     }
-    return path.transition().call(this.transitionEndAll, function() {
-      return console.log('rotate done');
-    }).duration(this.duration(config)).ease('bounce').attrTween('d', function(d) {
+    return path.transition().call(this.transitionEndAll, config).duration(this.duration(config)).ease('bounce').attrTween('d', function(d) {
       var interpolate;
       interpolate = d3.interpolate({
         startAngle: 0,
@@ -70,9 +70,7 @@ Chart.D3Doughnut = (function() {
     }
     return this.rootSvg().selectAll('g').attr({
       transform: "" + (this.translateToCenter(svg)) + " scale(0)"
-    }).transition().call(this.transitionEndAll, function() {
-      return console.log('scale done');
-    }).duration(this.duration(config)).ease('bounce').attr({
+    }).transition().call(this.transitionEndAll, config).duration(this.duration(config)).ease('bounce').attr({
       transform: 'scale(1)'
     });
   };
@@ -124,16 +122,28 @@ Chart.D3Doughnut = (function() {
     return this.rootSvg().property('height').baseVal.value;
   };
 
-  D3Doughnut.prototype.transitionEndAll = function(transition, callback) {
+  D3Doughnut.prototype.setAnimationComplete = function(config) {
+    if (typeof config.onAnimationComplete !== 'function') {
+      return;
+    }
+    this.transitionEndAllCount = config.animation && config.animateRotate && config.animateScale ? 2 : config.animation && (config.animateRotate || config.animateScale) ? 1 : NaN;
+    if (isNaN(this.transitionEndAllCount)) {
+      return config.onAnimationComplete.call(this);
+    }
+  };
+
+  D3Doughnut.prototype.transitionEndAll = function(transition, config) {
     var n;
     n = 0;
     return transition.each(function() {
       return ++n;
-    }).each('end', function() {
-      if (!--n) {
-        return callback.apply(this, arguments);
-      }
-    });
+    }).each('end', (function(_this) {
+      return function() {
+        if (!--n && (--_this.transitionEndAllCount === 0)) {
+          return config.onAnimationComplete.apply(_this, arguments);
+        }
+      };
+    })(this));
   };
 
   D3Doughnut.prototype.translateToCenter = function() {

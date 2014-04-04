@@ -29,6 +29,7 @@ class Chart
 
 class Chart.D3Doughnut
   constructor: (@data, config, @element) ->
+
     margin = 5
     outerRadius = Math.min(@rootSvgWidth(), @rootSvgHeight()) / 2 - margin
     innerRadius = outerRadius * (config.percentageInnerCutout / 100)
@@ -36,6 +37,7 @@ class Chart.D3Doughnut
 
     path = @drawChart(arc, config)
 
+    @setAnimationComplete(config)
     @animateRotate(path, arc, config)
     @animateScale(config)
 
@@ -43,7 +45,7 @@ class Chart.D3Doughnut
     return if !(config.animation and config.animateRotate)
     path
       .transition()
-      .call(@transitionEndAll, -> console.log('rotate done'))
+      .call(@transitionEndAll, config)
       .duration @duration(config)
       .ease 'bounce'
       .attrTween 'd', (d) ->
@@ -57,7 +59,7 @@ class Chart.D3Doughnut
       .attr
         transform: "#{@translateToCenter(svg)} scale(0)"
       .transition()
-      .call(@transitionEndAll, -> console.log('scale done'))
+      .call(@transitionEndAll, config)
       .duration @duration(config)
       .ease 'bounce'
       .attr
@@ -98,11 +100,26 @@ class Chart.D3Doughnut
   rootSvgHeight: =>
     @rootSvg().property('height').baseVal.value
 
-  transitionEndAll: (transition, callback) ->
+  setAnimationComplete: (config) ->
+    return unless typeof(config.onAnimationComplete) is 'function'
+    # TODO: need test
+    @transitionEndAllCount =
+      if config.animation and config.animateRotate and config.animateScale
+        2
+      else if config.animation and (config.animateRotate or config.animateScale)
+        1
+      else
+        NaN
+    config.onAnimationComplete.call(@) if isNaN(@transitionEndAllCount)
+
+  transitionEndAll: (transition, config) =>
     n = 0
     transition
       .each -> ++n
-      .each 'end', -> callback.apply(@, arguments) if (!--n)
+      .each 'end', =>
+        # TODO: need test
+        if !--n and (--@transitionEndAllCount == 0)
+          config.onAnimationComplete.apply(@, arguments)
 
   # FIXME: resopnsive and unit bug
   translateToCenter: =>
