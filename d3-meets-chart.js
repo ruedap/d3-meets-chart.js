@@ -47,14 +47,12 @@ Chart.D3Doughnut = (function() {
   }
 
   D3Doughnut.prototype.animateRotate = function(path, arc, config) {
-    var duration;
     if (!(config.animation && config.animateRotate)) {
       return;
     }
-    duration = config.animationSteps * 16.666;
     return path.transition().call(this.transitionEndAll, function() {
       return console.log('rotate done');
-    }).duration(duration).ease('bounce').attrTween('d', function(d) {
+    }).duration(this.duration(config)).ease('bounce').attrTween('d', function(d) {
       var interpolate;
       interpolate = d3.interpolate({
         startAngle: 0,
@@ -67,18 +65,17 @@ Chart.D3Doughnut = (function() {
   };
 
   D3Doughnut.prototype.animateScale = function(config) {
-    var duration, transformOriginX, transformOriginY;
+    var transformOriginX, transformOriginY;
     if (!(config.animation && config.animateScale)) {
       return;
     }
-    duration = config.animationSteps * 16.666;
     transformOriginX = this.svgWidth() / 2;
     transformOriginY = this.svgHeight() / 2;
     return this.rootSvg().selectAll('g').attr({
       transform: "" + (this.translateToCenter(svg)) + " scale(0)"
     }).transition().call(this.transitionEndAll, function() {
       return console.log('scale done');
-    }).duration(duration).ease('bounce').attr({
+    }).duration(this.duration(config)).ease('bounce').attr({
       transform: 'scale(1)'
     });
   };
@@ -112,6 +109,10 @@ Chart.D3Doughnut = (function() {
         return colors[i];
       }
     });
+  };
+
+  D3Doughnut.prototype.duration = function(config) {
+    return config.animationSteps * 16.666;
   };
 
   D3Doughnut.prototype.rootSvg = function() {

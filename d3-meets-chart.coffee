@@ -41,11 +41,10 @@ class Chart.D3Doughnut
 
   animateRotate: (path, arc, config) ->
     return if !(config.animation and config.animateRotate)
-    duration = config.animationSteps * 16.666  # TODO: Refactor
     path
       .transition()
       .call(@transitionEndAll, -> console.log('rotate done'))
-      .duration duration
+      .duration @duration(config)
       .ease 'bounce'
       .attrTween 'd', (d) ->
         interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d)
@@ -53,7 +52,6 @@ class Chart.D3Doughnut
 
   animateScale: (config) ->
     return if !(config.animation and config.animateScale)
-    duration = config.animationSteps * 16.666  # TODO: Refactor
     transformOriginX = @svgWidth() / 2
     transformOriginY = @svgHeight() / 2
     @rootSvg()
@@ -62,7 +60,7 @@ class Chart.D3Doughnut
         transform: "#{@translateToCenter(svg)} scale(0)"
       .transition()
       .call(@transitionEndAll, -> console.log('scale done'))
-      .duration duration
+      .duration @duration(config)
       .ease 'bounce'
       .attr
         transform: 'scale(1)'
@@ -89,6 +87,9 @@ class Chart.D3Doughnut
         d: arc
         transform: @translateToCenter
         fill: (d, i) -> colors[i]
+
+  duration: (config) ->
+    config.animationSteps * 16.666
 
   rootSvg: =>
     d3.select(@element)
