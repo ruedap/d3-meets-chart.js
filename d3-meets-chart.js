@@ -57,7 +57,9 @@ Chart.D3Doughnut = (function() {
       return;
     }
     duration = config.animationSteps * 16.666;
-    return path.transition().duration(duration).ease('bounce').attrTween('d', function(d) {
+    return path.transition().call(this.transitionEndAll, function() {
+      return console.log('rotate done');
+    }).duration(duration).ease('bounce').attrTween('d', function(d) {
       var interpolate;
       interpolate = d3.interpolate({
         startAngle: 0,
@@ -80,7 +82,9 @@ Chart.D3Doughnut = (function() {
     transformOriginY = this.svgHeight(svg) / 2;
     return svg.selectAll('g').attr({
       transform: "" + (this.translateToCenter(svg)) + " scale(0)"
-    }).transition().duration(duration).ease('bounce').attr({
+    }).transition().call(this.transitionEndAll, function() {
+      return console.log('scale done');
+    }).duration(duration).ease('bounce').attr({
       transform: 'scale(1)'
     });
   };
@@ -97,6 +101,18 @@ Chart.D3Doughnut = (function() {
         'stroke-width': 0
       };
     }
+  };
+
+  D3Doughnut.prototype.transitionEndAll = function(transition, callback) {
+    var n;
+    n = 0;
+    return transition.each(function() {
+      return ++n;
+    }).each('end', function() {
+      if (!--n) {
+        return callback.apply(this, arguments);
+      }
+    });
   };
 
   D3Doughnut.prototype.svgWidth = function(svg) {

@@ -56,6 +56,7 @@ class Chart.D3Doughnut
     duration = config.animationSteps * 16.666  # TODO: Refactor
     path
       .transition()
+      .call(@transitionEndAll, -> console.log('rotate done'))
       .duration duration
       .ease 'bounce'
       .attrTween 'd', (d) ->
@@ -73,6 +74,7 @@ class Chart.D3Doughnut
       .attr
         transform: "#{@translateToCenter(svg)} scale(0)"
       .transition()
+      .call(@transitionEndAll, -> console.log('scale done'))
       .duration duration
       .ease 'bounce'
       .attr
@@ -85,6 +87,12 @@ class Chart.D3Doughnut
     else
       stroke: 'none'
       'stroke-width': 0
+
+  transitionEndAll: (transition, callback) ->
+    n = 0
+    transition
+      .each -> ++n
+      .each 'end', -> callback.apply(@, arguments) if (!--n)
 
   svgWidth: (svg) ->
     svg.property('width').baseVal.value

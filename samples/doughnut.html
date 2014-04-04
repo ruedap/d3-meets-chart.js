@@ -47,11 +47,11 @@
         // segmentStrokeWidth: 10,
         percentageInnerCutout: 50,
         animation: true,
-        animationSteps: 300,
+        animationSteps: 100,
         animationEasing: 'easeOutBounce',
         animateRotate: true,
-        animateScale: true,
-        onAnimationComplete: null
+        animateScale: false,
+        onAnimationComplete: function () { console.log('hello'); }
       };
 
       var myDoughnut = new OrigChart(document.getElementById("canvas").getContext("2d")).Doughnut(doughnutData, options);
