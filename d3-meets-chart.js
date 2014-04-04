@@ -29,7 +29,7 @@ Chart = (function() {
 
 Chart.D3Doughnut = (function() {
   function D3Doughnut(data, config, element) {
-    var arc, innerRadius, margin, outerRadius, pie, svg;
+    var arc, duration, innerRadius, margin, outerRadius, pie, svg;
     this.data = data;
     this.config = config;
     this.element = element;
@@ -41,12 +41,22 @@ Chart.D3Doughnut = (function() {
     outerRadius = Math.min(this.svgWidth(svg), this.svgHeight(svg)) / 2 - margin;
     innerRadius = outerRadius * (this.config.percentageInnerCutout / 100);
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
+    duration = this.config.animationSteps * 16.666666;
     svg.selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(this.config)).attr({
       d: arc,
       transform: this.translateToCenter(svg),
       fill: function(d, i) {
         return data[i].color;
       }
+    }).transition().duration(duration).ease('bounce').attrTween('d', function(d) {
+      var interpolate;
+      interpolate = d3.interpolate({
+        startAngle: 0,
+        endAngle: 0
+      }, d);
+      return function(t) {
+        return arc(interpolate(t));
+      };
     });
   }
 

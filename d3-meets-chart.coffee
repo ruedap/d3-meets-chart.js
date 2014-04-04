@@ -12,7 +12,7 @@ class Chart
       animationEasing: 'easeOutBounce'
       animateRotate: true
       animateScale: false
-      onAnimationComplete : null
+      onAnimationComplete: null
 
     # TODO: merge options
     config = @Doughnut.defaults
@@ -27,6 +27,7 @@ class Chart.D3Doughnut
     outerRadius = Math.min(@svgWidth(svg), @svgHeight(svg)) / 2 - margin
     innerRadius = outerRadius * (@config.percentageInnerCutout / 100)
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
+    duration = @config.animationSteps * 16.666666
 
     svg
       .selectAll 'path'
@@ -38,6 +39,19 @@ class Chart.D3Doughnut
         d: arc
         transform: @translateToCenter(svg)
         fill: (d, i) -> data[i].color  # FIXME: data(?)
+      .transition()
+      .duration duration
+      .ease 'bounce'
+      .attrTween 'd', (d) ->
+        interpolate = d3.interpolate
+          startAngle: 0
+          endAngle: 0
+        ,
+          d
+        (t) ->
+          arc interpolate(t)
+
+
 
   attrSegmentStroke: (config) ->
     if config.segmentShowStroke
