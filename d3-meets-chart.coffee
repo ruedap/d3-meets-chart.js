@@ -29,9 +29,8 @@ class Chart
 
 class Chart.D3Doughnut
   constructor: (@data, config, @element) ->
-    svg = d3.select(@element)
     margin = 5
-    outerRadius = Math.min(@svgWidth(svg), @svgHeight(svg)) / 2 - margin
+    outerRadius = Math.min(@rootSvgWidth(), @rootSvgHeight()) / 2 - margin
     innerRadius = outerRadius * (config.percentageInnerCutout / 100)
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
 
@@ -55,10 +54,9 @@ class Chart.D3Doughnut
   animateScale: (config) ->
     return if !(config.animation and config.animateScale)
     duration = config.animationSteps * 16.666  # TODO: Refactor
-    svg = d3.select(@element)
-    transformOriginX = @svgWidth(svg) / 2
-    transformOriginY = @svgHeight(svg) / 2
-    svg
+    transformOriginX = @svgWidth() / 2
+    transformOriginY = @svgHeight() / 2
+    @rootSvg()
       .selectAll 'g'
       .attr
         transform: "#{@translateToCenter(svg)} scale(0)"
@@ -79,9 +77,8 @@ class Chart.D3Doughnut
 
   drawChart: (arc, config) ->
     pie = d3.layout.pie().value((d) -> d.value).sort(null)
-    svg = d3.select(@element)
     colors = _.map @data, (d) -> d.color
-    svg
+    @rootSvg()
       .append 'g'
       .selectAll 'path'
       .data pie(@data)
@@ -90,14 +87,17 @@ class Chart.D3Doughnut
       .attr @attrSegmentStroke(config)
       .attr
         d: arc
-        transform: @translateToCenter(svg)
+        transform: @translateToCenter
         fill: (d, i) -> colors[i]
 
-  svgWidth: (svg) ->
-    svg.property('width').baseVal.value
+  rootSvg: =>
+    d3.select(@element)
 
-  svgHeight: (svg) ->
-    svg.property('height').baseVal.value
+  rootSvgWidth: =>
+    @rootSvg().property('width').baseVal.value
+
+  rootSvgHeight: =>
+    @rootSvg().property('height').baseVal.value
 
   transitionEndAll: (transition, callback) ->
     n = 0
@@ -106,5 +106,5 @@ class Chart.D3Doughnut
       .each 'end', -> callback.apply(@, arguments) if (!--n)
 
   # FIXME: resopnsive and unit bug
-  translateToCenter: (svg) ->
-    "translate(#{@svgWidth(svg) / 2}, #{@svgHeight(svg) / 2})"
+  translateToCenter: =>
+    "translate(#{@rootSvgWidth() / 2}, #{@rootSvgHeight() / 2})"
