@@ -52,8 +52,6 @@ class Chart.D3Doughnut
 
   animateScale: (config) ->
     return if !(config.animation and config.animateScale)
-    transformOriginX = @svgWidth() / 2
-    transformOriginY = @svgHeight() / 2
     @rootSvg()
       .selectAll 'g'
       .attr

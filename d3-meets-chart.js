@@ -65,12 +65,9 @@ Chart.D3Doughnut = (function() {
   };
 
   D3Doughnut.prototype.animateScale = function(config) {
-    var transformOriginX, transformOriginY;
     if (!(config.animation && config.animateScale)) {
       return;
     }
-    transformOriginX = this.svgWidth() / 2;
-    transformOriginY = this.svgHeight() / 2;
     return this.rootSvg().selectAll('g').attr({
       transform: "" + (this.translateToCenter(svg)) + " scale(0)"
     }).transition().call(this.transitionEndAll, function() {
