@@ -19,7 +19,7 @@ Chart = (function() {
       animateScale: false,
       onAnimationComplete: null
     };
-    config = this.Doughnut.defaults;
+    config = _.extend({}, this.Doughnut.defaults, options);
     return new Chart.D3Doughnut(data, config, this.element);
   };
 
@@ -41,7 +41,7 @@ Chart.D3Doughnut = (function() {
     outerRadius = Math.min(this.svgWidth(svg), this.svgHeight(svg)) / 2 - margin;
     innerRadius = outerRadius * (this.config.percentageInnerCutout / 100);
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-    duration = this.config.animationSteps * 16.666666;
+    duration = this.config.animationSteps * 17.5;
     svg.selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(this.config)).attr({
       d: arc,
       transform: this.translateToCenter(svg),
