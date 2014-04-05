@@ -25,7 +25,20 @@ class Chart
       onAnimationComplete: null
 
     mergedOptions = _.extend({}, @Doughnut.defaults, options)
+    mergedOptions.animationEasing = @getEasingType mergedOptions.animationEasing
+
     new Chart.D3Doughnut(data, mergedOptions, @element)
+
+  easingTypes:
+    linear: 'linear'
+    easeOutBounce: 'bounce'
+
+  getEasingType: (easingType) ->
+    easingTypeName = @easingTypes[easingType]
+    unless easingTypeName?
+      throw new ReferenceError "'#{easingType}' is not a easing type name"
+    easingTypeName
+
 
 class Chart.D3Doughnut
   constructor: (@data, options, @element) ->
@@ -47,7 +60,7 @@ class Chart.D3Doughnut
       .transition()
       .call @transitionEndAll, options
       .duration @duration(options)
-      .ease 'bounce'
+      .ease options.animationEasing
       .attrTween 'd', (d) ->
         interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d)
         (t)-> arc interpolate(t)
@@ -61,7 +74,7 @@ class Chart.D3Doughnut
       .transition()
       .call @transitionEndAll, options
       .duration @duration(options)
-      .ease 'bounce'
+      .ease options.animationEasing
       .attr
         transform: 'scale(1)'
 

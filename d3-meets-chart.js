@@ -21,7 +21,22 @@ Chart = (function() {
       onAnimationComplete: null
     };
     mergedOptions = _.extend({}, this.Doughnut.defaults, options);
+    mergedOptions.animationEasing = this.getEasingType(mergedOptions.animationEasing);
     return new Chart.D3Doughnut(data, mergedOptions, this.element);
+  };
+
+  Chart.prototype.easingTypes = {
+    linear: 'linear',
+    easeOutBounce: 'bounce'
+  };
+
+  Chart.prototype.getEasingType = function(easingType) {
+    var easingTypeName;
+    easingTypeName = this.easingTypes[easingType];
+    if (easingTypeName == null) {
+      throw new ReferenceError("'" + easingType + "' is not a easing type name");
+    }
+    return easingTypeName;
   };
 
   return Chart;
@@ -52,7 +67,7 @@ Chart.D3Doughnut = (function() {
     if (!(options.animation && options.animateRotate)) {
       return;
     }
-    return path.transition().call(this.transitionEndAll, options).duration(this.duration(options)).ease('bounce').attrTween('d', function(d) {
+    return path.transition().call(this.transitionEndAll, options).duration(this.duration(options)).ease(options.animationEasing).attrTween('d', function(d) {
       var interpolate;
       interpolate = d3.interpolate({
         startAngle: 0,
@@ -70,7 +85,7 @@ Chart.D3Doughnut = (function() {
     }
     return this.rootSvg().selectAll('g').attr({
       transform: "" + (this.translateToCenter(svg)) + " scale(0)"
-    }).transition().call(this.transitionEndAll, options).duration(this.duration(options)).ease('bounce').attr({
+    }).transition().call(this.transitionEndAll, options).duration(this.duration(options)).ease(options.animationEasing).attr({
       transform: 'scale(1)'
     });
   };
