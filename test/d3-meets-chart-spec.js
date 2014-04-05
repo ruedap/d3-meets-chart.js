@@ -7,7 +7,7 @@ expect = chai.expect;
 Chart = require('../src/d3-meets-chart').Chart;
 
 describe('Chart', function() {
-  return describe('::constructor', function() {
+  describe('::constructor', function() {
     context('when arguments is valid', function() {
       return it('should contains the element name in the returned object', function() {
         var chart;
@@ -24,5 +24,8 @@ describe('Chart', function() {
         }).to["throw"](TypeError, message);
       });
     });
+  });
+  return describe('::Doughnut', function() {
+    return it('pending');
   });
 });

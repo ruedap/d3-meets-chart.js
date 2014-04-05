@@ -14,3 +14,6 @@ describe 'Chart', ->
       it 'should raise TypeError exception', ->
         message = 'This argument is not a selector string'
         expect(-> new Chart(null)).to.throw TypeError, message
+
+  describe '::Doughnut', ->
+    it 'pending'
