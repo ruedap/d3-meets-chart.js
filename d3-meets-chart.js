@@ -21,7 +21,7 @@ Chart = (function() {
       onAnimationComplete: null
     };
     mergedOptions = this.mergeOptions(this.Doughnut.defaults, options);
-    return new Chart.D3Doughnut(data, mergedOptions, this.element);
+    return new Chart.D3Doughnut(this.element, data, mergedOptions);
   };
 
   Chart.prototype.mergeOptions = function(defaults, options) {
@@ -73,10 +73,10 @@ Chart = (function() {
 })();
 
 Chart.D3Doughnut = (function() {
-  function D3Doughnut(data, options, element) {
+  function D3Doughnut(element, data, options) {
     var arc, innerRadius, margin, outerRadius, path;
-    this.data = data;
     this.element = element;
+    this.data = data;
     this.translateToCenter = __bind(this.translateToCenter, this);
     this.transitionEndAll = __bind(this.transitionEndAll, this);
     this.rootSvgHeight = __bind(this.rootSvgHeight, this);

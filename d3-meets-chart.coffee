@@ -25,7 +25,7 @@ class Chart
       onAnimationComplete: null
 
     mergedOptions = @mergeOptions(@Doughnut.defaults, options)
-    new Chart.D3Doughnut(data, mergedOptions, @element)
+    new Chart.D3Doughnut(@element, data, mergedOptions)
 
   mergeOptions: (defaults, options) ->
     # TODO: Avoid Underscore.js
@@ -76,7 +76,7 @@ class Chart
 
 
 class Chart.D3Doughnut
-  constructor: (@data, options, @element) ->
+  constructor: (@element, @data, options) ->
 
     margin = 5
     outerRadius = Math.min(@rootSvgWidth(), @rootSvgHeight()) / 2 - margin
