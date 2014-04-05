@@ -132,7 +132,7 @@ Chart.D3Doughnut = (function() {
     pie = d3.layout.pie().value(function(d) {
       return d.value;
     }).sort(null);
-    colors = _.map(this.data, function(d) {
+    colors = this.data.map(function(d) {
       return d.color;
     });
     return this.rootSvg().append('g').selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(options)).attr({

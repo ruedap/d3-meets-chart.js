@@ -119,7 +119,7 @@ class Chart.D3Doughnut
 
   drawChart: (arc, options) ->
     pie = d3.layout.pie().value((d) -> d.value).sort(null)
-    colors = _.map @data, (d) -> d.color
+    colors = @data.map (d) -> d.color
     @rootSvg()
       .append 'g'
       .selectAll 'path'
