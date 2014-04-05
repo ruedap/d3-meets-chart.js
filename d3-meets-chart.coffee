@@ -24,10 +24,14 @@ class Chart
       # Function - Will fire on animation completion.
       onAnimationComplete: null
 
-    mergedOptions = _.extend({}, @Doughnut.defaults, options)
-    mergedOptions.animationEasing = @getEasingType mergedOptions.animationEasing
-
+    mergedOptions = @mergeOptions(@Doughnut.defaults, options)
     new Chart.D3Doughnut(data, mergedOptions, @element)
+
+  mergeOptions: (defaults, options) ->
+    # TODO: Avoid Underscore.js
+    mergedOptions = _.extend({}, defaults, options)
+    mergedOptions.animationEasing = @getEasingType mergedOptions.animationEasing
+    mergedOptions
 
   easingTypes:
     linear: 'linear'

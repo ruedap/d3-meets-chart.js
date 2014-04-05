@@ -20,9 +20,15 @@ Chart = (function() {
       animateScale: false,
       onAnimationComplete: null
     };
-    mergedOptions = _.extend({}, this.Doughnut.defaults, options);
-    mergedOptions.animationEasing = this.getEasingType(mergedOptions.animationEasing);
+    mergedOptions = this.mergeOptions(this.Doughnut.defaults, options);
     return new Chart.D3Doughnut(data, mergedOptions, this.element);
+  };
+
+  Chart.prototype.mergeOptions = function(defaults, options) {
+    var mergedOptions;
+    mergedOptions = _.extend({}, defaults, options);
+    mergedOptions.animationEasing = this.getEasingType(mergedOptions.animationEasing);
+    return mergedOptions;
   };
 
   Chart.prototype.easingTypes = {
