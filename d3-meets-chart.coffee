@@ -50,15 +50,15 @@ class Chart
     easeInCirc: 'circle-in'
     easeOutCirc: 'circle-out'
     easeInOutCirc: 'circle-in-out'
-    easeInElastic: 'elastic-out'        # invert? but based on Chart.js
-    easeOutElastic: 'elastic-in'        # invert? but based on Chart.js
-    easeInOutElastic: 'elastic-in-out'  # differs from Chart.js
+    easeInElastic: 'elastic-out'        # Invert? but based on Chart.js
+    easeOutElastic: 'elastic-in'        # Invert? but based on Chart.js
+    easeInOutElastic: 'elastic-in-out'  # Differs from Chart.js
     easeInBack: 'back-in'
     easeOutBack: 'back-out'
     easeInOutBack: 'back-in-out'
-    easeInBounce: 'bounce-out'          # invert? but based on Chart.js
-    easeOutBounce: 'bounce-in'          # invert? but based on Chart.js
-    easeInOutBounce: 'bounce-in-out'    # differs from Chart.js
+    easeInBounce: 'bounce-out'          # Invert? but based on Chart.js
+    easeOutBounce: 'bounce-in'          # Invert? but based on Chart.js
+    easeInOutBounce: 'bounce-in-out'    # Differs from Chart.js
     # TODO: Implement custom easing type
     # easeInQuart: ''
     # easeOutQuart: ''
@@ -68,7 +68,6 @@ class Chart
     # easeInOutQuint: ''
 
   getEasingType: (easingType) ->
-    # TODO: not string
     easingTypeName = @easingTypes[easingType]
     unless easingTypeName?
       throw new ReferenceError "'#{easingType}' is not a easing type name"
@@ -167,6 +166,6 @@ class Chart.D3Doughnut
         if !--n and (--@transitionEndAllCount == 0)
           options.onAnimationComplete.apply(@, arguments)
 
-  # FIXME: resopnsive and unit bug
+  # FIXME: resopnsive and unit support
   translateToCenter: =>
     "translate(#{@rootSvgWidth() / 2}, #{@rootSvgHeight() / 2})"
