@@ -38,3 +38,20 @@ describe 'Chart', ->
         it 'should raise ReferenceError exception', ->
           expect(=> @chart.getEasingType(null)).to
             .throw ReferenceError, @errorMessage 'null'
+
+  describe '::mergeOptions', ->
+    before ->
+      @chart = new Chart '#svg'
+      @defaults = foo: 'foo', animationEasing: 'easeInExpo'
+
+    context 'when arguments are valid', ->
+      it 'should returns the merged object', ->
+        options = foo: 'bar'
+        expect(@chart.mergeOptions(@defaults, options)).to
+          .eql foo: 'bar', animationEasing: 'exp-in'
+
+    context 'when arguments are invalid', ->
+      it 'should returns the defaults object', ->
+        options = null
+        expect(@chart.mergeOptions(@defaults, options)).to
+          .eql foo: 'foo', animationEasing: 'exp-in'

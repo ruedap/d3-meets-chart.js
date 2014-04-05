@@ -29,12 +29,6 @@ class Chart
     mergedOptions = @mergeOptions @Doughnut.defaults, options
     new Chart.D3Doughnut @selector, data, mergedOptions
 
-  mergeOptions: (defaults, options) ->
-    # TODO: Avoid Underscore.js
-    mergedOptions = _.extend {}, defaults, options
-    mergedOptions.animationEasing = @getEasingType mergedOptions.animationEasing
-    mergedOptions
-
   easingTypes:
     linear: 'linear'
     easeInQuad: 'quad-in'
@@ -74,6 +68,12 @@ class Chart
     unless easingTypeName?
       throw new ReferenceError "'#{easingType}' is not a easing type name"
     easingTypeName
+
+  mergeOptions: (defaults, options) ->
+    # TODO: Avoid Underscore.js
+    mergedOptions = _.extend {}, defaults, options
+    mergedOptions.animationEasing = @getEasingType mergedOptions.animationEasing
+    mergedOptions
 
 class Chart.D3Doughnut
   constructor: (@selector, @data, options) ->

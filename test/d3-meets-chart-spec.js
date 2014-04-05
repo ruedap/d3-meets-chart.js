@@ -28,7 +28,7 @@ describe('Chart', function() {
   describe('::Doughnut', function() {
     return it('pending');
   });
-  return describe('::getEasingType', function() {
+  describe('::getEasingType', function() {
     before(function() {
       this.chart = new Chart('#svg');
       return this.errorMessage = function(easingType) {
@@ -57,6 +57,37 @@ describe('Chart', function() {
               return _this.chart.getEasingType(null);
             };
           })(this)).to["throw"](ReferenceError, this.errorMessage('null'));
+        });
+      });
+    });
+  });
+  return describe('::mergeOptions', function() {
+    before(function() {
+      this.chart = new Chart('#svg');
+      return this.defaults = {
+        foo: 'foo',
+        animationEasing: 'easeInExpo'
+      };
+    });
+    context('when arguments are valid', function() {
+      return it('should returns the merged object', function() {
+        var options;
+        options = {
+          foo: 'bar'
+        };
+        return expect(this.chart.mergeOptions(this.defaults, options)).to.eql({
+          foo: 'bar',
+          animationEasing: 'exp-in'
+        });
+      });
+    });
+    return context('when arguments are invalid', function() {
+      return it('should returns the defaults object', function() {
+        var options;
+        options = null;
+        return expect(this.chart.mergeOptions(this.defaults, options)).to.eql({
+          foo: 'foo',
+          animationEasing: 'exp-in'
         });
       });
     });

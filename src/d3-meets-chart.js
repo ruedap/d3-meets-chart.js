@@ -27,13 +27,6 @@ Chart = (function() {
     return new Chart.D3Doughnut(this.selector, data, mergedOptions);
   };
 
-  Chart.prototype.mergeOptions = function(defaults, options) {
-    var mergedOptions;
-    mergedOptions = _.extend({}, defaults, options);
-    mergedOptions.animationEasing = this.getEasingType(mergedOptions.animationEasing);
-    return mergedOptions;
-  };
-
   Chart.prototype.easingTypes = {
     linear: 'linear',
     easeInQuad: 'quad-in',
@@ -69,6 +62,13 @@ Chart = (function() {
       throw new ReferenceError("'" + easingType + "' is not a easing type name");
     }
     return easingTypeName;
+  };
+
+  Chart.prototype.mergeOptions = function(defaults, options) {
+    var mergedOptions;
+    mergedOptions = _.extend({}, defaults, options);
+    mergedOptions.animationEasing = this.getEasingType(mergedOptions.animationEasing);
+    return mergedOptions;
   };
 
   return Chart;
