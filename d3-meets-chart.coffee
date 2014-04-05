@@ -31,9 +31,40 @@ class Chart
 
   easingTypes:
     linear: 'linear'
-    easeOutBounce: 'bounce'
+    easeInQuad: 'quad-in'
+    easeOutQuad: 'quad-out'
+    easeInOutQuad: 'quad-in-out'
+    easeInCubic: 'cubic-in'
+    easeOutCubic: 'cubic-out'
+    easeInOutCubic: 'cubic-in-out'
+    easeInSine: 'sin-in'
+    easeOutSine: 'sin-out'
+    easeInOutSine: 'sin-in-out'
+    easeInExpo: 'exp-in'
+    easeOutExpo: 'exp-out'
+    easeInOutExpo: 'exp-in-out'
+    easeInCirc: 'circle-in'
+    easeOutCirc: 'circle-out'
+    easeInOutCirc: 'circle-in-out'
+    easeInElastic: 'elastic-out'        # invert? but based on Chart.js
+    easeOutElastic: 'elastic-in'        # invert? but based on Chart.js
+    easeInOutElastic: 'elastic-in-out'  # differs from Chart.js
+    easeInBack: 'back-in'
+    easeOutBack: 'back-out'
+    easeInOutBack: 'back-in-out'
+    easeInBounce: 'bounce-out'          # invert? but based on Chart.js
+    easeOutBounce: 'bounce-in'          # invert? but based on Chart.js
+    easeInOutBounce: 'bounce-in-out'    # differs from Chart.js
+    # TODO: Implement custom easing type
+    # easeInQuart: ''
+    # easeOutQuart: ''
+    # easeInOutQuart: ''
+    # easeInQuint: ''
+    # easeOutQuint: ''
+    # easeInOutQuint: ''
 
   getEasingType: (easingType) ->
+    # TODO: not string
     easingTypeName = @easingTypes[easingType]
     unless easingTypeName?
       throw new ReferenceError "'#{easingType}' is not a easing type name"
@@ -102,7 +133,7 @@ class Chart.D3Doughnut
         fill: (d, i) -> colors[i]
 
   duration: (options) ->
-    options.animationSteps * 16.666
+    options.animationSteps * 17.333
 
   rootSvg: =>
     d3.select(@element)

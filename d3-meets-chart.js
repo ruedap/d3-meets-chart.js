@@ -27,7 +27,30 @@ Chart = (function() {
 
   Chart.prototype.easingTypes = {
     linear: 'linear',
-    easeOutBounce: 'bounce'
+    easeInQuad: 'quad-in',
+    easeOutQuad: 'quad-out',
+    easeInOutQuad: 'quad-in-out',
+    easeInCubic: 'cubic-in',
+    easeOutCubic: 'cubic-out',
+    easeInOutCubic: 'cubic-in-out',
+    easeInSine: 'sin-in',
+    easeOutSine: 'sin-out',
+    easeInOutSine: 'sin-in-out',
+    easeInExpo: 'exp-in',
+    easeOutExpo: 'exp-out',
+    easeInOutExpo: 'exp-in-out',
+    easeInCirc: 'circle-in',
+    easeOutCirc: 'circle-out',
+    easeInOutCirc: 'circle-in-out',
+    easeInElastic: 'elastic-out',
+    easeOutElastic: 'elastic-in',
+    easeInOutElastic: 'elastic-in-out',
+    easeInBack: 'back-in',
+    easeOutBack: 'back-out',
+    easeInOutBack: 'back-in-out',
+    easeInBounce: 'bounce-out',
+    easeOutBounce: 'bounce-in',
+    easeInOutBounce: 'bounce-in-out'
   };
 
   Chart.prototype.getEasingType = function(easingType) {
@@ -122,7 +145,7 @@ Chart.D3Doughnut = (function() {
   };
 
   D3Doughnut.prototype.duration = function(options) {
-    return options.animationSteps * 16.666;
+    return options.animationSteps * 17.333;
   };
 
   D3Doughnut.prototype.rootSvg = function() {
