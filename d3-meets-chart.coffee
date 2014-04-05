@@ -74,13 +74,11 @@ class Chart
       throw new ReferenceError "'#{easingType}' is not a easing type name"
     easingTypeName
 
-
 class Chart.D3Doughnut
   constructor: (@element, @data, options) ->
-
     margin = 5
-    outerRadius = Math.min(@rootSvgWidth(), @rootSvgHeight()) / 2 - margin
-    innerRadius = outerRadius * (options.percentageInnerCutout / 100)
+    outerRadius = ~~(Math.min(@rootSvgWidth(), @rootSvgHeight()) / 2 - margin)
+    innerRadius = ~~(outerRadius * (options.percentageInnerCutout / 100))
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
 
     path = @drawChart(arc, options)

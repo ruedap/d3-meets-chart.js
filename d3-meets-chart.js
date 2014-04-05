@@ -83,8 +83,8 @@ Chart.D3Doughnut = (function() {
     this.rootSvgWidth = __bind(this.rootSvgWidth, this);
     this.rootSvg = __bind(this.rootSvg, this);
     margin = 5;
-    outerRadius = Math.min(this.rootSvgWidth(), this.rootSvgHeight()) / 2 - margin;
-    innerRadius = outerRadius * (options.percentageInnerCutout / 100);
+    outerRadius = ~~(Math.min(this.rootSvgWidth(), this.rootSvgHeight()) / 2 - margin);
+    innerRadius = ~~(outerRadius * (options.percentageInnerCutout / 100));
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
     path = this.drawChart(arc, options);
     this.setAnimationComplete(options);
