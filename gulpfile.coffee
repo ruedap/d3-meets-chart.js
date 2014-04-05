@@ -1,6 +1,7 @@
 gulp = require 'gulp'
 coffee = require 'gulp-coffee'
 gutil = require 'gulp-util'
+mocha = require 'gulp-mocha'
 
 gulp.task 'coffee', ->
   gulp.src './src/*.coffee'
@@ -12,7 +13,12 @@ gulp.task 'coffee', ->
     .on 'error', gutil.log
     .pipe gulp.dest('./test/')
 
-gulp.task 'watch', ->
-  gulp.watch ['./src/*.coffee', './test/*.coffee'], ['coffee']
+gulp.task 'mocha', ->
+  gulp.src './test/d3-meets-chart-spec.js'
+    .pipe mocha(reporter: 'spec')
 
-gulp.task 'default', ['coffee']
+gulp.task 'watch', ->
+  gulp.watch ['./src/*.coffee', './test/*.coffee'], ['test']
+
+gulp.task 'test', ['coffee', 'mocha']
+gulp.task 'default', ['test']
