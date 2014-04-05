@@ -1,7 +1,7 @@
+{Chart} = require '../src/d3-meets-chart'
+
 chai = require 'chai'
 expect = chai.expect
-
-{Chart} = require '../src/d3-meets-chart'
 
 describe 'Chart', ->
   describe '::constructor', ->

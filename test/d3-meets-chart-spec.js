@@ -1,10 +1,10 @@
 var Chart, chai, expect;
 
+Chart = require('../src/d3-meets-chart').Chart;
+
 chai = require('chai');
 
 expect = chai.expect;
-
-Chart = require('../src/d3-meets-chart').Chart;
 
 describe('Chart', function() {
   describe('::constructor', function() {
