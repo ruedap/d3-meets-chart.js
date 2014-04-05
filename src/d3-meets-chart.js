@@ -197,3 +197,7 @@ Chart.D3Doughnut = (function() {
   return D3Doughnut;
 
 })();
+
+if ((typeof module !== "undefined" && module !== null ? module.exports : void 0) != null) {
+  module.exports.Chart = Chart;
+}

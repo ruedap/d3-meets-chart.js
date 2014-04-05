@@ -169,3 +169,5 @@ class Chart.D3Doughnut
   # FIXME: resopnsive and unit support
   translateToCenter: =>
     "translate(#{@rootSvgWidth() / 2}, #{@rootSvgHeight() / 2})"
+
+module.exports.Chart = Chart if module?.exports?
