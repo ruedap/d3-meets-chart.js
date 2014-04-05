@@ -5,15 +5,36 @@ expect = chai.expect
 
 describe 'Chart', ->
   describe '::constructor', ->
-    context 'when arguments is valid', ->
+    context 'when an argument is valid', ->
       it 'should contains the element name in the returned object', ->
         chart = new Chart '#root-svg'
         expect(chart.selector).to.eq '#root-svg'
 
-    context 'when arguments is invalid', ->
+    context 'when an argument is invalid', ->
       it 'should raise TypeError exception', ->
         message = 'This argument is not a selector string'
         expect(-> new Chart(null)).to.throw TypeError, message
 
   describe '::Doughnut', ->
     it 'pending'
+
+  describe '::getEasingType', ->
+    before ->
+      @chart = new Chart '#svg'
+      @errorMessage = (easingType) ->
+        "'#{easingType}' is not a easing type name"
+
+    context 'when an argument is valid', ->
+      it 'should returns the easing type name', ->
+        expect(@chart.getEasingType('easeInExpo')).to.eq 'exp-in'
+
+    context 'when an argument is invalid', ->
+      context 'when an argument is string', ->
+        it 'should raise ReferenceError exception', ->
+          expect(=> @chart.getEasingType('foo')).to
+            .throw ReferenceError, @errorMessage 'foo'
+
+      context 'when an argument is not string', ->
+        it 'should raise ReferenceError exception', ->
+          expect(=> @chart.getEasingType(null)).to
+            .throw ReferenceError, @errorMessage 'null'

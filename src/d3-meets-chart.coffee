@@ -172,4 +172,6 @@ class Chart.D3Doughnut
   translateToCenter: =>
     "translate(#{@rootSvgWidth() / 2}, #{@rootSvgHeight() / 2})"
 
-module.exports.Chart = Chart if module?.exports?
+if module?.exports?
+  module.exports.Chart = Chart
+  _ = require 'underscore'

@@ -1,4 +1,4 @@
-var Chart,
+var Chart, _,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 Chart = (function() {
@@ -203,4 +203,5 @@ Chart.D3Doughnut = (function() {
 
 if ((typeof module !== "undefined" && module !== null ? module.exports : void 0) != null) {
   module.exports.Chart = Chart;
+  _ = require('underscore');
 }

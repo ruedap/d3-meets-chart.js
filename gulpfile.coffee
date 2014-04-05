@@ -18,7 +18,7 @@ gulp.task 'mocha', ->
     .pipe mocha(reporter: 'spec')
 
 gulp.task 'watch', ->
-  gulp.watch ['./src/*.coffee', './test/*.coffee'], ['test']
+  gulp.watch ['./src/*.coffee', './test/*.coffee'], ['coffee']
 
 gulp.task 'test', ['coffee', 'mocha']
 gulp.task 'default', ['test']
