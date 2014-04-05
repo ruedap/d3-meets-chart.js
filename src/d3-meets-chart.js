@@ -2,8 +2,11 @@ var Chart,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 Chart = (function() {
-  function Chart(element) {
-    this.element = element;
+  function Chart(selector) {
+    this.selector = selector;
+    if (typeof selector !== 'string') {
+      throw new TypeError('This argument is not a selector string');
+    }
   }
 
   Chart.prototype.Doughnut = function(data, options) {
@@ -21,7 +24,7 @@ Chart = (function() {
       onAnimationComplete: null
     };
     mergedOptions = this.mergeOptions(this.Doughnut.defaults, options);
-    return new Chart.D3Doughnut(this.element, data, mergedOptions);
+    return new Chart.D3Doughnut(this.selector, data, mergedOptions);
   };
 
   Chart.prototype.mergeOptions = function(defaults, options) {
@@ -73,9 +76,9 @@ Chart = (function() {
 })();
 
 Chart.D3Doughnut = (function() {
-  function D3Doughnut(element, data, options) {
+  function D3Doughnut(selector, data, options) {
     var arc, innerRadius, margin, outerRadius, path;
-    this.element = element;
+    this.selector = selector;
     this.data = data;
     this.translateToCenter = __bind(this.translateToCenter, this);
     this.transitionEndAll = __bind(this.transitionEndAll, this);
@@ -155,7 +158,7 @@ Chart.D3Doughnut = (function() {
   };
 
   D3Doughnut.prototype.rootSvg = function() {
-    return d3.select(this.element);
+    return d3.select(this.selector);
   };
 
   D3Doughnut.prototype.rootSvgWidth = function() {

@@ -1,5 +1,7 @@
 class Chart
-  constructor: (@element) ->
+  constructor: (@selector) ->
+    unless typeof selector is 'string'
+      throw new TypeError 'This argument is not a selector string'
 
   Doughnut: (data, options) ->
     @Doughnut.defaults =
@@ -24,12 +26,12 @@ class Chart
       # Function - Will fire on animation completion.
       onAnimationComplete: null
 
-    mergedOptions = @mergeOptions(@Doughnut.defaults, options)
-    new Chart.D3Doughnut(@element, data, mergedOptions)
+    mergedOptions = @mergeOptions @Doughnut.defaults, options
+    new Chart.D3Doughnut @selector, data, mergedOptions
 
   mergeOptions: (defaults, options) ->
     # TODO: Avoid Underscore.js
-    mergedOptions = _.extend({}, defaults, options)
+    mergedOptions = _.extend {}, defaults, options
     mergedOptions.animationEasing = @getEasingType mergedOptions.animationEasing
     mergedOptions
 
@@ -74,17 +76,17 @@ class Chart
     easingTypeName
 
 class Chart.D3Doughnut
-  constructor: (@element, @data, options) ->
+  constructor: (@selector, @data, options) ->
     margin = 5
     outerRadius = ~~(Math.min(@rootSvgWidth(), @rootSvgHeight()) / 2 - margin)
     innerRadius = ~~(outerRadius * (options.percentageInnerCutout / 100))
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
 
-    path = @drawChart(arc, options)
+    path = @drawChart arc, options
 
-    @setAnimationComplete(options)
-    @animateRotate(path, arc, options)
-    @animateScale(options)
+    @setAnimationComplete options
+    @animateRotate path, arc, options
+    @animateScale options
 
   animateRotate: (path, arc, options) ->
     return if !(options.animation and options.animateRotate)
@@ -94,7 +96,7 @@ class Chart.D3Doughnut
       .duration @duration(options)
       .ease options.animationEasing
       .attrTween 'd', (d) ->
-        interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d)
+        interpolate = d3.interpolate {startAngle: 0, endAngle: 0}, d
         (t)-> arc interpolate(t)
 
   animateScale: (options) ->
@@ -137,7 +139,7 @@ class Chart.D3Doughnut
     options.animationSteps * 17.333
 
   rootSvg: =>
-    d3.select(@element)
+    d3.select @selector
 
   rootSvgWidth: =>
     @rootSvg().property('width').baseVal.value
@@ -155,7 +157,7 @@ class Chart.D3Doughnut
         1
       else
         NaN
-    options.onAnimationComplete.call(@) if isNaN(@transitionEndAllCount)
+    options.onAnimationComplete.call this if isNaN @transitionEndAllCount
 
   transitionEndAll: (transition, options) =>
     n = 0
@@ -164,7 +166,7 @@ class Chart.D3Doughnut
       .each 'end', =>
         # TODO: need test
         if !--n and (--@transitionEndAllCount == 0)
-          options.onAnimationComplete.apply(@, arguments)
+          options.onAnimationComplete.apply this, arguments
 
   # FIXME: resopnsive and unit support
   translateToCenter: =>

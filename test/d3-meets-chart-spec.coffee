@@ -1,11 +1,16 @@
 chai = require 'chai'
 expect = chai.expect
 
-{Chart} = require "../src/d3-meets-chart"
+{Chart} = require '../src/d3-meets-chart'
 
 describe 'Chart', ->
   describe '::constructor', ->
-    describe 'when arguments is valid', ->
-      it 'contains the element name in the returned object', ->
+    context 'when arguments is valid', ->
+      it 'should contains the element name in the returned object', ->
         chart = new Chart '#root-svg'
-        expect(chart.element).to.eq '#root-svg'
+        expect(chart.selector).to.eq '#root-svg'
+
+    context 'when arguments is invalid', ->
+      it 'should raise TypeError exception', ->
+        message = 'This argument is not a selector string'
+        expect(-> new Chart(null)).to.throw TypeError, message
