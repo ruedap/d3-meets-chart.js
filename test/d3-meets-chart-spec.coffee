@@ -33,17 +33,10 @@ describe 'Chart', ->
         expect(chart.selector).to.eq '#svg'
 
   describe '::Doughnut', ->
-    context 'when an argument is invalid', ->
-      it 'should raise TypeError exception', ->
-        data = null
-        message = "#{data} is not an array"
-        expect(-> new Chart('#svg').Doughnut(data)).to.throw TypeError, message
-
-    context 'when an argument is valid', ->
-      it 'should returns the Chart.D3Doughnut object', ->
-        data = []
-        doughnut = new Chart('#svg').Doughnut(data)
-        expect(doughnut).to.be.a 'object'
+    it 'should returns the Chart.D3Doughnut object', ->
+      data = []
+      doughnut = new Chart('#svg').Doughnut(data)
+      expect(doughnut).to.be.a 'object'
 
   describe '::getEasingType', ->
     before ->
@@ -82,6 +75,21 @@ describe 'Chart', ->
         options = foo: 'bar'
         expect(@chart.mergeOptions(@defaults, options)).to
           .eql foo: 'bar', animationEasing: 'exp-in'
+
+  describe '::validateData', ->
+    context 'when an argument is invalid', ->
+      it 'should raise TypeError exception', ->
+        data = null
+        message = "#{data} is not an array"
+        expect(-> new Chart('#svg').validateData(data)).to
+          .throw TypeError, message
+
+    context 'when an argument is valid', ->
+      it 'should not raise TypeError exception', ->
+        data = []
+        message = "#{data} is not an array"
+        expect(-> new Chart('#svg').validateData(data)).to
+          .not.throw new TypeError message
 
 describe 'Chart.D3Doughnut', ->
   before ->

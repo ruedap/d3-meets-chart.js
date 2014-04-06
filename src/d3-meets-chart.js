@@ -11,9 +11,7 @@ Chart = (function() {
 
   Chart.prototype.Doughnut = function(data, options) {
     var mergedOptions;
-    if (!_.isArray(data)) {
-      throw new TypeError("" + data + " is not an array");
-    }
+    this.validateData(data);
     this.Doughnut.defaults = {
       segmentShowStroke: true,
       segmentStrokeColor: '#fff',
@@ -72,6 +70,12 @@ Chart = (function() {
     mergedOptions = _.extend({}, defaults, options);
     mergedOptions.animationEasing = this.getEasingType(mergedOptions.animationEasing);
     return mergedOptions;
+  };
+
+  Chart.prototype.validateData = function(data) {
+    if (!_.isArray(data)) {
+      throw new TypeError("" + data + " is not an array");
+    }
   };
 
   return Chart;

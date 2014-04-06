@@ -4,7 +4,7 @@ class Chart
       throw new TypeError 'This argument is not a selector string'
 
   Doughnut: (data, options) ->
-    throw new TypeError "#{data} is not an array" unless _.isArray data
+    @validateData data
 
     @Doughnut.defaults =
       # Boolean - Whether we should show a stroke on each segment.
@@ -76,6 +76,9 @@ class Chart
     mergedOptions = _.extend {}, defaults, options
     mergedOptions.animationEasing = @getEasingType mergedOptions.animationEasing
     mergedOptions
+
+  validateData: (data) ->
+    throw new TypeError "#{data} is not an array" unless _.isArray data
 
 class Chart.D3Doughnut
   constructor: (@selector, @data, @options) ->

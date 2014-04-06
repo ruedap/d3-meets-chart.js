@@ -44,23 +44,11 @@ describe('Chart', function() {
     });
   });
   describe('::Doughnut', function() {
-    context('when an argument is invalid', function() {
-      return it('should raise TypeError exception', function() {
-        var data, message;
-        data = null;
-        message = "" + data + " is not an array";
-        return expect(function() {
-          return new Chart('#svg').Doughnut(data);
-        }).to["throw"](TypeError, message);
-      });
-    });
-    return context('when an argument is valid', function() {
-      return it('should returns the Chart.D3Doughnut object', function() {
-        var data, doughnut;
-        data = [];
-        doughnut = new Chart('#svg').Doughnut(data);
-        return expect(doughnut).to.be.a('object');
-      });
+    return it('should returns the Chart.D3Doughnut object', function() {
+      var data, doughnut;
+      data = [];
+      doughnut = new Chart('#svg').Doughnut(data);
+      return expect(doughnut).to.be.a('object');
     });
   });
   describe('::getEasingType', function() {
@@ -96,7 +84,7 @@ describe('Chart', function() {
       });
     });
   });
-  return describe('::mergeOptions', function() {
+  describe('::mergeOptions', function() {
     before(function() {
       this.chart = new Chart('#svg');
       return this.defaults = {
@@ -124,6 +112,28 @@ describe('Chart', function() {
           foo: 'bar',
           animationEasing: 'exp-in'
         });
+      });
+    });
+  });
+  return describe('::validateData', function() {
+    context('when an argument is invalid', function() {
+      return it('should raise TypeError exception', function() {
+        var data, message;
+        data = null;
+        message = "" + data + " is not an array";
+        return expect(function() {
+          return new Chart('#svg').validateData(data);
+        }).to["throw"](TypeError, message);
+      });
+    });
+    return context('when an argument is valid', function() {
+      return it('should not raise TypeError exception', function() {
+        var data, message;
+        data = [];
+        message = "" + data + " is not an array";
+        return expect(function() {
+          return new Chart('#svg').validateData(data);
+        }).to.not["throw"](new TypeError(message));
       });
     });
   });
