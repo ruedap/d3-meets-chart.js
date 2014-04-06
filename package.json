@@ -1,10 +1,10 @@
 {
   "name": "d3-meets-chart.js",
   "version": "0.0.0",
-  "description": "",
-  "main": "./d3-meets-chart.min.js",
+  "description": "Simple HTML5 Charts using the <svg> tag with D3.js",
+  "main": "d3-meets-chart.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "author": "ruedap",
   "license": "MIT",
