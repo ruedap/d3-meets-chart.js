@@ -55,3 +55,14 @@ describe 'Chart', ->
         options = null
         expect(@chart.mergeOptions(@defaults, options)).to
           .eql foo: 'foo', animationEasing: 'exp-in'
+
+describe 'Chart.D3Doughnut', ->
+  describe '::constructor', ->
+    it 'pending'
+
+  describe '::duration', ->
+    it 'should returns number', ->
+      options = {}
+      options.animationSteps = 100
+      d3doughnut = new Chart.D3Doughnut('#svg', [], options)
+      expect(d3doughnut.duration(options)).to.eq 1733.2999999999997

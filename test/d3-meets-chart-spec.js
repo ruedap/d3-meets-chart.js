@@ -93,3 +93,18 @@ describe('Chart', function() {
     });
   });
 });
+
+describe('Chart.D3Doughnut', function() {
+  describe('::constructor', function() {
+    return it('pending');
+  });
+  return describe('::duration', function() {
+    return it('should returns number', function() {
+      var d3doughnut, options;
+      options = {};
+      options.animationSteps = 100;
+      d3doughnut = new Chart.D3Doughnut('#svg', [], options);
+      return expect(d3doughnut.duration(options)).to.eq(1733.2999999999997);
+    });
+  });
+});

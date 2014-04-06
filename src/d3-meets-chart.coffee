@@ -27,7 +27,7 @@ class Chart
       onAnimationComplete: null
 
     mergedOptions = @mergeOptions @Doughnut.defaults, options
-    new Chart.D3Doughnut @selector, data, mergedOptions
+    new Chart.D3Doughnut(@selector, data, mergedOptions).render()
 
   easingTypes:
     linear: 'linear'
@@ -76,17 +76,7 @@ class Chart
     mergedOptions
 
 class Chart.D3Doughnut
-  constructor: (@selector, @data, options) ->
-    margin = 5
-    outerRadius = ~~(Math.min(@rootSvgWidth(), @rootSvgHeight()) / 2 - margin)
-    innerRadius = ~~(outerRadius * (options.percentageInnerCutout / 100))
-    arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
-
-    path = @drawChart arc, options
-
-    @setAnimationComplete options
-    @animateRotate path, arc, options
-    @animateScale options
+  constructor: (@selector, @data, @options) ->
 
   animateRotate: (path, arc, options) ->
     return if !(options.animation and options.animateRotate)
@@ -138,6 +128,18 @@ class Chart.D3Doughnut
   duration: (options) ->
     options.animationSteps * 17.333
 
+  render: ->
+    margin = 5
+    outerRadius = ~~(Math.min(@rootSvgWidth(), @rootSvgHeight()) / 2 - margin)
+    innerRadius = ~~(outerRadius * (@options.percentageInnerCutout / 100))
+    arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
+
+    path = @drawChart arc, @options
+
+    @setAnimationComplete @options
+    @animateRotate path, arc, @options
+    @animateScale @options
+
   rootSvg: =>
     d3.select @selector
 
@@ -174,4 +176,5 @@ class Chart.D3Doughnut
 
 if module?.exports?
   module.exports.Chart = Chart
-  _ = require 'underscore'
+  global._ = require 'underscore'
+  global.d3 = require 'd3'

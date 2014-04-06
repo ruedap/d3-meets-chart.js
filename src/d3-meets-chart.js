@@ -1,4 +1,4 @@
-var Chart, _,
+var Chart,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 Chart = (function() {
@@ -24,7 +24,7 @@ Chart = (function() {
       onAnimationComplete: null
     };
     mergedOptions = this.mergeOptions(this.Doughnut.defaults, options);
-    return new Chart.D3Doughnut(this.selector, data, mergedOptions);
+    return new Chart.D3Doughnut(this.selector, data, mergedOptions).render();
   };
 
   Chart.prototype.easingTypes = {
@@ -77,22 +77,14 @@ Chart = (function() {
 
 Chart.D3Doughnut = (function() {
   function D3Doughnut(selector, data, options) {
-    var arc, innerRadius, margin, outerRadius, path;
     this.selector = selector;
     this.data = data;
+    this.options = options;
     this.translateToCenter = __bind(this.translateToCenter, this);
     this.transitionEndAll = __bind(this.transitionEndAll, this);
     this.rootSvgHeight = __bind(this.rootSvgHeight, this);
     this.rootSvgWidth = __bind(this.rootSvgWidth, this);
     this.rootSvg = __bind(this.rootSvg, this);
-    margin = 5;
-    outerRadius = ~~(Math.min(this.rootSvgWidth(), this.rootSvgHeight()) / 2 - margin);
-    innerRadius = ~~(outerRadius * (options.percentageInnerCutout / 100));
-    arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-    path = this.drawChart(arc, options);
-    this.setAnimationComplete(options);
-    this.animateRotate(path, arc, options);
-    this.animateScale(options);
   }
 
   D3Doughnut.prototype.animateRotate = function(path, arc, options) {
@@ -157,6 +149,18 @@ Chart.D3Doughnut = (function() {
     return options.animationSteps * 17.333;
   };
 
+  D3Doughnut.prototype.render = function() {
+    var arc, innerRadius, margin, outerRadius, path;
+    margin = 5;
+    outerRadius = ~~(Math.min(this.rootSvgWidth(), this.rootSvgHeight()) / 2 - margin);
+    innerRadius = ~~(outerRadius * (this.options.percentageInnerCutout / 100));
+    arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
+    path = this.drawChart(arc, this.options);
+    this.setAnimationComplete(this.options);
+    this.animateRotate(path, arc, this.options);
+    return this.animateScale(this.options);
+  };
+
   D3Doughnut.prototype.rootSvg = function() {
     return d3.select(this.selector);
   };
@@ -203,5 +207,6 @@ Chart.D3Doughnut = (function() {
 
 if ((typeof module !== "undefined" && module !== null ? module.exports : void 0) != null) {
   module.exports.Chart = Chart;
-  _ = require('underscore');
+  global._ = require('underscore');
+  global.d3 = require('d3');
 }
