@@ -18,9 +18,16 @@ describe 'Chart', ->
 
   describe '::Doughnut', ->
     it 'should returns the Chart.D3Doughnut object', ->
-      data = []
-      doughnut = new Chart('#svg').Doughnut(data)
+      doughnut = new Chart('#svg').Doughnut([])
       expect(doughnut.constructor.name).to.eq 'D3Doughnut'
+
+    describe '.defaults', ->
+      it 'should `defaults` properties has not same values as arguments', ->
+        options = animation: false
+        chart = new Chart('#svg')
+        doughnut = chart.Doughnut([], options)
+        expect(chart.Doughnut.defaults.animation).to.not.be.false
+        expect(doughnut.options.animation).to.be.false
 
   describe '::Pie', ->
     it 'should returns the Chart.D3Pie object', ->

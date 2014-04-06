@@ -103,13 +103,9 @@ Chart.D3Chart = (function() {
     this.options = options;
     this.getRootElementWidth = __bind(this.getRootElementWidth, this);
     this.getRootElementHeight = __bind(this.getRootElementHeight, this);
-    this.attrTranslateToCenter = __bind(this.attrTranslateToCenter, this);
     this.getRootElement = __bind(this.getRootElement, this);
+    this.attrTranslateToCenter = __bind(this.attrTranslateToCenter, this);
   }
-
-  D3Chart.prototype.getRootElement = function() {
-    return d3.select(this.selectors);
-  };
 
   D3Chart.prototype.attrTranslateToCenter = function() {
     var halfHeight, halfWidth;
@@ -123,6 +119,10 @@ Chart.D3Chart = (function() {
       options = this.options;
     }
     return options.animationSteps * 17.333;
+  };
+
+  D3Chart.prototype.getRootElement = function() {
+    return d3.select(this.selectors);
   };
 
   D3Chart.prototype.getRootElementHeight = function() {
