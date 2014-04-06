@@ -4,7 +4,7 @@
   "description": "Simple HTML5 Charts using the <svg> tag with D3.js",
   "main": "d3-meets-chart.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp spec"
   },
   "author": "ruedap",
   "license": "MIT",
@@ -14,15 +14,15 @@
   },
   "devDependencies": {
     "coffee-script": "~1.7.1",
-    "gulp": "~3.5.5",
-    "gulp-coffee": "~1.4.1",
-    "gulp-util": "~2.2.14",
     "mocha": "~1.18.2",
     "chai": "~1.9.1",
+    "gulp": "~3.5.5",
     "gulp-mocha": "~0.4.1",
+    "gulp-coffee": "~1.4.1",
     "gulp-concat": "~2.2.0",
     "gulp-uglify": "~0.2.1",
     "gulp-notify": "~1.2.5",
+    "gulp-rimraf": "0.0.9",
     "gulp-plumber": "~0.5.6"
   }
 }
