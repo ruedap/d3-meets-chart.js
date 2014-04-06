@@ -62,6 +62,3 @@ describe 'Chart.D3Doughnut', ->
 
   describe '::transitionEndAll', ->
     it 'pending'
-
-  describe '::translateToCenter', ->
-    it 'pending'

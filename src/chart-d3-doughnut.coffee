@@ -18,7 +18,7 @@ class Chart.D3Doughnut extends Chart.D3Chart
     @getRootElement()
       .selectAll 'g'
       .attr
-        transform: "#{@translateToCenter(svg)} scale(0)"
+        transform: "#{@attrTranslateToCenter()} scale(0)"
       .transition()
       .call @transitionEndAll, options
       .duration @duration(options)
@@ -46,7 +46,7 @@ class Chart.D3Doughnut extends Chart.D3Chart
       .attr @attrSegmentStroke(options)
       .attr
         d: arc
-        transform: @translateToCenter()
+        transform: @attrTranslateToCenter()
         fill: (d, i) -> colors[i]
 
   duration: (options) ->
@@ -87,9 +87,3 @@ class Chart.D3Doughnut extends Chart.D3Chart
         # TODO: need test
         if !--n and (--@transitionEndAllCount == 0)
           options.onAnimationComplete.apply this, arguments
-
-  # FIXME: resopnsive and unit support
-  translateToCenter: =>
-    halfWidth = @getRootElementWidth() / 2
-    halfHeight = @getRootElementHeight() / 2
-    "translate(#{halfWidth}, #{halfHeight})"

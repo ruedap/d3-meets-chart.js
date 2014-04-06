@@ -103,11 +103,19 @@ Chart.D3Chart = (function() {
     this.options = options;
     this.getRootElementWidth = __bind(this.getRootElementWidth, this);
     this.getRootElementHeight = __bind(this.getRootElementHeight, this);
+    this.attrTranslateToCenter = __bind(this.attrTranslateToCenter, this);
     this.getRootElement = __bind(this.getRootElement, this);
   }
 
   D3Chart.prototype.getRootElement = function() {
     return d3.select(this.selectors);
+  };
+
+  D3Chart.prototype.attrTranslateToCenter = function() {
+    var halfHeight, halfWidth;
+    halfWidth = this.getRootElementWidth() / 2;
+    halfHeight = this.getRootElementHeight() / 2;
+    return "translate(" + halfWidth + ", " + halfHeight + ")";
   };
 
   D3Chart.prototype.getRootElementHeight = function() {
@@ -130,7 +138,6 @@ Chart.D3Doughnut = (function(_super) {
   __extends(D3Doughnut, _super);
 
   function D3Doughnut(selectors, data, options) {
-    this.translateToCenter = __bind(this.translateToCenter, this);
     this.transitionEndAll = __bind(this.transitionEndAll, this);
     D3Doughnut.__super__.constructor.call(this, selectors, data, options);
   }
@@ -156,7 +163,7 @@ Chart.D3Doughnut = (function(_super) {
       return;
     }
     return this.getRootElement().selectAll('g').attr({
-      transform: "" + (this.translateToCenter(svg)) + " scale(0)"
+      transform: "" + (this.attrTranslateToCenter()) + " scale(0)"
     }).transition().call(this.transitionEndAll, options).duration(this.duration(options)).ease(options.animationEasing).attr({
       transform: 'scale(1)'
     });
@@ -186,7 +193,7 @@ Chart.D3Doughnut = (function(_super) {
     });
     return this.getRootElement().append('g').selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(options)).attr({
       d: arc,
-      transform: this.translateToCenter(),
+      transform: this.attrTranslateToCenter(),
       fill: function(d, i) {
         return colors[i];
       }
@@ -240,13 +247,6 @@ Chart.D3Doughnut = (function(_super) {
         }
       };
     })(this));
-  };
-
-  D3Doughnut.prototype.translateToCenter = function() {
-    var halfHeight, halfWidth;
-    halfWidth = this.getRootElementWidth() / 2;
-    halfHeight = this.getRootElementHeight() / 2;
-    return "translate(" + halfWidth + ", " + halfHeight + ")";
   };
 
   return D3Doughnut;

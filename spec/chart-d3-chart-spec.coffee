@@ -22,3 +22,8 @@ describe 'Chart.D3Chart', ->
     it 'should returns the root D3 object width', ->
       actual = @d3Chart.getRootElementWidth()
       expect(actual).to.eq 450
+
+  describe '::attrTranslateToCenter', ->
+    it "should returns the string of 'translate' attribute", ->
+      actual = @d3Chart.attrTranslateToCenter()
+      expect(actual).to.eq 'translate(225, 200)'
