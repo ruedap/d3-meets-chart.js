@@ -94,12 +94,19 @@ if ((typeof module !== "undefined" && module !== null ? module.exports : void 0)
   global.d3 = require('d3');
 }
 
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
 Chart.D3Chart = (function() {
   function D3Chart(selectors, data, options) {
     this.selectors = selectors;
     this.data = data;
     this.options = options;
+    this.getRootElement = __bind(this.getRootElement, this);
   }
+
+  D3Chart.prototype.getRootElement = function() {
+    return d3.select(this.selectors);
+  };
 
   return D3Chart;
 
@@ -117,7 +124,6 @@ Chart.D3Doughnut = (function(_super) {
     this.transitionEndAll = __bind(this.transitionEndAll, this);
     this.rootElementWidth = __bind(this.rootElementWidth, this);
     this.rootElementHeight = __bind(this.rootElementHeight, this);
-    this.rootElement = __bind(this.rootElement, this);
     D3Doughnut.__super__.constructor.call(this, selectors, data, options);
   }
 
@@ -141,7 +147,7 @@ Chart.D3Doughnut = (function(_super) {
     if (!(options.animation && options.animateScale)) {
       return;
     }
-    return this.rootElement().selectAll('g').attr({
+    return this.getRootElement().selectAll('g').attr({
       transform: "" + (this.translateToCenter(svg)) + " scale(0)"
     }).transition().call(this.transitionEndAll, options).duration(this.duration(options)).ease(options.animationEasing).attr({
       transform: 'scale(1)'
@@ -170,7 +176,7 @@ Chart.D3Doughnut = (function(_super) {
     colors = this.data.map(function(d) {
       return d.color;
     });
-    return this.rootElement().append('g').selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(options)).attr({
+    return this.getRootElement().append('g').selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(options)).attr({
       d: arc,
       transform: this.translateToCenter(),
       fill: function(d, i) {
@@ -199,16 +205,12 @@ Chart.D3Doughnut = (function(_super) {
     return this;
   };
 
-  D3Doughnut.prototype.rootElement = function() {
-    return d3.select(this.selectors);
-  };
-
   D3Doughnut.prototype.rootElementHeight = function() {
-    return +this.rootElement().attr('height');
+    return +this.getRootElement().attr('height');
   };
 
   D3Doughnut.prototype.rootElementWidth = function() {
-    return +this.rootElement().attr('width');
+    return +this.getRootElement().attr('width');
   };
 
   D3Doughnut.prototype.setAnimationComplete = function(options) {

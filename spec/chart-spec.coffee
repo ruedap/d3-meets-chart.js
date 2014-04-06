@@ -1,13 +1,5 @@
 describe 'Chart', ->
-  before ->
-    d3.select('body')
-      .append('svg')
-      .attr
-        id: 'svg'
-        width: 450
-        height: 400
-
-  it 'should the element has same properties', ->
+  it 'should the D3 object has same properties', ->
     svg = d3.select('#svg')
     expect(svg.attr('id')).to.eq 'svg'
     expect(svg.attr('width')).to.eq '450'

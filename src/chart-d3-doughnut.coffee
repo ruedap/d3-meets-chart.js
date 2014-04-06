@@ -15,7 +15,7 @@ class Chart.D3Doughnut extends Chart.D3Chart
 
   animateScale: (options) ->
     return if !(options.animation and options.animateScale)
-    @rootElement()
+    @getRootElement()
       .selectAll 'g'
       .attr
         transform: "#{@translateToCenter(svg)} scale(0)"
@@ -37,7 +37,7 @@ class Chart.D3Doughnut extends Chart.D3Chart
   drawChart: (arc, options) ->
     pie = d3.layout.pie().value((d) -> d.value).sort(null)
     colors = @data.map (d) -> d.color
-    @rootElement()
+    @getRootElement()
       .append 'g'
       .selectAll 'path'
       .data pie(@data)
@@ -68,16 +68,13 @@ class Chart.D3Doughnut extends Chart.D3Chart
     @animateScale @options
     this
 
-  rootElement: =>
-    d3.select @selectors
-
   # FIXME
   rootElementHeight: =>
-    +@rootElement().attr('height')
+    +@getRootElement().attr('height')
 
   # FIXME
   rootElementWidth: =>
-    +@rootElement().attr('width')
+    +@getRootElement().attr('width')
 
   setAnimationComplete: (options) ->
     return Infinity unless _.isFunction options.onAnimationComplete
