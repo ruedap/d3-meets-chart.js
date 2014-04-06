@@ -49,13 +49,19 @@ class Chart.D3Pie extends Chart.D3Chart
         transform: @attrTranslateToCenter()
         fill: (d, i) -> colors[i]
 
+  getOuterRadius: (width, height, margin) ->
+    ~~(Math.min(width, height) / 2 - margin)
+
+  getInnerRadius: (outerRadius, options) ->
+    ~~(outerRadius * (@options.percentageInnerCutout / 100))
+
   # TODO: Refactor
   render: ->
     width = @getRootElementWidth()
     height = @getRootElementHeight()
     margin = 5
-    outerRadius = ~~(Math.min(width, height) / 2 - margin)
-    innerRadius = ~~(outerRadius * (@options.percentageInnerCutout / 100))
+    outerRadius = @getOuterRadius width, height, margin
+    innerRadius = @getInnerRadius outerRadius, @options
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
     path = @drawChart arc, @options
     @transitionEndAllCount = @setAnimationComplete @options

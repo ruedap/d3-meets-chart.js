@@ -20,6 +20,11 @@ describe 'Chart.D3Pie', ->
   describe '::drawChart', ->
     it 'pending'
 
+  describe '::getOuterRadius', ->
+    it 'should returns Integer value', ->
+      actual = @d3Pie.getOuterRadius 450, 400.5, 5
+      expect(actual).to.eq 195
+
   describe '::render', ->
     it 'pending'
 

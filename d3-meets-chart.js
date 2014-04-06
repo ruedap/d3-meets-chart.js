@@ -219,13 +219,21 @@ Chart.D3Pie = (function(_super) {
     });
   };
 
+  D3Pie.prototype.getOuterRadius = function(width, height, margin) {
+    return ~~(Math.min(width, height) / 2 - margin);
+  };
+
+  D3Pie.prototype.getInnerRadius = function(outerRadius, options) {
+    return ~~(outerRadius * (this.options.percentageInnerCutout / 100));
+  };
+
   D3Pie.prototype.render = function() {
     var arc, height, innerRadius, margin, outerRadius, path, width;
     width = this.getRootElementWidth();
     height = this.getRootElementHeight();
     margin = 5;
-    outerRadius = ~~(Math.min(width, height) / 2 - margin);
-    innerRadius = ~~(outerRadius * (this.options.percentageInnerCutout / 100));
+    outerRadius = this.getOuterRadius(width, height, margin);
+    innerRadius = this.getInnerRadius(outerRadius, this.options);
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
     path = this.drawChart(arc, this.options);
     this.transitionEndAllCount = this.setAnimationComplete(this.options);
