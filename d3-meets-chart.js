@@ -101,11 +101,21 @@ Chart.D3Chart = (function() {
     this.selectors = selectors;
     this.data = data;
     this.options = options;
+    this.getRootElementWidth = __bind(this.getRootElementWidth, this);
+    this.getRootElementHeight = __bind(this.getRootElementHeight, this);
     this.getRootElement = __bind(this.getRootElement, this);
   }
 
   D3Chart.prototype.getRootElement = function() {
     return d3.select(this.selectors);
+  };
+
+  D3Chart.prototype.getRootElementHeight = function() {
+    return +this.getRootElement().attr('height');
+  };
+
+  D3Chart.prototype.getRootElementWidth = function() {
+    return +this.getRootElement().attr('width');
   };
 
   return D3Chart;
@@ -122,8 +132,6 @@ Chart.D3Doughnut = (function(_super) {
   function D3Doughnut(selectors, data, options) {
     this.translateToCenter = __bind(this.translateToCenter, this);
     this.transitionEndAll = __bind(this.transitionEndAll, this);
-    this.rootElementWidth = __bind(this.rootElementWidth, this);
-    this.rootElementHeight = __bind(this.rootElementHeight, this);
     D3Doughnut.__super__.constructor.call(this, selectors, data, options);
   }
 
@@ -190,9 +198,11 @@ Chart.D3Doughnut = (function(_super) {
   };
 
   D3Doughnut.prototype.render = function() {
-    var arc, innerRadius, margin, outerRadius, path;
+    var arc, height, innerRadius, margin, outerRadius, path, width;
+    width = this.getRootElementWidth();
+    height = this.getRootElementHeight();
     margin = 5;
-    outerRadius = ~~(Math.min(this.rootElementWidth(), this.rootElementHeight()) / 2 - margin);
+    outerRadius = ~~(Math.min(width, height) / 2 - margin);
     innerRadius = ~~(outerRadius * (this.options.percentageInnerCutout / 100));
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
     path = this.drawChart(arc, this.options);
@@ -203,14 +213,6 @@ Chart.D3Doughnut = (function(_super) {
     this.animateRotate(path, arc, this.options);
     this.animateScale(this.options);
     return this;
-  };
-
-  D3Doughnut.prototype.rootElementHeight = function() {
-    return +this.getRootElement().attr('height');
-  };
-
-  D3Doughnut.prototype.rootElementWidth = function() {
-    return +this.getRootElement().attr('width');
   };
 
   D3Doughnut.prototype.setAnimationComplete = function(options) {
@@ -241,7 +243,10 @@ Chart.D3Doughnut = (function(_super) {
   };
 
   D3Doughnut.prototype.translateToCenter = function() {
-    return "translate(" + (this.rootElementWidth() / 2) + ", " + (this.rootElementHeight() / 2) + ")";
+    var halfHeight, halfWidth;
+    halfWidth = this.getRootElementWidth() / 2;
+    halfHeight = this.getRootElementHeight() / 2;
+    return "translate(" + halfWidth + ", " + halfHeight + ")";
   };
 
   return D3Doughnut;

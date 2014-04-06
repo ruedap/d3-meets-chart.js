@@ -54,8 +54,10 @@ class Chart.D3Doughnut extends Chart.D3Chart
 
   # TODO: Refactor
   render: ->
+    width = @getRootElementWidth()
+    height = @getRootElementHeight()
     margin = 5
-    outerRadius = ~~(Math.min(@rootElementWidth(), @rootElementHeight()) / 2 - margin)
+    outerRadius = ~~(Math.min(width, height) / 2 - margin)
     innerRadius = ~~(outerRadius * (@options.percentageInnerCutout / 100))
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
 
@@ -67,14 +69,6 @@ class Chart.D3Doughnut extends Chart.D3Chart
     @animateRotate path, arc, @options
     @animateScale @options
     this
-
-  # FIXME
-  rootElementHeight: =>
-    +@getRootElement().attr('height')
-
-  # FIXME
-  rootElementWidth: =>
-    +@getRootElement().attr('width')
 
   setAnimationComplete: (options) ->
     return Infinity unless _.isFunction options.onAnimationComplete
@@ -96,4 +90,6 @@ class Chart.D3Doughnut extends Chart.D3Chart
 
   # FIXME: resopnsive and unit support
   translateToCenter: =>
-    "translate(#{@rootElementWidth() / 2}, #{@rootElementHeight() / 2})"
+    halfWidth = @getRootElementWidth() / 2
+    halfHeight = @getRootElementHeight() / 2
+    "translate(#{halfWidth}, #{halfHeight})"

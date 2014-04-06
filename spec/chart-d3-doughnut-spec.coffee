@@ -25,15 +25,6 @@ describe 'Chart.D3Doughnut', ->
   describe '::render', ->
     it 'pending'
 
-  describe '::rootSvg', ->
-    it 'pending'
-
-  describe '::rootSvgHeight', ->
-    it 'pending'
-
-  describe '::rootSvgWidth', ->
-    it 'pending'
-
   describe '::setAnimationComplete', ->
     context 'when an argument is invalid', ->
       it 'should returns Infinity', ->

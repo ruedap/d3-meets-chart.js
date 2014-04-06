@@ -10,5 +10,7 @@ describe 'Chart.D3Chart', ->
 
   describe '::getRootElement', ->
     it 'should returns the root D3 object', ->
-      actual = @d3Chart.getRootElement()
-      expect(actual.attr('id')).to.eq 'svg'
+      element = @d3Chart.getRootElement()
+      expect(element.attr('id')).to.eq 'svg'
+
+  
