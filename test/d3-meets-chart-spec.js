@@ -261,3 +261,16 @@ describe('Chart.D3Doughnut', function() {
     return it('pending');
   });
 });
+
+describe('Chart.D3Pie', function() {
+  before(function() {
+    return this.d3Pie = new Chart.D3Pie('#svg', [], {});
+  });
+  return describe('::constructor', function() {
+    return it('should the instance object has same value in properties', function() {
+      expect(this.d3Pie.selector).to.eq('#svg');
+      expect(this.d3Pie.data).to.eql([]);
+      return expect(this.d3Pie.options).to.eql({});
+    });
+  });
+});
