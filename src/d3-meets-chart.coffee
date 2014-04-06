@@ -153,7 +153,6 @@ class Chart.D3Doughnut
 
   setAnimationComplete: (options) ->
     return unless typeof(options.onAnimationComplete) is 'function'
-    # TODO: need test
     if options.animation and options.animateRotate and options.animateScale
       2
     else if options.animation and (options.animateRotate or options.animateScale)

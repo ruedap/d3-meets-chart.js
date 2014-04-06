@@ -2,6 +2,7 @@
 
 chai = require 'chai'
 expect = chai.expect
+_ = require 'underscore'
 
 describe 'Chart', ->
   describe '::constructor', ->
@@ -58,6 +59,9 @@ describe 'Chart', ->
           .eql foo: 'bar', animationEasing: 'exp-in'
 
 describe 'Chart.D3Doughnut', ->
+  before ->
+    @d3doughnut = new Chart.D3Doughnut '#svg', [], {}
+
   describe '::constructor', ->
     it 'pending'
 
@@ -76,8 +80,7 @@ describe 'Chart.D3Doughnut', ->
   describe '::duration', ->
     it 'should returns number', ->
       options = animationSteps: 100
-      d3doughnut = new Chart.D3Doughnut '#svg', [], options
-      expect(d3doughnut.duration(options)).to.eq 1733.2999999999997
+      expect(@d3doughnut.duration(options)).to.eq 1733.2999999999997
 
   describe '::render', ->
     it 'pending'
@@ -92,8 +95,39 @@ describe 'Chart.D3Doughnut', ->
     it 'pending'
 
   describe '::setAnimationComplete', ->
-    context 'when arguments are invalid', ->
-      it 'should returns undefined'
+    context 'when an argument is invalid', ->
+      it 'should returns undefined', ->
+        options = {}
+        expect(@d3doughnut.setAnimationComplete(options)).to.be.undefined
+
+    context 'when an argument is valid', ->
+      before ->
+        @options = onAnimationComplete: -> 'foo'
+
+      context 'when all of options are true value', ->
+        it 'should returns 2', ->
+          options = animation: true, animateRotate: true, animateScale: true
+          options = _.extend {}, @options, options
+          expect(@d3doughnut.setAnimationComplete(options)).to.eq 2
+
+      context 'when `animation` is true value', ->
+        context 'when any one of `animateRotate` or `animateScale` are true value', ->
+          it 'should returns 1', ->
+            options = animation: true, animateRotate: true, animateScale: false
+            options = _.extend {}, @options, options
+            expect(@d3doughnut.setAnimationComplete(options)).to.eq 1
+
+          it 'should returns 1', ->
+            options = animation: true, animateRotate: false, animateScale: true
+            options = _.extend {}, @options, options
+            expect(@d3doughnut.setAnimationComplete(options)).to.eq 1
+
+      context 'when `animation` is false value', ->
+        it 'should returns NaN', ->
+          options = animation: false, animateRotate: true, animateScale: true
+          options = _.extend {}, @options, options
+          actual = @d3doughnut.setAnimationComplete(options)
+          expect(isNaN(actual)).to.be.true
 
   describe '::transitionEndAll', ->
     it 'pending'
