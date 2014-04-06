@@ -39,9 +39,10 @@ Chart = (function() {
       animationEasing: 'easeOutBounce',
       animateRotate: true,
       animateScale: false,
-      onAnimationComplete: null
+      onAnimationComplete: null,
+      percentageInnerCutout: 50
     };
-    mergedOptions = this.mergeOptions(this.Doughnut.defaults, options);
+    mergedOptions = this.mergeOptions(this.Pie.defaults, options);
     return new Chart.D3Pie(this.selectors, data, mergedOptions).render();
   };
 
@@ -152,15 +153,15 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-Chart.D3Doughnut = (function(_super) {
-  __extends(D3Doughnut, _super);
+Chart.D3Pie = (function(_super) {
+  __extends(D3Pie, _super);
 
-  function D3Doughnut(selectors, data, options) {
+  function D3Pie(selectors, data, options) {
     this.transitionEndAll = __bind(this.transitionEndAll, this);
-    D3Doughnut.__super__.constructor.call(this, selectors, data, options);
+    D3Pie.__super__.constructor.call(this, selectors, data, options);
   }
 
-  D3Doughnut.prototype.animateRotate = function(path, arc, options) {
+  D3Pie.prototype.animateRotate = function(path, arc, options) {
     if (!(options.animation && options.animateRotate)) {
       return;
     }
@@ -176,7 +177,7 @@ Chart.D3Doughnut = (function(_super) {
     });
   };
 
-  D3Doughnut.prototype.animateScale = function(options) {
+  D3Pie.prototype.animateScale = function(options) {
     if (!(options.animation && options.animateScale)) {
       return;
     }
@@ -187,7 +188,7 @@ Chart.D3Doughnut = (function(_super) {
     });
   };
 
-  D3Doughnut.prototype.attrSegmentStroke = function(options) {
+  D3Pie.prototype.attrSegmentStroke = function(options) {
     if (options.segmentShowStroke) {
       return {
         stroke: options.segmentStrokeColor,
@@ -201,7 +202,7 @@ Chart.D3Doughnut = (function(_super) {
     }
   };
 
-  D3Doughnut.prototype.drawChart = function(arc, options) {
+  D3Pie.prototype.drawChart = function(arc, options) {
     var colors, pie;
     pie = d3.layout.pie().value(function(d) {
       return d.value;
@@ -218,7 +219,7 @@ Chart.D3Doughnut = (function(_super) {
     });
   };
 
-  D3Doughnut.prototype.render = function() {
+  D3Pie.prototype.render = function() {
     var arc, height, innerRadius, margin, outerRadius, path, width;
     width = this.getRootElementWidth();
     height = this.getRootElementHeight();
@@ -236,7 +237,7 @@ Chart.D3Doughnut = (function(_super) {
     return this;
   };
 
-  D3Doughnut.prototype.setAnimationComplete = function(options) {
+  D3Pie.prototype.setAnimationComplete = function(options) {
     if (!_.isFunction(options.onAnimationComplete)) {
       return Infinity;
     }
@@ -249,7 +250,7 @@ Chart.D3Doughnut = (function(_super) {
     }
   };
 
-  D3Doughnut.prototype.transitionEndAll = function(transition, options) {
+  D3Pie.prototype.transitionEndAll = function(transition, options) {
     var n;
     n = 0;
     return transition.each(function() {
@@ -263,24 +264,20 @@ Chart.D3Doughnut = (function(_super) {
     })(this));
   };
 
-  return D3Doughnut;
+  return D3Pie;
 
 })(Chart.D3Chart);
 
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-Chart.D3Pie = (function(_super) {
-  __extends(D3Pie, _super);
+Chart.D3Doughnut = (function(_super) {
+  __extends(D3Doughnut, _super);
 
-  function D3Pie(selectors, data, options) {
-    D3Pie.__super__.constructor.call(this, selectors, data, options);
+  function D3Doughnut(selectors, data, options) {
+    D3Doughnut.__super__.constructor.call(this, selectors, data, options);
   }
 
-  D3Pie.prototype.render = function() {
-    return this;
-  };
+  return D3Doughnut;
 
-  return D3Pie;
-
-})(Chart.D3Chart);
+})(Chart.D3Pie);

@@ -50,7 +50,9 @@ class Chart
       animateScale: false
       # Function - Will fire on animation completion.
       onAnimationComplete: null
-    mergedOptions = @mergeOptions @Doughnut.defaults, options
+      # TODO: remove
+      percentageInnerCutout: 50
+    mergedOptions = @mergeOptions @Pie.defaults, options
     new Chart.D3Pie(@selectors, data, mergedOptions).render()
 
   easingTypes:

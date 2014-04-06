@@ -11,6 +11,8 @@ gulp.task 'coffee-src', ->
   gulp
     .src [
       './src/chart.coffee'
+      './src/chart-d3-chart.coffee'
+      './src/chart-d3-pie.coffee'
       './src/*.coffee'
     ]
     .pipe plumber()
@@ -22,6 +24,8 @@ gulp.task 'coffee-spec', ->
   gulp
     .src [
       './spec/spec-helper.coffee'
+      './spec/chart-d3-chart-spec.coffee'
+      './spec/chart-d3-pie-spec.coffee'
       './spec/*-spec.coffee'
     ]
     .pipe plumber()
