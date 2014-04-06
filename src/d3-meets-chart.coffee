@@ -1,7 +1,7 @@
 class Chart
-  constructor: (@selector) ->
-    unless _.isString selector
-      throw new TypeError 'This argument is not a selector string'
+  constructor: (@selectors) ->
+    unless _.isString @selectors
+      throw new TypeError 'This argument is not selectors string'
 
   Doughnut: (data, options) ->
     @validateData data
@@ -29,7 +29,7 @@ class Chart
       onAnimationComplete: null
 
     mergedOptions = @mergeOptions @Doughnut.defaults, options
-    new Chart.D3Doughnut(@selector, data, mergedOptions).render()
+    new Chart.D3Doughnut(@selectors, data, mergedOptions).render()
 
   Pie: (data, options) ->
     @validateData data
@@ -37,7 +37,7 @@ class Chart
     # @Pie.defaults =
 
     mergedOptions = @mergeOptions @Doughnut.defaults, options
-    new Chart.D3Pie(@selector, data, mergedOptions).render()
+    new Chart.D3Pie(@selectors, data, mergedOptions).render()
 
   easingTypes:
     linear: 'linear'
@@ -89,7 +89,7 @@ class Chart
     throw new TypeError "#{data} is not an array" unless _.isArray data
 
 class Chart.D3Doughnut
-  constructor: (@selector, @data, @options) ->
+  constructor: (@selectors, @data, @options) ->
 
   animateRotate: (path, arc, options) ->
     return if !(options.animation and options.animateRotate)
@@ -104,7 +104,7 @@ class Chart.D3Doughnut
 
   animateScale: (options) ->
     return if !(options.animation and options.animateScale)
-    @rootSvg()
+    @rootElement()
       .selectAll 'g'
       .attr
         transform: "#{@translateToCenter(svg)} scale(0)"
@@ -126,7 +126,7 @@ class Chart.D3Doughnut
   drawChart: (arc, options) ->
     pie = d3.layout.pie().value((d) -> d.value).sort(null)
     colors = @data.map (d) -> d.color
-    @rootSvg()
+    @rootElement()
       .append 'g'
       .selectAll 'path'
       .data pie(@data)
@@ -144,7 +144,7 @@ class Chart.D3Doughnut
   # TODO: Refactor
   render: ->
     margin = 5
-    outerRadius = ~~(Math.min(@rootSvgWidth(), @rootSvgHeight()) / 2 - margin)
+    outerRadius = ~~(Math.min(@rootElementWidth(), @rootElementHeight()) / 2 - margin)
     innerRadius = ~~(outerRadius * (@options.percentageInnerCutout / 100))
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
 
@@ -157,16 +157,16 @@ class Chart.D3Doughnut
     @animateScale @options
     this
 
-  rootSvg: =>
-    d3.select @selector
+  rootElement: =>
+    d3.select @selectors
 
   # FIXME
-  rootSvgHeight: =>
-    +@rootSvg().attr('height')
+  rootElementHeight: =>
+    +@rootElement().attr('height')
 
   # FIXME
-  rootSvgWidth: =>
-    +@rootSvg().attr('width')
+  rootElementWidth: =>
+    +@rootElement().attr('width')
 
   setAnimationComplete: (options) ->
     return Infinity unless _.isFunction options.onAnimationComplete
@@ -188,10 +188,10 @@ class Chart.D3Doughnut
 
   # FIXME: resopnsive and unit support
   translateToCenter: =>
-    "translate(#{@rootSvgWidth() / 2}, #{@rootSvgHeight() / 2})"
+    "translate(#{@rootElementWidth() / 2}, #{@rootElementHeight() / 2})"
 
 class Chart.D3Pie
-  constructor: (@selector, @data, @options) ->
+  constructor: (@selectors, @data, @options) ->
 
   render: ->
     this

@@ -1,14 +1,12 @@
-var Chart, chai, expect;
+var Chart, expect;
 
 Chart = require('../src/d3-meets-chart').Chart;
-
-chai = require('chai');
-
-expect = chai.expect;
 
 global._ = require('underscore');
 
 global.d3 = require('d3');
+
+expect = require('chai').expect;
 
 describe('Chart', function() {
   before(function() {
@@ -29,7 +27,7 @@ describe('Chart', function() {
     context('when an argument is invalid', function() {
       return it('should raise TypeError exception', function() {
         var message;
-        message = 'This argument is not a selector string';
+        message = 'This argument is not selectors string';
         return expect(function() {
           return new Chart(null);
         }).to["throw"](TypeError, message);
@@ -39,7 +37,7 @@ describe('Chart', function() {
       return it('should contains the element name in the returned object', function() {
         var chart;
         chart = new Chart('#svg');
-        return expect(chart.selector).to.eq('#svg');
+        return expect(chart.selectors).to.eq('#svg');
       });
     });
   });
@@ -149,7 +147,7 @@ describe('Chart', function() {
 
 describe('Chart.D3Doughnut', function() {
   before(function() {
-    return this.d3doughnut = new Chart.D3Doughnut('#svg', [], {});
+    return this.d3Doughnut = new Chart.D3Doughnut('#svg', [], {});
   });
   describe('::constructor', function() {
     return it('pending');
@@ -172,7 +170,7 @@ describe('Chart.D3Doughnut', function() {
       options = {
         animationSteps: 100
       };
-      return expect(this.d3doughnut.duration(options)).to.eq(1733.2999999999997);
+      return expect(this.d3Doughnut.duration(options)).to.eq(1733.2999999999997);
     });
   });
   describe('::render', function() {
@@ -192,7 +190,7 @@ describe('Chart.D3Doughnut', function() {
       return it('should returns Infinity', function() {
         var options;
         options = {};
-        return expect(this.d3doughnut.setAnimationComplete(options)).to.eq(Infinity);
+        return expect(this.d3Doughnut.setAnimationComplete(options)).to.eq(Infinity);
       });
     });
     return context('when an argument is valid', function() {
@@ -212,7 +210,7 @@ describe('Chart.D3Doughnut', function() {
             animateScale: true
           };
           options = _.extend({}, this.options, options);
-          return expect(this.d3doughnut.setAnimationComplete(options)).to.eq(2);
+          return expect(this.d3Doughnut.setAnimationComplete(options)).to.eq(2);
         });
       });
       context('when `animation` is true value', function() {
@@ -225,7 +223,7 @@ describe('Chart.D3Doughnut', function() {
               animateScale: false
             };
             options = _.extend({}, this.options, options);
-            return expect(this.d3doughnut.setAnimationComplete(options)).to.eq(1);
+            return expect(this.d3Doughnut.setAnimationComplete(options)).to.eq(1);
           });
           return it('should returns 1', function() {
             var options;
@@ -235,7 +233,7 @@ describe('Chart.D3Doughnut', function() {
               animateScale: true
             };
             options = _.extend({}, this.options, options);
-            return expect(this.d3doughnut.setAnimationComplete(options)).to.eq(1);
+            return expect(this.d3Doughnut.setAnimationComplete(options)).to.eq(1);
           });
         });
       });
@@ -248,7 +246,7 @@ describe('Chart.D3Doughnut', function() {
             animateScale: true
           };
           options = _.extend({}, this.options, options);
-          actual = this.d3doughnut.setAnimationComplete(options);
+          actual = this.d3Doughnut.setAnimationComplete(options);
           return expect(isNaN(actual)).to.be["true"];
         });
       });
@@ -268,7 +266,7 @@ describe('Chart.D3Pie', function() {
   });
   return describe('::constructor', function() {
     return it('should the instance object has same value in properties', function() {
-      expect(this.d3Pie.selector).to.eq('#svg');
+      expect(this.d3Pie.selectors).to.eq('#svg');
       expect(this.d3Pie.data).to.eql([]);
       return expect(this.d3Pie.options).to.eql({});
     });

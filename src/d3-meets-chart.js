@@ -2,10 +2,10 @@ var Chart,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 Chart = (function() {
-  function Chart(selector) {
-    this.selector = selector;
-    if (!_.isString(selector)) {
-      throw new TypeError('This argument is not a selector string');
+  function Chart(selectors) {
+    this.selectors = selectors;
+    if (!_.isString(this.selectors)) {
+      throw new TypeError('This argument is not selectors string');
     }
   }
 
@@ -25,14 +25,14 @@ Chart = (function() {
       onAnimationComplete: null
     };
     mergedOptions = this.mergeOptions(this.Doughnut.defaults, options);
-    return new Chart.D3Doughnut(this.selector, data, mergedOptions).render();
+    return new Chart.D3Doughnut(this.selectors, data, mergedOptions).render();
   };
 
   Chart.prototype.Pie = function(data, options) {
     var mergedOptions;
     this.validateData(data);
     mergedOptions = this.mergeOptions(this.Doughnut.defaults, options);
-    return new Chart.D3Pie(this.selector, data, mergedOptions).render();
+    return new Chart.D3Pie(this.selectors, data, mergedOptions).render();
   };
 
   Chart.prototype.easingTypes = {
@@ -90,15 +90,15 @@ Chart = (function() {
 })();
 
 Chart.D3Doughnut = (function() {
-  function D3Doughnut(selector, data, options) {
-    this.selector = selector;
+  function D3Doughnut(selectors, data, options) {
+    this.selectors = selectors;
     this.data = data;
     this.options = options;
     this.translateToCenter = __bind(this.translateToCenter, this);
     this.transitionEndAll = __bind(this.transitionEndAll, this);
-    this.rootSvgWidth = __bind(this.rootSvgWidth, this);
-    this.rootSvgHeight = __bind(this.rootSvgHeight, this);
-    this.rootSvg = __bind(this.rootSvg, this);
+    this.rootElementWidth = __bind(this.rootElementWidth, this);
+    this.rootElementHeight = __bind(this.rootElementHeight, this);
+    this.rootElement = __bind(this.rootElement, this);
   }
 
   D3Doughnut.prototype.animateRotate = function(path, arc, options) {
@@ -121,7 +121,7 @@ Chart.D3Doughnut = (function() {
     if (!(options.animation && options.animateScale)) {
       return;
     }
-    return this.rootSvg().selectAll('g').attr({
+    return this.rootElement().selectAll('g').attr({
       transform: "" + (this.translateToCenter(svg)) + " scale(0)"
     }).transition().call(this.transitionEndAll, options).duration(this.duration(options)).ease(options.animationEasing).attr({
       transform: 'scale(1)'
@@ -150,7 +150,7 @@ Chart.D3Doughnut = (function() {
     colors = this.data.map(function(d) {
       return d.color;
     });
-    return this.rootSvg().append('g').selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(options)).attr({
+    return this.rootElement().append('g').selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(options)).attr({
       d: arc,
       transform: this.translateToCenter(),
       fill: function(d, i) {
@@ -166,7 +166,7 @@ Chart.D3Doughnut = (function() {
   D3Doughnut.prototype.render = function() {
     var arc, innerRadius, margin, outerRadius, path;
     margin = 5;
-    outerRadius = ~~(Math.min(this.rootSvgWidth(), this.rootSvgHeight()) / 2 - margin);
+    outerRadius = ~~(Math.min(this.rootElementWidth(), this.rootElementHeight()) / 2 - margin);
     innerRadius = ~~(outerRadius * (this.options.percentageInnerCutout / 100));
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
     path = this.drawChart(arc, this.options);
@@ -179,16 +179,16 @@ Chart.D3Doughnut = (function() {
     return this;
   };
 
-  D3Doughnut.prototype.rootSvg = function() {
-    return d3.select(this.selector);
+  D3Doughnut.prototype.rootElement = function() {
+    return d3.select(this.selectors);
   };
 
-  D3Doughnut.prototype.rootSvgHeight = function() {
-    return +this.rootSvg().attr('height');
+  D3Doughnut.prototype.rootElementHeight = function() {
+    return +this.rootElement().attr('height');
   };
 
-  D3Doughnut.prototype.rootSvgWidth = function() {
-    return +this.rootSvg().attr('width');
+  D3Doughnut.prototype.rootElementWidth = function() {
+    return +this.rootElement().attr('width');
   };
 
   D3Doughnut.prototype.setAnimationComplete = function(options) {
@@ -219,7 +219,7 @@ Chart.D3Doughnut = (function() {
   };
 
   D3Doughnut.prototype.translateToCenter = function() {
-    return "translate(" + (this.rootSvgWidth() / 2) + ", " + (this.rootSvgHeight() / 2) + ")";
+    return "translate(" + (this.rootElementWidth() / 2) + ", " + (this.rootElementHeight() / 2) + ")";
   };
 
   return D3Doughnut;
@@ -227,8 +227,8 @@ Chart.D3Doughnut = (function() {
 })();
 
 Chart.D3Pie = (function() {
-  function D3Pie(selector, data, options) {
-    this.selector = selector;
+  function D3Pie(selectors, data, options) {
+    this.selectors = selectors;
     this.data = data;
     this.options = options;
   }
