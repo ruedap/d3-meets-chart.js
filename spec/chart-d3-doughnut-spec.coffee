@@ -17,11 +17,6 @@ describe 'Chart.D3Doughnut', ->
   describe '::drawChart', ->
     it 'pending'
 
-  describe '::duration', ->
-    it 'should returns number', ->
-      options = animationSteps: 100
-      expect(@d3Doughnut.duration(options)).to.eq 1733.2999999999997
-
   describe '::render', ->
     it 'pending'
 

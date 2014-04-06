@@ -8,6 +8,16 @@ describe 'Chart.D3Chart', ->
       expect(@d3Chart.data).to.eql []
       expect(@d3Chart.options).to.eql {}
 
+  describe '::attrTranslateToCenter', ->
+    it "should returns the string of 'translate' attribute", ->
+      actual = @d3Chart.attrTranslateToCenter()
+      expect(actual).to.eq 'translate(225, 200)'
+
+  describe '::duration', ->
+    it 'should returns number', ->
+      options = animationSteps: 100
+      expect(@d3Chart.duration(options)).to.eq 1733.2999999999997
+
   describe '::getRootElement', ->
     it 'should returns the root D3 object', ->
       element = @d3Chart.getRootElement()
@@ -22,8 +32,3 @@ describe 'Chart.D3Chart', ->
     it 'should returns the root D3 object width', ->
       actual = @d3Chart.getRootElementWidth()
       expect(actual).to.eq 450
-
-  describe '::attrTranslateToCenter', ->
-    it "should returns the string of 'translate' attribute", ->
-      actual = @d3Chart.attrTranslateToCenter()
-      expect(actual).to.eq 'translate(225, 200)'

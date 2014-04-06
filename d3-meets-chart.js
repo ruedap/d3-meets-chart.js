@@ -118,6 +118,13 @@ Chart.D3Chart = (function() {
     return "translate(" + halfWidth + ", " + halfHeight + ")";
   };
 
+  D3Chart.prototype.duration = function(options) {
+    if (options == null) {
+      options = this.options;
+    }
+    return options.animationSteps * 17.333;
+  };
+
   D3Chart.prototype.getRootElementHeight = function() {
     return +this.getRootElement().attr('height');
   };
@@ -146,7 +153,7 @@ Chart.D3Doughnut = (function(_super) {
     if (!(options.animation && options.animateRotate)) {
       return;
     }
-    return path.transition().call(this.transitionEndAll, options).duration(this.duration(options)).ease(options.animationEasing).attrTween('d', function(d) {
+    return path.transition().call(this.transitionEndAll, options).duration(this.duration()).ease(options.animationEasing).attrTween('d', function(d) {
       var interpolate;
       interpolate = d3.interpolate({
         startAngle: 0,
@@ -164,7 +171,7 @@ Chart.D3Doughnut = (function(_super) {
     }
     return this.getRootElement().selectAll('g').attr({
       transform: "" + (this.attrTranslateToCenter()) + " scale(0)"
-    }).transition().call(this.transitionEndAll, options).duration(this.duration(options)).ease(options.animationEasing).attr({
+    }).transition().call(this.transitionEndAll, options).duration(this.duration()).ease(options.animationEasing).attr({
       transform: 'scale(1)'
     });
   };
@@ -198,10 +205,6 @@ Chart.D3Doughnut = (function(_super) {
         return colors[i];
       }
     });
-  };
-
-  D3Doughnut.prototype.duration = function(options) {
-    return options.animationSteps * 17.333;
   };
 
   D3Doughnut.prototype.render = function() {

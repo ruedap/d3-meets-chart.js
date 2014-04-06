@@ -7,7 +7,7 @@ class Chart.D3Doughnut extends Chart.D3Chart
     path
       .transition()
       .call @transitionEndAll, options
-      .duration @duration(options)
+      .duration @duration()
       .ease options.animationEasing
       .attrTween 'd', (d) ->
         interpolate = d3.interpolate {startAngle: 0, endAngle: 0}, d
@@ -21,7 +21,7 @@ class Chart.D3Doughnut extends Chart.D3Chart
         transform: "#{@attrTranslateToCenter()} scale(0)"
       .transition()
       .call @transitionEndAll, options
-      .duration @duration(options)
+      .duration @duration()
       .ease options.animationEasing
       .attr
         transform: 'scale(1)'
@@ -48,9 +48,6 @@ class Chart.D3Doughnut extends Chart.D3Chart
         d: arc
         transform: @attrTranslateToCenter()
         fill: (d, i) -> colors[i]
-
-  duration: (options) ->
-    options.animationSteps * 17.333
 
   # TODO: Refactor
   render: ->
