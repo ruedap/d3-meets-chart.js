@@ -4,3 +4,9 @@ describe 'Chart.D3Doughnut', ->
 
   describe '::constructor', ->
     it 'pending'
+
+  describe '::getInnerRadius', ->
+    it 'should returns Integer value', ->
+      options = percentageInnerCutout: 50.2
+      actual = @d3Doughnut.getInnerRadius 195, options
+      expect(actual).to.eq 97

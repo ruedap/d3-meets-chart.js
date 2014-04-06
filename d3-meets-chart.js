@@ -286,6 +286,10 @@ Chart.D3Doughnut = (function(_super) {
     D3Doughnut.__super__.constructor.call(this, selectors, data, options);
   }
 
+  D3Doughnut.prototype.getInnerRadius = function(outerRadius, options) {
+    return ~~(outerRadius * (options.percentageInnerCutout / 100));
+  };
+
   return D3Doughnut;
 
 })(Chart.D3Pie);
