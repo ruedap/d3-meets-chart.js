@@ -2,8 +2,8 @@ describe 'Chart', ->
   it 'should the D3 object has same properties', ->
     svg = d3.select('#svg')
     expect(svg.attr('id')).to.eq 'svg'
-    expect(svg.attr('width')).to.eq '450'
-    expect(svg.attr('height')).to.eq '400'
+    expect(svg.attr('width')).to.eq '600'
+    expect(svg.attr('height')).to.eq '450'
 
   describe '::constructor', ->
     context 'when an argument is invalid', ->

@@ -10,5 +10,5 @@ before ->
     .append('svg')
     .attr
       id: 'svg'
-      width: 450
-      height: 400
+      width: 600
+      height: 450
