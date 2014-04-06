@@ -30,6 +30,17 @@ Chart = (function() {
   Chart.prototype.Pie = function(data, options) {
     var mergedOptions;
     this.validateData(data);
+    this.Pie.defaults = {
+      segmentShowStroke: true,
+      segmentStrokeColor: '#fff',
+      segmentStrokeWidth: 2,
+      animation: true,
+      animationSteps: 100,
+      animationEasing: 'easeOutBounce',
+      animateRotate: true,
+      animateScale: false,
+      onAnimationComplete: null
+    };
     mergedOptions = this.mergeOptions(this.Doughnut.defaults, options);
     return new Chart.D3Pie(this.selectors, data, mergedOptions).render();
   };

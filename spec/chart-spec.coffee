@@ -31,9 +31,16 @@ describe 'Chart', ->
 
   describe '::Pie', ->
     it 'should returns the Chart.D3Pie object', ->
-      data = []
-      pie = new Chart('#svg').Pie(data)
+      pie = new Chart('#svg').Pie([])
       expect(pie.constructor.name).to.eq 'D3Pie'
+
+    describe '.defaults', ->
+      it 'should `defaults` properties has not same values as arguments', ->
+        options = animation: false
+        chart = new Chart('#svg')
+        pie = chart.Pie([], options)
+        expect(chart.Pie.defaults.animation).to.not.be.false
+        expect(pie.options.animation).to.be.false
 
   describe '::getEasingType', ->
     before ->
