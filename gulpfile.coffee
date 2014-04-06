@@ -18,7 +18,7 @@ gulp.task 'coffee-src', ->
     .pipe plumber()
     .pipe coffee(bare: true)
     .pipe concat('d3-meets-chart.js')
-    .pipe gulp.dest('./')
+    .pipe gulp.dest('./tmp/')
 
 gulp.task 'coffee-spec', ->
   gulp
