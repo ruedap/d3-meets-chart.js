@@ -21,6 +21,8 @@
     "chai": "~1.9.1",
     "gulp-mocha": "~0.4.1",
     "gulp-concat": "~2.2.0",
-    "gulp-uglify": "~0.2.1"
+    "gulp-uglify": "~0.2.1",
+    "gulp-notify": "~1.2.5",
+    "gulp-plumber": "~0.5.6"
   }
 }
