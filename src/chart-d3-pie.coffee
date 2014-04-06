@@ -53,7 +53,7 @@ class Chart.D3Pie extends Chart.D3Chart
     ~~(Math.min(width, height) / 2 - margin)
 
   getInnerRadius: (outerRadius, options) ->
-    ~~(outerRadius * (@options.percentageInnerCutout / 100))
+    0
 
   # TODO: Refactor
   render: ->

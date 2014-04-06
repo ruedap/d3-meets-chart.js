@@ -224,7 +224,7 @@ Chart.D3Pie = (function(_super) {
   };
 
   D3Pie.prototype.getInnerRadius = function(outerRadius, options) {
-    return ~~(outerRadius * (this.options.percentageInnerCutout / 100));
+    return 0;
   };
 
   D3Pie.prototype.render = function() {

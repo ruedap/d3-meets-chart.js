@@ -25,6 +25,12 @@ describe 'Chart.D3Pie', ->
       actual = @d3Pie.getOuterRadius 450, 400.5, 5
       expect(actual).to.eq 195
 
+  describe '::getInnerRadius', ->
+    it 'should returns zero', ->
+      options = percentageInnerCutout: 50.2
+      actual = @d3Pie.getInnerRadius 195, options
+      expect(actual).to.eq 0
+
   describe '::render', ->
     it 'pending'
 
