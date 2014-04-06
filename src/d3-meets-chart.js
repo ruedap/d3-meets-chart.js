@@ -156,7 +156,10 @@ Chart.D3Doughnut = (function() {
     innerRadius = ~~(outerRadius * (this.options.percentageInnerCutout / 100));
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
     path = this.drawChart(arc, this.options);
-    this.setAnimationComplete(this.options);
+    this.transitionEndAllCount = this.setAnimationComplete(this.options);
+    if (isNaN(this.transitionEndAllCount)) {
+      this.options.onAnimationComplete.call(this);
+    }
     this.animateRotate(path, arc, this.options);
     return this.animateScale(this.options);
   };
@@ -177,9 +180,12 @@ Chart.D3Doughnut = (function() {
     if (typeof options.onAnimationComplete !== 'function') {
       return;
     }
-    this.transitionEndAllCount = options.animation && options.animateRotate && options.animateScale ? 2 : options.animation && (options.animateRotate || options.animateScale) ? 1 : NaN;
-    if (isNaN(this.transitionEndAllCount)) {
-      return options.onAnimationComplete.call(this);
+    if (options.animation && options.animateRotate && options.animateScale) {
+      return 2;
+    } else if (options.animation && (options.animateRotate || options.animateScale)) {
+      return 1;
+    } else {
+      return NaN;
     }
   };
 

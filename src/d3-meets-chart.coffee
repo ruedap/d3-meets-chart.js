@@ -136,7 +136,9 @@ class Chart.D3Doughnut
 
     path = @drawChart arc, @options
 
-    @setAnimationComplete @options
+    @transitionEndAllCount = @setAnimationComplete @options
+    @options.onAnimationComplete.call this if isNaN @transitionEndAllCount
+
     @animateRotate path, arc, @options
     @animateScale @options
 
@@ -152,14 +154,12 @@ class Chart.D3Doughnut
   setAnimationComplete: (options) ->
     return unless typeof(options.onAnimationComplete) is 'function'
     # TODO: need test
-    @transitionEndAllCount =
-      if options.animation and options.animateRotate and options.animateScale
-        2
-      else if options.animation and (options.animateRotate or options.animateScale)
-        1
-      else
-        NaN
-    options.onAnimationComplete.call this if isNaN @transitionEndAllCount
+    if options.animation and options.animateRotate and options.animateScale
+      2
+    else if options.animation and (options.animateRotate or options.animateScale)
+      1
+    else
+      NaN
 
   transitionEndAll: (transition, options) =>
     n = 0
