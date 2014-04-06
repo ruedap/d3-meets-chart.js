@@ -31,6 +31,14 @@ class Chart
     mergedOptions = @mergeOptions @Doughnut.defaults, options
     new Chart.D3Doughnut(@selector, data, mergedOptions).render()
 
+  Pie: (data, options) ->
+    @validateData data
+
+    # @Pie.defaults =
+
+    mergedOptions = @mergeOptions @Doughnut.defaults, options
+    new Chart.D3Pie(@selector, data, mergedOptions).render()
+
   easingTypes:
     linear: 'linear'
     easeInQuad: 'quad-in'
@@ -181,6 +189,12 @@ class Chart.D3Doughnut
   # FIXME: resopnsive and unit support
   translateToCenter: =>
     "translate(#{@rootSvgWidth() / 2}, #{@rootSvgHeight() / 2})"
+
+class Chart.D3Pie
+  constructor: (@selector, @data, @options) ->
+
+  render: ->
+    this
 
 # For test on Node.js
 if module?.exports?

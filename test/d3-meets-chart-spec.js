@@ -48,7 +48,15 @@ describe('Chart', function() {
       var data, doughnut;
       data = [];
       doughnut = new Chart('#svg').Doughnut(data);
-      return expect(doughnut).to.be.a('object');
+      return expect(doughnut.constructor.name).to.eq('D3Doughnut');
+    });
+  });
+  describe('::Pie', function() {
+    return it('should returns the Chart.D3Pie object', function() {
+      var data, pie;
+      data = [];
+      pie = new Chart('#svg').Pie(data);
+      return expect(pie.constructor.name).to.eq('D3Pie');
     });
   });
   describe('::getEasingType', function() {

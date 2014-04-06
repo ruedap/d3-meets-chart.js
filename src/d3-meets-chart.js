@@ -28,6 +28,13 @@ Chart = (function() {
     return new Chart.D3Doughnut(this.selector, data, mergedOptions).render();
   };
 
+  Chart.prototype.Pie = function(data, options) {
+    var mergedOptions;
+    this.validateData(data);
+    mergedOptions = this.mergeOptions(this.Doughnut.defaults, options);
+    return new Chart.D3Pie(this.selector, data, mergedOptions).render();
+  };
+
   Chart.prototype.easingTypes = {
     linear: 'linear',
     easeInQuad: 'quad-in',
@@ -216,6 +223,21 @@ Chart.D3Doughnut = (function() {
   };
 
   return D3Doughnut;
+
+})();
+
+Chart.D3Pie = (function() {
+  function D3Pie(selector, data, options) {
+    this.selector = selector;
+    this.data = data;
+    this.options = options;
+  }
+
+  D3Pie.prototype.render = function() {
+    return this;
+  };
+
+  return D3Pie;
 
 })();
 

@@ -36,7 +36,13 @@ describe 'Chart', ->
     it 'should returns the Chart.D3Doughnut object', ->
       data = []
       doughnut = new Chart('#svg').Doughnut(data)
-      expect(doughnut).to.be.a 'object'
+      expect(doughnut.constructor.name).to.eq 'D3Doughnut'
+
+  describe '::Pie', ->
+    it 'should returns the Chart.D3Pie object', ->
+      data = []
+      pie = new Chart('#svg').Pie(data)
+      expect(pie.constructor.name).to.eq 'D3Pie'
 
   describe '::getEasingType', ->
     before ->
