@@ -4,14 +4,14 @@ var Chart,
 Chart = (function() {
   function Chart(selector) {
     this.selector = selector;
-    if (typeof selector !== 'string') {
+    if (!_.isString(selector)) {
       throw new TypeError('This argument is not a selector string');
     }
   }
 
   Chart.prototype.Doughnut = function(data, options) {
     var mergedOptions;
-    if (!(data instanceof Array)) {
+    if (!_.isArray(data)) {
       throw new TypeError("" + data + " is not an array");
     }
     this.Doughnut.defaults = {
@@ -181,7 +181,7 @@ Chart.D3Doughnut = (function() {
   };
 
   D3Doughnut.prototype.setAnimationComplete = function(options) {
-    if (typeof options.onAnimationComplete !== 'function') {
+    if (!_.isFunction(options.onAnimationComplete)) {
       return Infinity;
     }
     if (options.animation && options.animateRotate && options.animateScale) {

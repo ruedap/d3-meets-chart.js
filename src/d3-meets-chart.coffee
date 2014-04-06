@@ -1,11 +1,10 @@
 class Chart
   constructor: (@selector) ->
-    unless typeof selector is 'string'
+    unless _.isString selector
       throw new TypeError 'This argument is not a selector string'
 
   Doughnut: (data, options) ->
-    unless data instanceof Array
-      throw new TypeError "#{data} is not an array"
+    throw new TypeError "#{data} is not an array" unless _.isArray data
 
     @Doughnut.defaults =
       # Boolean - Whether we should show a stroke on each segment.
@@ -159,7 +158,7 @@ class Chart.D3Doughnut
     +@rootSvg().attr('width')
 
   setAnimationComplete: (options) ->
-    return Infinity unless typeof(options.onAnimationComplete) is 'function'
+    return Infinity unless _.isFunction options.onAnimationComplete
     if options.animation and options.animateRotate and options.animateScale
       2
     else if options.animation and (options.animateRotate or options.animateScale)
