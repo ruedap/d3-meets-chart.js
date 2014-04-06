@@ -4,6 +4,9 @@ class Chart
       throw new TypeError 'This argument is not a selector string'
 
   Doughnut: (data, options) ->
+    unless data instanceof Array
+      throw new TypeError "#{data} is not an array"
+
     @Doughnut.defaults =
       # Boolean - Whether we should show a stroke on each segment.
       segmentShowStroke: true
@@ -128,6 +131,7 @@ class Chart.D3Doughnut
   duration: (options) ->
     options.animationSteps * 17.333
 
+  # TODO: Refactor
   render: ->
     margin = 5
     outerRadius = ~~(Math.min(@rootSvgWidth(), @rootSvgHeight()) / 2 - margin)
@@ -141,18 +145,21 @@ class Chart.D3Doughnut
 
     @animateRotate path, arc, @options
     @animateScale @options
+    this
 
   rootSvg: =>
     d3.select @selector
 
+  # FIXME
   rootSvgHeight: =>
-    @rootSvg().property('height').baseVal.value
+    +@rootSvg().attr('height')
 
+  # FIXME
   rootSvgWidth: =>
-    @rootSvg().property('width').baseVal.value
+    +@rootSvg().attr('width')
 
   setAnimationComplete: (options) ->
-    return unless typeof(options.onAnimationComplete) is 'function'
+    return Infinity unless typeof(options.onAnimationComplete) is 'function'
     if options.animation and options.animateRotate and options.animateScale
       2
     else if options.animation and (options.animateRotate or options.animateScale)

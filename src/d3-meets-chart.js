@@ -11,6 +11,9 @@ Chart = (function() {
 
   Chart.prototype.Doughnut = function(data, options) {
     var mergedOptions;
+    if (!(data instanceof Array)) {
+      throw new TypeError("" + data + " is not an array");
+    }
     this.Doughnut.defaults = {
       segmentShowStroke: true,
       segmentStrokeColor: '#fff',
@@ -161,7 +164,8 @@ Chart.D3Doughnut = (function() {
       this.options.onAnimationComplete.call(this);
     }
     this.animateRotate(path, arc, this.options);
-    return this.animateScale(this.options);
+    this.animateScale(this.options);
+    return this;
   };
 
   D3Doughnut.prototype.rootSvg = function() {
@@ -169,16 +173,16 @@ Chart.D3Doughnut = (function() {
   };
 
   D3Doughnut.prototype.rootSvgHeight = function() {
-    return this.rootSvg().property('height').baseVal.value;
+    return +this.rootSvg().attr('height');
   };
 
   D3Doughnut.prototype.rootSvgWidth = function() {
-    return this.rootSvg().property('width').baseVal.value;
+    return +this.rootSvg().attr('width');
   };
 
   D3Doughnut.prototype.setAnimationComplete = function(options) {
     if (typeof options.onAnimationComplete !== 'function') {
-      return;
+      return Infinity;
     }
     if (options.animation && options.animateRotate && options.animateScale) {
       return 2;

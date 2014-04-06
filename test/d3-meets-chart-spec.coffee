@@ -2,11 +2,26 @@
 
 chai = require 'chai'
 expect = chai.expect
-_ = require 'underscore'
+
+global._ = require 'underscore'
+global.d3 = require 'd3'
 
 describe 'Chart', ->
-  describe '::constructor', ->
+  before ->
+    d3.select('body')
+      .append('svg')
+      .attr
+        id: 'svg'
+        width: 450
+        height: 400
 
+  it 'should the element has same properties', ->
+    svg = d3.select('#svg')
+    expect(svg.attr('id')).to.eq 'svg'
+    expect(svg.attr('width')).to.eq '450'
+    expect(svg.attr('height')).to.eq '400'
+
+  describe '::constructor', ->
     context 'when an argument is invalid', ->
       it 'should raise TypeError exception', ->
         message = 'This argument is not a selector string'
@@ -14,11 +29,21 @@ describe 'Chart', ->
 
     context 'when an argument is valid', ->
       it 'should contains the element name in the returned object', ->
-        chart = new Chart '#root-svg'
-        expect(chart.selector).to.eq '#root-svg'
+        chart = new Chart '#svg'
+        expect(chart.selector).to.eq '#svg'
 
   describe '::Doughnut', ->
-    it 'pending'
+    context 'when an argument is invalid', ->
+      it 'should raise TypeError exception', ->
+        data = null
+        message = "#{data} is not an array"
+        expect(-> new Chart('#svg').Doughnut(data)).to.throw TypeError, message
+
+    context 'when an argument is valid', ->
+      it 'should returns the Chart.D3Doughnut object', ->
+        data = []
+        doughnut = new Chart('#svg').Doughnut(data)
+        expect(doughnut).to.be.a 'object'
 
   describe '::getEasingType', ->
     before ->
@@ -96,9 +121,9 @@ describe 'Chart.D3Doughnut', ->
 
   describe '::setAnimationComplete', ->
     context 'when an argument is invalid', ->
-      it 'should returns undefined', ->
+      it 'should returns Infinity', ->
         options = {}
-        expect(@d3doughnut.setAnimationComplete(options)).to.be.undefined
+        expect(@d3doughnut.setAnimationComplete(options)).to.eq Infinity
 
     context 'when an argument is valid', ->
       before ->

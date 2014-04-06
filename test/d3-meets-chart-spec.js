@@ -1,4 +1,4 @@
-var Chart, chai, expect, _;
+var Chart, chai, expect;
 
 Chart = require('../src/d3-meets-chart').Chart;
 
@@ -6,9 +6,25 @@ chai = require('chai');
 
 expect = chai.expect;
 
-_ = require('underscore');
+global._ = require('underscore');
+
+global.d3 = require('d3');
 
 describe('Chart', function() {
+  before(function() {
+    return d3.select('body').append('svg').attr({
+      id: 'svg',
+      width: 450,
+      height: 400
+    });
+  });
+  it('should the element has same properties', function() {
+    var svg;
+    svg = d3.select('#svg');
+    expect(svg.attr('id')).to.eq('svg');
+    expect(svg.attr('width')).to.eq('450');
+    return expect(svg.attr('height')).to.eq('400');
+  });
   describe('::constructor', function() {
     context('when an argument is invalid', function() {
       return it('should raise TypeError exception', function() {
@@ -22,13 +38,30 @@ describe('Chart', function() {
     return context('when an argument is valid', function() {
       return it('should contains the element name in the returned object', function() {
         var chart;
-        chart = new Chart('#root-svg');
-        return expect(chart.selector).to.eq('#root-svg');
+        chart = new Chart('#svg');
+        return expect(chart.selector).to.eq('#svg');
       });
     });
   });
   describe('::Doughnut', function() {
-    return it('pending');
+    context('when an argument is invalid', function() {
+      return it('should raise TypeError exception', function() {
+        var data, message;
+        data = null;
+        message = "" + data + " is not an array";
+        return expect(function() {
+          return new Chart('#svg').Doughnut(data);
+        }).to["throw"](TypeError, message);
+      });
+    });
+    return context('when an argument is valid', function() {
+      return it('should returns the Chart.D3Doughnut object', function() {
+        var data, doughnut;
+        data = [];
+        doughnut = new Chart('#svg').Doughnut(data);
+        return expect(doughnut).to.be.a('object');
+      });
+    });
   });
   describe('::getEasingType', function() {
     before(function() {
@@ -138,10 +171,10 @@ describe('Chart.D3Doughnut', function() {
   });
   describe('::setAnimationComplete', function() {
     context('when an argument is invalid', function() {
-      return it('should returns undefined', function() {
+      return it('should returns Infinity', function() {
         var options;
         options = {};
-        return expect(this.d3doughnut.setAnimationComplete(options)).to.be.undefined;
+        return expect(this.d3doughnut.setAnimationComplete(options)).to.eq(Infinity);
       });
     });
     return context('when an argument is valid', function() {
