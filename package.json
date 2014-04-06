@@ -2,7 +2,7 @@
   "name": "d3-meets-chart.js",
   "version": "0.0.0",
   "description": "",
-  "main": "./src/d3-meets-chart.js",
+  "main": "./d3-meets-chart.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,6 +19,8 @@
     "gulp-util": "~2.2.14",
     "mocha": "~1.18.2",
     "chai": "~1.9.1",
-    "gulp-mocha": "~0.4.1"
+    "gulp-mocha": "~0.4.1",
+    "gulp-concat": "~2.2.0",
+    "gulp-uglify": "~0.2.1"
   }
 }

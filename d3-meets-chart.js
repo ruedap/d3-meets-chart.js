@@ -1,5 +1,4 @@
-var Chart,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+var Chart;
 
 Chart = (function() {
   function Chart(selectors) {
@@ -88,6 +87,14 @@ Chart = (function() {
   return Chart;
 
 })();
+
+if ((typeof module !== "undefined" && module !== null ? module.exports : void 0) != null) {
+  module.exports.Chart = Chart;
+  global._ = require('underscore');
+  global.d3 = require('d3');
+}
+
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 Chart.D3Doughnut = (function() {
   function D3Doughnut(selectors, data, options) {
@@ -240,9 +247,3 @@ Chart.D3Pie = (function() {
   return D3Pie;
 
 })();
-
-if ((typeof module !== "undefined" && module !== null ? module.exports : void 0) != null) {
-  module.exports.Chart = Chart;
-  global._ = require('underscore');
-  global.d3 = require('d3');
-}

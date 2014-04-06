@@ -1,6 +1,6 @@
 var Chart, expect;
 
-Chart = require('../src/d3-meets-chart').Chart;
+Chart = require('../d3-meets-chart').Chart;
 
 global._ = require('underscore');
 

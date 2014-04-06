@@ -1,4 +1,4 @@
-{Chart} = require '../src/d3-meets-chart'
+{Chart} = require '../d3-meets-chart'
 
 global._ = require 'underscore'
 global.d3 = require 'd3'
