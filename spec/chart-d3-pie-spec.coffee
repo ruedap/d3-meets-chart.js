@@ -1,11 +1,21 @@
 describe 'Chart.D3Pie', ->
   before ->
-    @d3Pie = new Chart.D3Pie '#svg', [], {}
+    @data = [
+      value: 30
+      color: '#f38630'
+    ,
+      value: 50
+      color: '#e0e4cc'
+    ,
+      value: 100
+      color: '#69d2e7'
+    ]
+    @d3Pie = new Chart.D3Pie '#svg', @data, {}
 
   describe '::constructor', ->
     it 'should the instance object has same value in properties', ->
       expect(@d3Pie.selectors).to.eq '#svg'
-      expect(@d3Pie.data).to.eql []
+      expect(@d3Pie.data).to.eq @data
       expect(@d3Pie.options).to.eql {}
 
   describe '::animateRotate', ->

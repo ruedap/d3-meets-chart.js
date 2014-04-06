@@ -54,7 +54,7 @@ class Chart
       # Number - Number of animation steps.
       animationSteps: 60
       # String - Animation easing effect.
-      animationEasing: 'easeOutQuart'
+      animationEasing: 'easeOutQuad'
       # Function - Fires when the animation is complete.
       onAnimationComplete: null
     mergedOptions = @mergeOptions @Bar.defaults, options
@@ -107,8 +107,6 @@ class Chart
       animateScale: false
       # Function - Will fire on animation completion.
       onAnimationComplete: null
-      # TODO: remove
-      percentageInnerCutout: 50
     mergedOptions = @mergeOptions @Pie.defaults, options
     new Chart.D3Pie(@selectors, data, mergedOptions).render()
 
@@ -159,7 +157,8 @@ class Chart
     mergedOptions
 
   validateData: (data) ->
-    throw new TypeError "#{data} is not an array" unless _.isArray data
+    if !(_.isArray(data) or _.isObject(data))
+      throw new TypeError "#{data} is not an array or object"
 
 # For test on Node.js
 if module?.exports?
