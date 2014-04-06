@@ -1,5 +1,6 @@
-class Chart.D3Doughnut
-  constructor: (@selectors, @data, @options) ->
+class Chart.D3Doughnut extends Chart.D3Chart
+  constructor: (selectors, data, options) ->
+    super selectors, data, options
 
   animateRotate: (path, arc, options) ->
     return if !(options.animation and options.animateRotate)

@@ -94,18 +94,31 @@ if ((typeof module !== "undefined" && module !== null ? module.exports : void 0)
   global.d3 = require('d3');
 }
 
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-
-Chart.D3Doughnut = (function() {
-  function D3Doughnut(selectors, data, options) {
+Chart.D3Chart = (function() {
+  function D3Chart(selectors, data, options) {
     this.selectors = selectors;
     this.data = data;
     this.options = options;
+  }
+
+  return D3Chart;
+
+})();
+
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Chart.D3Doughnut = (function(_super) {
+  __extends(D3Doughnut, _super);
+
+  function D3Doughnut(selectors, data, options) {
     this.translateToCenter = __bind(this.translateToCenter, this);
     this.transitionEndAll = __bind(this.transitionEndAll, this);
     this.rootElementWidth = __bind(this.rootElementWidth, this);
     this.rootElementHeight = __bind(this.rootElementHeight, this);
     this.rootElement = __bind(this.rootElement, this);
+    D3Doughnut.__super__.constructor.call(this, selectors, data, options);
   }
 
   D3Doughnut.prototype.animateRotate = function(path, arc, options) {
@@ -231,13 +244,16 @@ Chart.D3Doughnut = (function() {
 
   return D3Doughnut;
 
-})();
+})(Chart.D3Chart);
 
-Chart.D3Pie = (function() {
+var __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Chart.D3Pie = (function(_super) {
+  __extends(D3Pie, _super);
+
   function D3Pie(selectors, data, options) {
-    this.selectors = selectors;
-    this.data = data;
-    this.options = options;
+    D3Pie.__super__.constructor.call(this, selectors, data, options);
   }
 
   D3Pie.prototype.render = function() {
@@ -246,4 +262,4 @@ Chart.D3Pie = (function() {
 
   return D3Pie;
 
-})();
+})(Chart.D3Chart);

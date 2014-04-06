@@ -1,5 +1,6 @@
-class Chart.D3Pie
-  constructor: (@selectors, @data, @options) ->
+class Chart.D3Pie extends Chart.D3Chart
+  constructor: (selectors, data, options) ->
+    super selectors, data, options
 
   render: ->
     this
