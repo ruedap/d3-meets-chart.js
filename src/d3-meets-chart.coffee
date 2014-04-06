@@ -179,6 +179,7 @@ class Chart.D3Doughnut
   translateToCenter: =>
     "translate(#{@rootSvgWidth() / 2}, #{@rootSvgHeight() / 2})"
 
+# For test on Node.js
 if module?.exports?
   module.exports.Chart = Chart
   global._ = require 'underscore'
