@@ -13,4 +13,12 @@ describe 'Chart.D3Chart', ->
       element = @d3Chart.getRootElement()
       expect(element.attr('id')).to.eq 'svg'
 
-  
+  describe '::getRootElementHeight', ->
+    it 'should returns the root D3 object height', ->
+      actual = @d3Chart.getRootElementHeight()
+      expect(actual).to.eq 400
+
+  describe '::getRootElementWidth', ->
+    it 'should returns the root D3 object width', ->
+      actual = @d3Chart.getRootElementWidth()
+      expect(actual).to.eq 450
