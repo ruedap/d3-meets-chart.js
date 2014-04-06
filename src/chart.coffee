@@ -5,7 +5,6 @@ class Chart
 
   Doughnut: (data, options) ->
     @validateData data
-
     @Doughnut.defaults =
       # Boolean - Whether we should show a stroke on each segment.
       segmentShowStroke: true
@@ -27,13 +26,11 @@ class Chart
       animateScale: false
       # Function - Will fire on animation completion.
       onAnimationComplete: null
-
     mergedOptions = @mergeOptions @Doughnut.defaults, options
     new Chart.D3Doughnut(@selectors, data, mergedOptions).render()
 
   Pie: (data, options) ->
     @validateData data
-
     @Pie.defaults =
       # Boolean - Whether we should show a stroke on each segment.
       segmentShowStroke: true
@@ -53,7 +50,6 @@ class Chart
       animateScale: false
       # Function - Will fire on animation completion.
       onAnimationComplete: null
-
     mergedOptions = @mergeOptions @Doughnut.defaults, options
     new Chart.D3Pie(@selectors, data, mergedOptions).render()
 

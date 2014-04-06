@@ -57,12 +57,9 @@ class Chart.D3Doughnut extends Chart.D3Chart
     outerRadius = ~~(Math.min(width, height) / 2 - margin)
     innerRadius = ~~(outerRadius * (@options.percentageInnerCutout / 100))
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
-
     path = @drawChart arc, @options
-
     @transitionEndAllCount = @setAnimationComplete @options
     @options.onAnimationComplete.call this if isNaN @transitionEndAllCount
-
     @animateRotate path, arc, @options
     @animateScale @options
     this
