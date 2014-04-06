@@ -8,6 +8,39 @@ Chart = (function() {
     }
   }
 
+  Chart.prototype.Bar = function(data, options) {
+    var mergedOptions;
+    this.validateData(data);
+    this.Bar.defaults = {
+      scaleOverlay: false,
+      scaleOverride: false,
+      scaleSteps: null,
+      scaleStepWidth: null,
+      scaleStartValue: null,
+      scaleLineColor: 'rgba(0,0,0,.1)',
+      scaleLineWidth: 1,
+      scaleShowLabels: true,
+      scaleLabel: '<%=value%>',
+      scaleFontFamily: "'Arial'",
+      scaleFontSize: 12,
+      scaleFontStyle: 'normal',
+      scaleFontColor: '#666',
+      scaleShowGridLines: true,
+      scaleGridLineColor: 'rgba(0,0,0,.05)',
+      scaleGridLineWidth: 1,
+      barShowStroke: true,
+      barStrokeWidth: 2,
+      barValueSpacing: 5,
+      barDatasetSpacing: 1,
+      animation: true,
+      animationSteps: 60,
+      animationEasing: 'easeOutQuart',
+      onAnimationComplete: null
+    };
+    mergedOptions = this.mergeOptions(this.Bar.defaults, options);
+    return new Chart.D3Bar(this.selectors, data, mergedOptions).render();
+  };
+
   Chart.prototype.Doughnut = function(data, options) {
     var mergedOptions;
     this.validateData(data);
