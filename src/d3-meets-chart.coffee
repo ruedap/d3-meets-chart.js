@@ -143,11 +143,11 @@ class Chart.D3Doughnut
   rootSvg: =>
     d3.select @selector
 
-  rootSvgWidth: =>
-    @rootSvg().property('width').baseVal.value
-
   rootSvgHeight: =>
     @rootSvg().property('height').baseVal.value
+
+  rootSvgWidth: =>
+    @rootSvg().property('width').baseVal.value
 
   setAnimationComplete: (options) ->
     return unless typeof(options.onAnimationComplete) is 'function'

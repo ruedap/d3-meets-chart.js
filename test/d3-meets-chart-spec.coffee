@@ -60,9 +60,42 @@ describe 'Chart.D3Doughnut', ->
   describe '::constructor', ->
     it 'pending'
 
+  describe '::animateRotate', ->
+    it 'pending'
+
+  describe '::animateScale', ->
+    it 'pending'
+
+  describe '::attrSegmentStroke', ->
+    it 'pending'
+
+  describe '::drawChart', ->
+    it 'pending'
+
   describe '::duration', ->
     it 'should returns number', ->
       options = {}
       options.animationSteps = 100
       d3doughnut = new Chart.D3Doughnut('#svg', [], options)
       expect(d3doughnut.duration(options)).to.eq 1733.2999999999997
+
+  describe '::render', ->
+    it 'pending'
+
+  describe '::rootSvg', ->
+    it 'pending'
+
+  describe '::rootSvgHeight', ->
+    it 'pending'
+
+  describe '::rootSvgWidth', ->
+    it 'pending'
+
+  describe '::setAnimationComplete', ->
+    it 'pending'
+
+  describe '::transitionEndAll', ->
+    it 'pending'
+
+  describe '::translateToCenter', ->
+    it 'pending'

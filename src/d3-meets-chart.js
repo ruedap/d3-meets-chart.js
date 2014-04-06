@@ -82,8 +82,8 @@ Chart.D3Doughnut = (function() {
     this.options = options;
     this.translateToCenter = __bind(this.translateToCenter, this);
     this.transitionEndAll = __bind(this.transitionEndAll, this);
-    this.rootSvgHeight = __bind(this.rootSvgHeight, this);
     this.rootSvgWidth = __bind(this.rootSvgWidth, this);
+    this.rootSvgHeight = __bind(this.rootSvgHeight, this);
     this.rootSvg = __bind(this.rootSvg, this);
   }
 
@@ -165,12 +165,12 @@ Chart.D3Doughnut = (function() {
     return d3.select(this.selector);
   };
 
-  D3Doughnut.prototype.rootSvgWidth = function() {
-    return this.rootSvg().property('width').baseVal.value;
-  };
-
   D3Doughnut.prototype.rootSvgHeight = function() {
     return this.rootSvg().property('height').baseVal.value;
+  };
+
+  D3Doughnut.prototype.rootSvgWidth = function() {
+    return this.rootSvg().property('width').baseVal.value;
   };
 
   D3Doughnut.prototype.setAnimationComplete = function(options) {
