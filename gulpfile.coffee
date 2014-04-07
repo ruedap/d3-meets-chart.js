@@ -7,41 +7,53 @@ notify = require 'gulp-notify'
 rimraf = require 'gulp-rimraf'
 plumber = require 'gulp-plumber'
 
+dir =
+  tmp: './tmp/'
+
+file =
+  main: 'd3-meets-chart.js'
+  specRunner: 'spec-runner.js'
+
+src =
+  coffeeSrc: [
+    './src/chart.coffee'
+    './src/chart-d3-chart.coffee'
+    './src/chart-d3-pie.coffee'
+    './src/*.coffee'
+  ]
+  coffeeSpec: [
+    './spec/spec-helper.coffee'
+    './spec/chart-d3-chart-spec.coffee'
+    './spec/chart-d3-pie-spec.coffee'
+    './spec/*-spec.coffee'
+  ]
+  specRunner: dir.tmp + file.specRunner
+
 gulp.task 'coffee-src', ->
   gulp
-    .src [
-      './src/chart.coffee'
-      './src/chart-d3-chart.coffee'
-      './src/chart-d3-pie.coffee'
-      './src/*.coffee'
-    ]
+    .src src.coffeeSrc
     .pipe plumber()
     .pipe coffee(bare: true)
-    .pipe concat('d3-meets-chart.js')
-    .pipe gulp.dest('./tmp/')
+    .pipe concat(file.main)
+    .pipe gulp.dest(dir.tmp)
 
 gulp.task 'coffee-spec', ->
   gulp
-    .src [
-      './spec/spec-helper.coffee'
-      './spec/chart-d3-chart-spec.coffee'
-      './spec/chart-d3-pie-spec.coffee'
-      './spec/*-spec.coffee'
-    ]
+    .src src.coffeeSpec
     .pipe plumber()
     .pipe coffee(bare: true)
-    .pipe concat('spec-runner.js')
-    .pipe gulp.dest('./tmp/')
+    .pipe concat(file.specRunner)
+    .pipe gulp.dest(dir.tmp)
 
 gulp.task 'mocha-exe', ['coffee'], ->
   gulp
-    .src './tmp/spec-runner.js'
+    .src src.specRunner
     .pipe plumber()
     .pipe mocha(reporter: 'spec')
 
 gulp.task 'mocha-clean', ['mocha-exe'], ->
   gulp
-    .src './tmp/spec-runner.js'
+    .src src.specRunner
     .pipe rimraf()
     .pipe notify("☕")
 
