@@ -19,13 +19,13 @@ describe 'Chart.D3Doughnut', ->
     @d3Doughnut = new Chart.D3Doughnut '#svg', @data, {}
 
   describe '::constructor', ->
-    it 'should the instance object has same value in properties', ->
+    it 'should have same values in properties', ->
       expect(@d3Doughnut.selectors).to.be '#svg'
       expect(@d3Doughnut.data).to.eql @data
       expect(@d3Doughnut.options).to.eql {}
 
   describe '::getInnerRadius', ->
-    it 'should returns Integer value', ->
+    it 'should return Number', ->
       options = percentageInnerCutout: 50.2
       actual = @d3Doughnut.getInnerRadius 195, options
       expect(actual).to.be 97

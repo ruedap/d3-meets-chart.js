@@ -14,7 +14,7 @@ describe 'Chart.D3Bar', ->
     @d3Bar = new Chart.D3Bar '#svg', @data, {}
 
   describe '::constructor', ->
-    it 'should the instance object has same value in properties', ->
+    it 'should have same values in properties', ->
       expect(@d3Bar.selectors).to.be '#svg'
       expect(@d3Bar.data).to.eql @data
       expect(@d3Bar.options).to.eql {}

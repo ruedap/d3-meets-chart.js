@@ -6,7 +6,11 @@
   "scripts": {
     "test": "gulp spec"
   },
-  "author": "ruedap",
+  "author": {
+    "name": "ruedap",
+    "email": "ruedap@ruedap.com",
+    "web": "http://ruedap.com"
+  },
   "license": "MIT",
   "dependencies": {
     "d3": ">=3.4.4",
