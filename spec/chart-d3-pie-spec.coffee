@@ -1,4 +1,6 @@
 describe 'Chart.D3Pie', ->
+  'use strict'
+
   before ->
     @data = [
       value: 30

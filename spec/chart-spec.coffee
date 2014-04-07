@@ -1,4 +1,6 @@
 describe 'Chart', ->
+  'use strict'
+
   # TODO: move
   it 'should return same attributes', ->
     svg = d3.select('#svg')

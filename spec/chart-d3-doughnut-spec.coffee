@@ -1,4 +1,6 @@
 describe 'Chart.D3Doughnut', ->
+  'use strict'
+
   before ->
     @data = [
       value: 30

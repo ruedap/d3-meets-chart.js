@@ -1,4 +1,6 @@
 class Chart.D3Chart
+  'use strict'
+
   constructor: (@selectors, @data, @options) ->
 
   # FIXME: style(responsive) and percent unit support

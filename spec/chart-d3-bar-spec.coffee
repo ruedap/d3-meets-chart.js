@@ -1,4 +1,6 @@
 describe 'Chart.D3Bar', ->
+  'use strict'
+
   before ->
     @data =
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July']

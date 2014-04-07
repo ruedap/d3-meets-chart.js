@@ -1,4 +1,6 @@
 class Chart
+  'use strict'
+
   constructor: (@selectors) ->
     unless _.isString @selectors
       throw new TypeError 'This argument is not selectors string'

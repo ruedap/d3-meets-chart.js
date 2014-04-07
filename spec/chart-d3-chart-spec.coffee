@@ -1,4 +1,6 @@
 describe 'Chart.D3Chart', ->
+  'use strict'
+
   before ->
     @d3Chart = new Chart.D3Chart '#svg', [], {}
 
