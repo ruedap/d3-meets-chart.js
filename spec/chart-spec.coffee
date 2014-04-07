@@ -1,46 +1,46 @@
 describe 'Chart', ->
   it 'should the D3 object has same properties', ->
     svg = d3.select('#svg')
-    expect(svg.attr('id')).to.eq 'svg'
-    expect(svg.attr('width')).to.eq '600'
-    expect(svg.attr('height')).to.eq '450'
+    expect(svg.attr('id')).to.be 'svg'
+    expect(svg.attr('width')).to.be '600'
+    expect(svg.attr('height')).to.be '450'
 
   describe '::constructor', ->
     context 'when an argument is invalid', ->
       it 'should raise TypeError exception', ->
         message = 'This argument is not selectors string'
-        expect(-> new Chart(null)).to.throw TypeError, message
+        expect(-> new Chart(null)).to.throwError(message)
 
     context 'when an argument is valid', ->
       it 'should contains the element name in the returned object', ->
         chart = new Chart '#svg'
-        expect(chart.selectors).to.eq '#svg'
+        expect(chart.selectors).to.be '#svg'
 
   describe '::Doughnut', ->
     it 'should returns the Chart.D3Doughnut object', ->
       doughnut = new Chart('#svg').Doughnut([])
-      expect(doughnut.constructor.name).to.eq 'D3Doughnut'
+      expect(doughnut.constructor.name).to.be 'D3Doughnut'
 
     describe '.defaults', ->
       it 'should `defaults` properties has not same values as arguments', ->
         options = animation: false
         chart = new Chart('#svg')
         doughnut = chart.Doughnut([], options)
-        expect(chart.Doughnut.defaults.animation).to.not.be.false
-        expect(doughnut.options.animation).to.be.false
+        expect(chart.Doughnut.defaults.animation).not.to.be.ok
+        expect(doughnut.options.animation).to.be.ok
 
   describe '::Pie', ->
     it 'should returns the Chart.D3Pie object', ->
       pie = new Chart('#svg').Pie([])
-      expect(pie.constructor.name).to.eq 'D3Pie'
+      expect(pie.constructor.name).to.be 'D3Pie'
 
     describe '.defaults', ->
       it 'should `defaults` properties has not same values as arguments', ->
         options = animation: false
         chart = new Chart('#svg')
         pie = chart.Pie([], options)
-        expect(chart.Pie.defaults.animation).to.not.be.false
-        expect(pie.options.animation).to.be.false
+        expect(chart.Pie.defaults.animation).to.be.ok
+        expect(pie.options.animation).not.to.be.ok
 
   describe '::getEasingType', ->
     before ->
@@ -52,16 +52,16 @@ describe 'Chart', ->
       context 'when an argument is string', ->
         it 'should raise ReferenceError exception', ->
           expect(=> @chart.getEasingType('foo')).to
-            .throw ReferenceError, @errorMessage 'foo'
+            .throwError @errorMessage('foo')
 
       context 'when an argument is not string', ->
         it 'should raise ReferenceError exception', ->
           expect(=> @chart.getEasingType(null)).to
-            .throw ReferenceError, @errorMessage 'null'
+            .throwError @errorMessage('null')
 
     context 'when an argument is valid', ->
       it 'should returns the easing type name', ->
-        expect(@chart.getEasingType('easeInExpo')).to.eq 'exp-in'
+        expect(@chart.getEasingType('easeInExpo')).to.be 'exp-in'
 
   describe '::mergeOptions', ->
     before ->
@@ -86,11 +86,11 @@ describe 'Chart', ->
         data = null
         message = "#{data} is not an array"
         expect(-> new Chart('#svg').validateData(data)).to
-          .throw TypeError, message
+          .throwError message
 
     context 'when an argument is valid', ->
       it 'should not raise TypeError exception', ->
         data = []
         message = "#{data} is not an array"
         expect(-> new Chart('#svg').validateData(data)).to
-          .not.throw new TypeError message
+          .not.throwError message

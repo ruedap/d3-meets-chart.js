@@ -14,8 +14,8 @@ describe 'Chart.D3Pie', ->
 
   describe '::constructor', ->
     it 'should the instance object has same value in properties', ->
-      expect(@d3Pie.selectors).to.eq '#svg'
-      expect(@d3Pie.data).to.eq @data
+      expect(@d3Pie.selectors).to.be '#svg'
+      expect(@d3Pie.data).to.be @data
       expect(@d3Pie.options).to.eql {}
 
   describe '::animateRotate', ->
@@ -33,13 +33,13 @@ describe 'Chart.D3Pie', ->
   describe '::getOuterRadius', ->
     it 'should returns Integer value', ->
       actual = @d3Pie.getOuterRadius 450, 400.5, 5
-      expect(actual).to.eq 195
+      expect(actual).to.be 195
 
   describe '::getInnerRadius', ->
     it 'should returns zero', ->
       options = percentageInnerCutout: 50.2
       actual = @d3Pie.getInnerRadius 195, options
-      expect(actual).to.eq 0
+      expect(actual).to.be 0
 
   describe '::render', ->
     it 'pending'
@@ -48,7 +48,7 @@ describe 'Chart.D3Pie', ->
     context 'when an argument is invalid', ->
       it 'should returns Infinity', ->
         options = {}
-        expect(@d3Pie.setAnimationComplete(options)).to.eq Infinity
+        expect(@d3Pie.setAnimationComplete(options)).to.be Infinity
 
     context 'when an argument is valid', ->
       before ->
@@ -58,26 +58,26 @@ describe 'Chart.D3Pie', ->
         it 'should returns 2', ->
           options = animation: true, animateRotate: true, animateScale: true
           options = _.extend {}, @options, options
-          expect(@d3Pie.setAnimationComplete(options)).to.eq 2
+          expect(@d3Pie.setAnimationComplete(options)).to.be 2
 
       context 'when `animation` is true value', ->
         context 'when any one of `animateRotate` or `animateScale` are true value', ->
           it 'should returns 1', ->
             options = animation: true, animateRotate: true, animateScale: false
             options = _.extend {}, @options, options
-            expect(@d3Pie.setAnimationComplete(options)).to.eq 1
+            expect(@d3Pie.setAnimationComplete(options)).to.be 1
 
           it 'should returns 1', ->
             options = animation: true, animateRotate: false, animateScale: true
             options = _.extend {}, @options, options
-            expect(@d3Pie.setAnimationComplete(options)).to.eq 1
+            expect(@d3Pie.setAnimationComplete(options)).to.be 1
 
       context 'when `animation` is false value', ->
         it 'should returns NaN', ->
           options = animation: false, animateRotate: true, animateScale: true
           options = _.extend {}, @options, options
           actual = @d3Pie.setAnimationComplete(options)
-          expect(isNaN(actual)).to.be.true
+          expect(isNaN(actual)).to.be.ok
 
   describe '::transitionEndAll', ->
     it 'pending'

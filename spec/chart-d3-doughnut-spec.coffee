@@ -20,7 +20,7 @@ describe 'Chart.D3Doughnut', ->
 
   describe '::constructor', ->
     it 'should the instance object has same value in properties', ->
-      expect(@d3Doughnut.selectors).to.eq '#svg'
+      expect(@d3Doughnut.selectors).to.be '#svg'
       expect(@d3Doughnut.data).to.eql @data
       expect(@d3Doughnut.options).to.eql {}
 
@@ -28,4 +28,4 @@ describe 'Chart.D3Doughnut', ->
     it 'should returns Integer value', ->
       options = percentageInnerCutout: 50.2
       actual = @d3Doughnut.getInnerRadius 195, options
-      expect(actual).to.eq 97
+      expect(actual).to.be 97

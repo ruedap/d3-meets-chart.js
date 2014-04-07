@@ -3,7 +3,7 @@
 global._ = require 'underscore'
 global.d3 = require 'd3'
 
-expect = require('chai').expect
+expect = require('expect.js')
 
 before ->
   d3.select('body')
