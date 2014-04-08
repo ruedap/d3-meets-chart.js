@@ -18,6 +18,19 @@ describe 'Chart', ->
         chart = new Chart '#svg'
         expect(chart.selectors).to.be '#svg'
 
+  describe '::Bar', ->
+    it 'should return the same constructor name', ->
+      bar = new Chart('#svg').Bar([])
+      expect(bar.constructor.name).to.be 'D3Bar'
+
+    describe '.defaults', ->
+      it 'should have not same values as arguments', ->
+        options = animation: false
+        chart = new Chart('#svg')
+        bar = chart.Bar([], options)
+        expect(chart.Bar.defaults.animation).to.be.ok()
+        expect(bar.options.animation).not.to.be.ok()
+
   describe '::Doughnut', ->
     it 'should return the same constructor name', ->
       doughnut = new Chart('#svg').Doughnut([])

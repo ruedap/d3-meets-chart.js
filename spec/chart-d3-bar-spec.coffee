@@ -20,6 +20,3 @@ describe 'Chart.D3Bar', ->
       expect(@d3Bar.selectors).to.be '#svg'
       expect(@d3Bar.data).to.eql @data
       expect(@d3Bar.options).to.eql {}
-
-  describe '::Bar', ->
-    it 'pending'
