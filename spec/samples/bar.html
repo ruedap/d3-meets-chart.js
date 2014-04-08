@@ -12,8 +12,15 @@
     <meta name = "viewport" content = "initial-scale = 1, user-scalable = no">
   </head>
   <body>
+    <style>
+      body {
+        background: skyblue;
+      }
+      canvas, svg {
+        background: white;
+      }
+    </style>
     <canvas id="canvas" height="450" width="600"></canvas>
-    <br>
     <svg id="svg" height="450" width="600"></svg>
 
     <script>
@@ -90,7 +97,7 @@
         barStrokeWidth : 2,
 
         //Number - Spacing between each of the X value sets
-        barValueSpacing : 5,
+        barValueSpacing : 1,
 
         //Number - Spacing between data sets within X values
         barDatasetSpacing : 1,
