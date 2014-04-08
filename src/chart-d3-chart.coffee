@@ -12,6 +12,7 @@ class Chart.D3Chart
     halfHeight = @getRootElementHeight() / 2
     "translate(#{halfWidth}, #{halfHeight})"
 
+  # http://bl.ocks.org/mbostock/3019563
   defineRootElement: (element, width, height, margin) ->
     @width = width - margin.left - margin.right
     @height = height - margin.top - margin.bottom
@@ -20,6 +21,7 @@ class Chart.D3Chart
       .attr 'height', @height + margin.top + margin.bottom
       .append 'g'
       .attr 'transform', "translate(#{margin.left},#{margin.top})"
+      .attr 'class', 'margin-convention-element'
 
   duration: (options = @options) ->
     options.animationSteps * 17.333
