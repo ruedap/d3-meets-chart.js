@@ -15,6 +15,9 @@ describe 'Chart.D3Chart', ->
       actual = @d3Chart.attrTranslateToCenter()
       expect(actual).to.be 'translate(300, 225)'
 
+  describe '::defineRootElement', ->
+    it 'pending'
+
   describe '::duration', ->
     it 'should return Number', ->
       options = animationSteps: 100
