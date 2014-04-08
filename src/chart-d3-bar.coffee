@@ -5,7 +5,7 @@ class Chart.D3Bar extends Chart.D3Chart
     super selectors, data, options
 
   generateData: (labels, datasets) ->
-    return if !(labels? or datasets?)
+    return if !(labels? and datasets?)
     array = []
     datasets.forEach (ds) ->
       ds.data.map (d, i) ->

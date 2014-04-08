@@ -22,7 +22,23 @@ describe 'Chart.D3Bar', ->
       expect(@d3Bar.options).to.eql {}
 
   describe '::generateData', ->
-    it 'pending'
+    context 'when arguments are invalid', ->
+      it 'should return undefined', ->
+        expect(@d3Bar.generateData([], null)).to.be(undefined)
+        expect(@d3Bar.generateData(null, [])).to.be(undefined)
+        expect(@d3Bar.generateData(null, null)).to.be(undefined)
+
+    context 'when arguments are valid', ->
+      context 'when arguments are blank arrays', ->
+        it 'should return a blank array', ->
+          expect(@d3Bar.generateData([], [])).to.eql([])
+
+      context 'when arguments are not blank arrays', ->
+        it 'should return a array', ->
+          actual = @d3Bar.generateData(@data.labels, @data.datasets)
+          expect(actual[0].key).to.be('January')
+          expect(actual[0].values[1].value).to.be(28)
+          expect(actual[6].values[1].value).to.be(100)
 
   describe '::render', ->
     it 'pending'
