@@ -2,7 +2,7 @@ class Chart.D3Chart
   'use strict'
 
   constructor: (@selectors, @data, @options) ->
-    @margin = top: 2, right: 2, bottom: 2, left: 2
+    @margin = top: 20, right: 20, bottom: 20, left: 20
     @defineRootElement @getRootElement(), @getRootElementWidth(),
       @getRootElementHeight(), @margin
 

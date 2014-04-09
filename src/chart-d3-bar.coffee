@@ -25,14 +25,24 @@ class Chart.D3Bar extends Chart.D3Chart
     data = @generateData(labels, datasets)
     return this if _.isEmpty(data)
 
-    x0 = d3.scale.ordinal().domain(labels).rangeRoundBands([0, @width], 0, 0)
-    x1 = d3.scale.ordinal().domain(d3.range(datasets.length))
-      .rangeRoundBands([0, x0.rangeBand()], 0, 0)
+    x0 = d3.scale.ordinal().rangeRoundBands([0, @width], 0, 0)
+    x1 = d3.scale.ordinal()
+    xAxis = d3.svg.axis().scale(x0).orient('bottom')
+    x0.domain(labels)
+    x1.domain(d3.range(datasets.length)).rangeRoundBands([0, x0.rangeBand()], 0, 0)
     y = d3.scale.linear().range([@height, 0])
     maxY = d3.max(data, (d) -> d3.max(d.values, (d) -> d.value))
     y.domain([0, maxY]).nice()
     height = @height
     strokeWidth = @options.barStrokeWidth
+
+    @getRootElement()
+      .select('.margin-convention-element')
+      .append('g')
+      .attr('class', 'x axis')
+      .attr('transform', "translate(0,#{height})")
+      .call(xAxis)
+
     datasetElement = @getRootElement()
       .select('.margin-convention-element')
       .selectAll('.dataset')
@@ -54,4 +64,5 @@ class Chart.D3Bar extends Chart.D3Chart
       .style('fill', (d) -> d.fillColor)
       .style('stroke', (d) -> d.strokeColor)
       .style('stroke-width', strokeWidth)
+
     this
