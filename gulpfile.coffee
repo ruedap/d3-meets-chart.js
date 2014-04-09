@@ -1,6 +1,7 @@
 gulp = require 'gulp'
 mocha = require 'gulp-mocha'
 coffee = require 'gulp-coffee'
+stylus = require 'gulp-stylus'
 concat = require 'gulp-concat'
 uglify = require 'gulp-uglify'
 notify = require 'gulp-notify'
@@ -27,6 +28,9 @@ src =
     './spec/chart-d3-pie-spec.coffee'
     './spec/*-spec.coffee'
   ]
+  stylusSrc: [
+    './src/d3-meets-chart.styl'
+  ]
   specRunner: dir.tmp + file.specRunner
 
 gulp.task 'coffee-src', ->
@@ -45,6 +49,13 @@ gulp.task 'coffee-spec', ->
     .pipe concat(file.specRunner)
     .pipe gulp.dest(dir.tmp)
 
+gulp.task 'stylus-src', ->
+  gulp
+    .src src.stylusSrc
+    .pipe plumber()
+    .pipe stylus()
+    .pipe gulp.dest(dir.tmp)
+
 gulp.task 'mocha-exe', ['coffee'], ->
   gulp
     .src src.specRunner
@@ -58,9 +69,10 @@ gulp.task 'mocha-clean', ['mocha-exe'], ->
     .pipe notify("☕")
 
 gulp.task 'watch', ->
-  gulp.watch ['./src/*.coffee', './spec/*.coffee'], ['spec']
+  gulp.watch ['./src/*.coffee', './src/*.styl', './spec/*.coffee'], ['spec']
 
 gulp.task 'coffee', ['coffee-src', 'coffee-spec']
+gulp.task 'stylus', ['stylus-src']
 gulp.task 'mocha', ['mocha-exe', 'mocha-clean']
-gulp.task 'spec', ['coffee', 'mocha']
+gulp.task 'spec', ['coffee', 'mocha', 'stylus']
 gulp.task 'default', ['spec']
