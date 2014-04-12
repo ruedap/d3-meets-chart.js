@@ -65,19 +65,8 @@ class Chart.D3Bar extends Chart.D3Chart
       .append('g')
       .attr('class', 'dataset')
       .attr('transform', (d) -> "translate(#{x0Scale(d.key)},0)")
-    datasetElement
-      .selectAll('rect')
-      .data((d, i) -> d.values)
-      .enter()
-      .append('g')
-      .attr('class', 'bar')
-      .append('rect')
-      .attr('x', (d, i) -> x1Scale(i))
-      .attr('width', D3Bar.adjustRangeBand(x1Scale.rangeBand()))
-      .attr('y', (d, i) -> yScale(d.value))
-      .attr('height', (d) -> height - yScale(d.value))
-      .style('fill', (d) -> d.fillColor)
 
+    @renderRect(height, x1Scale, yScale)
     @renderRectBorder(height, x1Scale, yScale, strokeWidth)
 
     @updateStyleBasedOnOptions(options)
@@ -97,6 +86,21 @@ class Chart.D3Bar extends Chart.D3Chart
       .append('g')
       .attr('class', 'scale scale-y')
       .call(D3Bar.yAxis(yScale))
+
+  renderRect: (chartHeight, xScale, yScale) =>
+    @getRootElement()
+      .selectAll('.dataset')
+      .selectAll('rect')
+      .data((d, i) -> d.values)
+      .enter()
+      .append('g')
+      .attr('class', 'bar')
+      .append('rect')
+      .attr('x', (d, i) -> xScale(i))
+      .attr('width', D3Bar.adjustRangeBand(xScale.rangeBand()))
+      .attr('y', (d, i) -> yScale(d.value))
+      .attr('height', (d) -> chartHeight - yScale(d.value))
+      .style('fill', (d) -> d.fillColor)
 
   renderRectBorder: (chartHeight, xScale, yScale, strokeWidth) =>
     @getRootElement()
