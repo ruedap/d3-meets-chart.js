@@ -31,6 +31,24 @@ class Chart.D3Bar extends Chart.D3Chart
       .key((d) -> d.label)
       .entries(array)
 
+  @rectBorderPath = (datum, i, chartHeight, xScale, yScale, strokeWidth) ->
+    _ch = chartHeight
+    _sw = strokeWidth
+    _x = xScale(i)
+    _w = D3Bar.adjustRangeBand(xScale.rangeBand())
+    _y = yScale(datum.value)
+    _data = [
+      { x: _x, y: _ch },
+      { x: _x, y: _y },
+      { x: _x + _w, y: _y },
+      { x: _x + _w, y: _ch },
+      { x: _x + _w - _sw, y: _ch },
+      { x: _x + _w - _sw, y: _y + _sw },
+      { x: _x + _sw, y: _y + _sw },
+      { x: _x + _sw, y: _ch },
+    ]
+    d3.svg.line().x((d) -> d.x).y((d) -> d.y)(_data) + 'z'
+
   constructor: (selectors, data, options) ->
     margin = top: 13, right: 23, bottom: 24, left: 55
     super(selectors, data, options, margin)
@@ -109,7 +127,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .selectAll('.bar')
       .append('path')
       .attr 'd', (d, i) ->
-        rectBorderPath(d, i, chartHeight, xScale, yScale, strokeWidth)
+        D3Bar.rectBorderPath(d, i, chartHeight, xScale, yScale, strokeWidth)
       .attr('fill', (d) -> d.strokeColor)
       .attr('stroke-width', strokeWidth)
 
@@ -124,22 +142,3 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('font-size', options.scaleFontSize)
       .attr('font-style', options.scaleFontStyle)
       .attr('fill', options.scaleFontColor)
-
-  # TODO: test
-  rectBorderPath = (datum, i, chartHeight, xScale, yScale, strokeWidth) ->
-    _ch = chartHeight
-    _sw = strokeWidth
-    _x = xScale(i)
-    _w = D3Bar.adjustRangeBand(xScale.rangeBand())
-    _y = yScale(datum.value)
-    _data = [
-      { x: _x, y: _ch },
-      { x: _x, y: _y },
-      { x: _x + _w, y: _y },
-      { x: _x + _w, y: _ch },
-      { x: _x + _w - _sw, y: _ch },
-      { x: _x + _w - _sw, y: _y + _sw },
-      { x: _x + _sw, y: _y + _sw },
-      { x: _x + _sw, y: _ch },
-    ]
-    d3.svg.line().x((d) -> d.x).y((d) -> d.y)(_data) + 'z'
