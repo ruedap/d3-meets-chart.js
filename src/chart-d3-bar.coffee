@@ -53,12 +53,7 @@ class Chart.D3Bar extends Chart.D3Chart
     yScale = D3Bar.yScale(data, height)
 
     @renderXAxis(x0Scale, height)
-
-    @getRootElement()
-      .select('.margin-convention-element')
-      .append('g')
-      .attr('class', 'scale scale-y')
-      .call(D3Bar.yAxis(yScale))
+    @renderYAxis(yScale)
 
     # decoration
     @getRootElement()
@@ -111,6 +106,14 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('transform', "translate(0,#{height})")
       .call(D3Bar.xAxis(xScale))
 
+  renderYAxis: (yScale) =>
+    @getRootElement()
+      .select('.margin-convention-element')
+      .append('g')
+      .attr('class', 'scale scale-y')
+      .call(D3Bar.yAxis(yScale))
+
+  # TODO: test
   rectBorderPath = (datum, i, h, xScale, yScale, sw) ->
     _x = xScale(i)
     _w = D3Bar.adjustRangeBand(xScale.rangeBand())

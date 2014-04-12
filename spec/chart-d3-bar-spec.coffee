@@ -76,3 +76,10 @@ describe 'Chart.D3Bar', ->
       xScale = Chart.D3Bar.xScale([0, 0], 0)
       actual = @d3Bar.renderXAxis(xScale, 0)
       expect(actual).to.be.an Array
+
+  describe '::renderYAxis', ->
+    it 'should return an array', ->
+      data = Chart.D3Bar.generateData(@data.labels, @data.datasets)
+      yScale = Chart.D3Bar.yScale(data, 0)
+      actual = @d3Bar.renderYAxis(yScale)
+      expect(actual).to.be.an Array
