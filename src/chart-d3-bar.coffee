@@ -1,6 +1,9 @@
 class Chart.D3Bar extends Chart.D3Chart
   'use strict'
 
+  @adjustRangeBand: (rangeBand) ->
+    rangeBand - 1  # Set 1 pixel margin width
+
   constructor: (selectors, data, options) ->
     margin = top: 13, right: 23, bottom: 24, left: 55
     super(selectors, data, options, margin)
@@ -32,7 +35,7 @@ class Chart.D3Bar extends Chart.D3Chart
     xScale1.domain(labels)
     xScale2
       .domain(d3.range(datasets.length))
-      .rangeRoundBands([0, xScale1.rangeBand()], 0, 0)
+      .rangeBands([0, xScale1.rangeBand()], 0, 0)
     yScale = d3.scale.linear().range([@height, 0])
     yAxis = d3.svg.axis().scale(yScale).orient('left')
     maxY = d3.max(data, (d) -> d3.max(d.values, (d) -> d.value))
@@ -73,8 +76,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('class', 'bar')
       .append('rect')
       .attr('x', (d, i) -> xScale2(i))
-      .attr 'width', (d, i) ->
-        adjustRangeBand(xScale2.rangeBand(), strokeWidth)
+      .attr('width', D3Bar.adjustRangeBand(xScale2.rangeBand()))
       .attr('y', (d, i) -> yScale(d.value))
       .attr('height', (d) -> height - yScale(d.value))
       .style('fill', (d) -> d.fillColor)
@@ -83,18 +85,23 @@ class Chart.D3Bar extends Chart.D3Chart
       .append('path')
       .attr 'd', (d, i) ->
         rectBorderPath(d, i, height, xScale2, yScale, strokeWidth)
-      .attr('fill', 'none')
-      .attr('stroke', (d) -> d.strokeColor)
+      .attr('fill', (d) -> d.strokeColor)
       .attr('stroke-width', strokeWidth)
     this
 
-  # FIXME: margin to 1 pixel
-  adjustRangeBand = (rangeBand, strokeWidth) -> rangeBand - strokeWidth - 1
-
-  rectBorderPath = (datum, i, h, xScale, yScale, strokeWidth) ->
+  rectBorderPath = (datum, i, h, xScale, yScale, sw) ->
     _x = xScale(i)
-    _w = adjustRangeBand(xScale.rangeBand(), strokeWidth)
+    _w = D3Bar.adjustRangeBand(xScale.rangeBand())
     _y = yScale(datum.value)
     _h = h - yScale(datum.value)
-    _data = [ [_x, h], [_x, _y], [_x + _w, _y], [_x + _w, h] ]
-    d3.svg.line().x((d) -> d[0]).y((d) -> d[1])(_data)
+    _data = [
+      { x: _x, y: h },
+      { x: _x, y: _y },
+      { x: _x + _w, y: _y },
+      { x: _x + _w, y: h },
+      { x: _x + _w - sw, y: h },
+      { x: _x + _w - sw, y: _y + sw },
+      { x: _x + sw, y: _y + sw },
+      { x: _x + sw, y: h },
+    ]
+    d3.svg.line().x((d) -> d.x).y((d) -> d.y)(_data) + 'z'

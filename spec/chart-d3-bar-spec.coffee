@@ -15,6 +15,10 @@ describe 'Chart.D3Bar', ->
       ]
     @d3Bar = new Chart.D3Bar '#svg', @data, {}
 
+  describe '.adjustRangeBand', ->
+    it 'should return Number', ->
+      expect(Chart.D3Bar.adjustRangeBand(100)).to.be 99
+
   describe '::constructor', ->
     it 'should have same values in properties', ->
       expect(@d3Bar.selectors).to.be '#svg'
