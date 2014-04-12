@@ -5,16 +5,19 @@ class Chart.D3Bar extends Chart.D3Chart
     rangeBand - 1  # Set 1 pixel margin width
 
   @xAxis: (xScale) ->
-    d3.svg.axis().scale(xScale).ticks(10).orient('bottom')
+    d3.svg.axis().scale(xScale).ticks(10).tickSize(6, 6).orient('bottom')
 
   @yAxis: (yScale) ->
-    d3.svg.axis().scale(yScale).ticks(20).orient('left')
+    d3.svg.axis().scale(yScale).ticks(20).tickSize(6, 0).orient('left')
 
-  constructor: (selectors, data, options) ->
-    margin = top: 13, right: 23, bottom: 24, left: 55
-    super(selectors, data, options, margin)
+  @xScale: (domain, max) ->
+    d3.scale.ordinal().domain(domain).rangeRoundBands([0, max], 0, 0)
 
-  generateData: (labels, datasets) ->
+  @yScale: (data, min) ->
+    maxY = d3.max(data, (d) -> d3.max(d.values, (d) -> d.value))
+    d3.scale.linear().domain([0, maxY]).range([min, 0]).nice()
+
+  @generateData: (labels, datasets) ->
     return if !(labels? and datasets?)
     array = []
     datasets.forEach (ds) ->
@@ -28,45 +31,45 @@ class Chart.D3Bar extends Chart.D3Chart
       .key((d) -> d.label)
       .entries(array)
 
+  constructor: (selectors, data, options) ->
+    margin = top: 13, right: 23, bottom: 24, left: 55
+    super(selectors, data, options, margin)
+
   # TODO: Refactor
   render: ->
     labels = @data.labels
     datasets = @data.datasets
-    data = @generateData(labels, datasets)
-    options = @options
+    data = D3Bar.generateData(labels, datasets)
     return this if _.isEmpty(data)
 
-    xScale1 = d3.scale.ordinal().rangeRoundBands([0, @width], 0, 0)
-    xScale2 = d3.scale.ordinal()
-    xAxis = D3Bar.xAxis(xScale1)
-    xScale1.domain(labels)
-    xScale2
-      .domain(d3.range(datasets.length))
-      .rangeBands([0, xScale1.rangeBand()], 0, 0)
-    maxY = d3.max(data, (d) -> d3.max(d.values, (d) -> d.value))
-    yScale = d3.scale.linear().domain([0, maxY]).range([@height, 0]).nice()
+    options = @options
+    strokeWidth = @options.barStrokeWidth
+
     width = @width
     height = @height
 
-    strokeWidth = @options.barStrokeWidth
+    x0Scale = D3Bar.xScale(labels, width)
+    x1Scale = D3Bar.xScale(d3.range(datasets.length), x0Scale.rangeBand())
+    yScale = D3Bar.yScale(data, height)
 
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
       .attr('class', 'scale scale-x')
       .attr('transform', "translate(0,#{height})")
-      .call(xAxis)
+      .call(D3Bar.xAxis(x0Scale))
 
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
       .attr('class', 'scale scale-y')
-      .call(D3Bar.yAxis(yScale).tickSize(6, -width))
+      .call(D3Bar.yAxis(yScale))
 
     # decoration
     @getRootElement()
       .selectAll('.scale line, .scale path')
       .attr('stroke', options.scaleLineColor)
+      .attr('fill', 'none')
     @getRootElement()
       .selectAll('.scale text')
       .attr('font-family', options.scaleFontFamily)
@@ -83,7 +86,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .enter()
       .append('g')
       .attr('class', 'dataset')
-      .attr('transform', (d) -> "translate(#{xScale1(d.key)},0)")
+      .attr('transform', (d) -> "translate(#{x0Scale(d.key)},0)")
     datasetElement
       .selectAll('rect')
       .data((d, i) -> d.values)
@@ -91,8 +94,8 @@ class Chart.D3Bar extends Chart.D3Chart
       .append('g')
       .attr('class', 'bar')
       .append('rect')
-      .attr('x', (d, i) -> xScale2(i))
-      .attr('width', D3Bar.adjustRangeBand(xScale2.rangeBand()))
+      .attr('x', (d, i) -> x1Scale(i))
+      .attr('width', D3Bar.adjustRangeBand(x1Scale.rangeBand()))
       .attr('y', (d, i) -> yScale(d.value))
       .attr('height', (d) -> height - yScale(d.value))
       .style('fill', (d) -> d.fillColor)
@@ -100,7 +103,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .selectAll('.bar')
       .append('path')
       .attr 'd', (d, i) ->
-        rectBorderPath(d, i, height, xScale2, yScale, strokeWidth)
+        rectBorderPath(d, i, height, x1Scale, yScale, strokeWidth)
       .attr('fill', (d) -> d.strokeColor)
       .attr('stroke-width', strokeWidth)
     this

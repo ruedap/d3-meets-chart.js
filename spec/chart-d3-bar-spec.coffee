@@ -19,36 +19,51 @@ describe 'Chart.D3Bar', ->
     it 'should return Number', ->
       expect(Chart.D3Bar.adjustRangeBand(100)).to.be 99
 
+  describe '.generateData', ->
+    context 'when arguments are invalid', ->
+      it 'should return undefined', ->
+        expect(Chart.D3Bar.generateData([], null)).to.be(undefined)
+        expect(Chart.D3Bar.generateData(null, [])).to.be(undefined)
+        expect(Chart.D3Bar.generateData(null, null)).to.be(undefined)
+
+    context 'when arguments are valid', ->
+      context 'when arguments are blank arrays', ->
+        it 'should return a blank array', ->
+          expect(Chart.D3Bar.generateData([], [])).to.eql([])
+
+      context 'when arguments are not blank arrays', ->
+        it 'should return an array', ->
+          actual = Chart.D3Bar.generateData(@data.labels, @data.datasets)
+          expect(actual[0].key).to.be('January')
+          expect(actual[0].values[1].value).to.be(28)
+          expect(actual[6].values[1].value).to.be(100)
+
   describe '.xAxis', ->
-    it 'pending'
-    
+    it 'should return Function', ->
+      actual = Chart.D3Bar.xAxis(d3.scale.ordinal())
+      expect(actual).to.be.a 'function'
+
   describe '.yAxis', ->
-    it 'pending'
+    it 'should return Function', ->
+      actual = Chart.D3Bar.yAxis(d3.scale.ordinal())
+      expect(actual).to.be.a 'function'
+
+  describe '.xScale', ->
+    it 'should return Function', ->
+      actual = Chart.D3Bar.xScale([0, 1], 100)
+      expect(actual).to.be.a 'function'
+
+  describe '.yScale', ->
+    it 'should return Function', ->
+      data = Chart.D3Bar.generateData(@data.labels, @data.datasets)
+      actual = Chart.D3Bar.yScale(data, 100)
+      expect(actual).to.be.a 'function'
 
   describe '::constructor', ->
     it 'should have same values in properties', ->
       expect(@d3Bar.selectors).to.be '#svg'
       expect(@d3Bar.data).to.eql @data
       expect(@d3Bar.options).to.eql {}
-
-  describe '::generateData', ->
-    context 'when arguments are invalid', ->
-      it 'should return undefined', ->
-        expect(@d3Bar.generateData([], null)).to.be(undefined)
-        expect(@d3Bar.generateData(null, [])).to.be(undefined)
-        expect(@d3Bar.generateData(null, null)).to.be(undefined)
-
-    context 'when arguments are valid', ->
-      context 'when arguments are blank arrays', ->
-        it 'should return a blank array', ->
-          expect(@d3Bar.generateData([], [])).to.eql([])
-
-      context 'when arguments are not blank arrays', ->
-        it 'should return an array', ->
-          actual = @d3Bar.generateData(@data.labels, @data.datasets)
-          expect(actual[0].key).to.be('January')
-          expect(actual[0].values[1].value).to.be(28)
-          expect(actual[6].values[1].value).to.be(100)
 
   describe '::render', ->
     it 'pending'
