@@ -1,8 +1,11 @@
 describe 'Chart.D3Bar', ->
   'use strict'
 
+  args = {}
+  instance = undefined
+
   before ->
-    @data =
+    args.data =
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July']
       datasets: [
         fillColor: 'rgba(220,220,220,0.5)'
@@ -13,15 +16,19 @@ describe 'Chart.D3Bar', ->
         strokeColor: 'rgba(151,187,205,1)'
         data: [28, 48, 40, 19, 96, 27, 100]
       ]
-    @d3Bar = new Chart.D3Bar '#svg', @data, {}
+    instance = new Chart.D3Bar '#svg', args.data, {}
+
+  after ->
+    args = {}
+    instance = null
 
   describe '.adjustRangeBand', ->
-    it 'should return Number', ->
+    it 'should return a number', ->
       expect(Chart.D3Bar.adjustRangeBand(100)).to.be 99
 
   describe '.generateData', ->
     context 'when arguments are invalid', ->
-      it 'should return undefined', ->
+      it 'should return an undefined', ->
         expect(Chart.D3Bar.generateData([], null)).to.be(undefined)
         expect(Chart.D3Bar.generateData(null, [])).to.be(undefined)
         expect(Chart.D3Bar.generateData(null, null)).to.be(undefined)
@@ -35,7 +42,7 @@ describe 'Chart.D3Bar', ->
 
       context 'when arguments are not blank arrays', ->
         it 'should return an array', ->
-          actual = Chart.D3Bar.generateData(@data.labels, @data.datasets)
+          actual = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
           expect(actual).to.be.an Array
           expect(actual[0].key).to.be('January')
           expect(actual[0].values[1].value).to.be(28)
@@ -58,13 +65,13 @@ describe 'Chart.D3Bar', ->
 
   describe '.yScale', ->
     it 'should return a function', ->
-      data = Chart.D3Bar.generateData(@data.labels, @data.datasets)
+      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
       actual = Chart.D3Bar.yScale(data, 0)
       expect(actual).to.be.a 'function'
 
   describe '.rectBorderPath', ->
     it 'should return a string of `d` attribute', ->
-      data = Chart.D3Bar.generateData(@data.labels, @data.datasets)
+      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
       xScale = Chart.D3Bar.xScale([0, 100], 100)
       yScale = Chart.D3Bar.yScale(data, 0)
       datum = data[0].values[0]
@@ -74,50 +81,50 @@ describe 'Chart.D3Bar', ->
 
   describe '::constructor', ->
     it 'should have same values in properties', ->
-      expect(@d3Bar.selectors).to.be '#svg'
-      expect(@d3Bar.data).to.eql @data
-      expect(@d3Bar.options).to.eql {}
+      expect(instance.selectors).to.be '#svg'
+      expect(instance.data).to.eql args.data
+      expect(instance.options).to.eql {}
 
   describe '::render', ->
     it 'pending'
 
   describe '::renderXAxis', ->
     it 'should return an array', ->
-      xScale = Chart.D3Bar.xScale([0, 0], 0)
-      actual = @d3Bar.renderXAxis(xScale, 0)
+      x0Scale = Chart.D3Bar.xScale([0, 0], 0)
+      actual = instance.renderXAxis(x0Scale, 0)
       expect(actual).to.be.an Array
 
   describe '::renderYAxis', ->
     it 'should return an array', ->
-      data = Chart.D3Bar.generateData(@data.labels, @data.datasets)
+      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
       yScale = Chart.D3Bar.yScale(data, 0)
-      actual = @d3Bar.renderYAxis(yScale)
+      actual = instance.renderYAxis(yScale)
       expect(actual).to.be.an Array
 
-  describe '::renderDataset', ->
+  describe '::renderBars', ->
     it 'should return an array', ->
-      data = Chart.D3Bar.generateData(@data.labels, @data.datasets)
+      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
       x0Scale = Chart.D3Bar.xScale([0, 0], 0)
-      actual = @d3Bar.renderDataset(data, x0Scale)
+      actual = instance.renderBars(data, x0Scale)
       expect(actual).to.be.an Array
 
-  describe '::renderRect', ->
+  describe '::renderBar', ->
     it 'should return an array', ->
-      xScale = Chart.D3Bar.xScale([0, 0], 0)
-      data = Chart.D3Bar.generateData(@data.labels, @data.datasets)
+      x1Scale = Chart.D3Bar.xScale([0, 0], 0)
+      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
       yScale = Chart.D3Bar.yScale(data, 0)
-      actual = @d3Bar.renderRect(0, xScale, yScale)
+      actual = instance.renderBar(0, x1Scale, yScale)
       expect(actual).to.be.an Array
 
-  describe '::renderRectBorder', ->
+  describe '::renderBarBorder', ->
     it 'should return an array', ->
-      xScale = Chart.D3Bar.xScale([0, 0], 0)
-      data = Chart.D3Bar.generateData(@data.labels, @data.datasets)
+      x1Scale = Chart.D3Bar.xScale([0, 0], 0)
+      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
       yScale = Chart.D3Bar.yScale(data, 0)
-      actual = @d3Bar.renderRectBorder(0, xScale, yScale, 0)
+      actual = instance.renderBarBorder(0, x1Scale, yScale, 0)
       expect(actual).to.be.an Array
 
   describe '::updateStyleBasedOnOptions', ->
     it 'should return an array', ->
-      actual = @d3Bar.updateStyleBasedOnOptions({})
+      actual = instance.updateStyleBasedOnOptions({})
       expect(actual).to.be.an Array

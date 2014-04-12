@@ -53,7 +53,7 @@ class Chart.D3Bar extends Chart.D3Chart
     margin = top: 13, right: 23, bottom: 24, left: 55
     super(selectors, data, options, margin)
 
-  # TODO: Refactor
+  # TODO: test
   render: =>
     labels = @data.labels
     datasets = @data.datasets
@@ -63,29 +63,29 @@ class Chart.D3Bar extends Chart.D3Chart
     options = @options
     strokeWidth = @options.barStrokeWidth
 
-    width = @width
-    height = @height
+    chartWidth = @width
+    chartHeight = @height
 
-    x0Scale = D3Bar.xScale(labels, width)
+    x0Scale = D3Bar.xScale(labels, chartWidth)
     x1Scale = D3Bar.xScale(d3.range(datasets.length), x0Scale.rangeBand())
-    yScale = D3Bar.yScale(data, height)
+    yScale = D3Bar.yScale(data, chartHeight)
 
-    @renderXAxis(x0Scale, height)
+    @renderXAxis(x0Scale, chartHeight)
     @renderYAxis(yScale)
-    @renderDataset(data, x0Scale)
-    @renderRect(height, x1Scale, yScale)
-    @renderRectBorder(height, x1Scale, yScale, strokeWidth)
+    @renderBars(data, x0Scale)
+    @renderBar(chartHeight, x1Scale, yScale)
+    @renderBarBorder(chartHeight, x1Scale, yScale, strokeWidth)
 
     @updateStyleBasedOnOptions(options)
     this
 
-  renderXAxis: (xScale, height) =>
+  renderXAxis: (x0Scale, chartHeight) =>
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
       .attr('class', 'scale scale-x')
-      .attr('transform', "translate(0,#{height})")
-      .call(D3Bar.xAxis(xScale))
+      .attr('transform', "translate(0,#{chartHeight})")
+      .call(D3Bar.xAxis(x0Scale))
 
   renderYAxis: (yScale) =>
     @getRootElement()
@@ -94,40 +94,42 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('class', 'scale scale-y')
       .call(D3Bar.yAxis(yScale))
 
-  renderDataset: (data, x0Scale) =>
+  renderBars: (data, x0Scale) =>
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
-      .attr('class', 'chart')
-      .selectAll('.dataset')
+      .attr('class', 'bar-chart')
+      .selectAll('.bars-group')
       .data(data)
       .enter()
       .append('g')
-      .attr('class', 'dataset')
+      .attr('class', 'bars-group')
       .attr('transform', (d) -> "translate(#{x0Scale(d.key)},0)")
 
-  renderRect: (chartHeight, xScale, yScale) =>
+  renderBar: (chartHeight, x1Scale, yScale) =>
     @getRootElement()
-      .selectAll('.dataset')
+      .selectAll('.bars-group')
       .selectAll('rect')
       .data((d, i) -> d.values)
       .enter()
       .append('g')
-      .attr('class', 'bar')
+      .attr('class', 'bar-group')
       .append('rect')
-      .attr('x', (d, i) -> xScale(i))
-      .attr('width', D3Bar.adjustRangeBand(xScale.rangeBand()))
+      .attr('class', 'bar')
+      .attr('x', (d, i) -> x1Scale(i))
+      .attr('width', D3Bar.adjustRangeBand(x1Scale.rangeBand()))
       .attr('y', (d, i) -> yScale(d.value))
       .attr('height', (d) -> chartHeight - yScale(d.value))
-      .style('fill', (d) -> d.fillColor)
+      .attr('fill', (d) -> d.fillColor)
 
-  renderRectBorder: (chartHeight, xScale, yScale, strokeWidth) =>
+  renderBarBorder: (chartHeight, x1Scale, yScale, strokeWidth) =>
     @getRootElement()
-      .selectAll('.dataset')
-      .selectAll('.bar')
+      .selectAll('.bars-group')
+      .selectAll('.bar-group')
       .append('path')
+      .attr('class', 'bar-border')
       .attr 'd', (d, i) ->
-        D3Bar.rectBorderPath(d, i, chartHeight, xScale, yScale, strokeWidth)
+        D3Bar.rectBorderPath(d, i, chartHeight, x1Scale, yScale, strokeWidth)
       .attr('fill', (d) -> d.strokeColor)
       .attr('stroke-width', strokeWidth)
 
