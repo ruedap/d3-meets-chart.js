@@ -54,18 +54,7 @@ class Chart.D3Bar extends Chart.D3Chart
 
     @renderXAxis(x0Scale, height)
     @renderYAxis(yScale)
-
-    datasetElement = @getRootElement()
-      .select('.margin-convention-element')
-      .append('g')
-      .attr('class', 'chart')
-      .selectAll('.dataset')
-      .data(data)
-      .enter()
-      .append('g')
-      .attr('class', 'dataset')
-      .attr('transform', (d) -> "translate(#{x0Scale(d.key)},0)")
-
+    @renderDataset(data, x0Scale)
     @renderRect(height, x1Scale, yScale)
     @renderRectBorder(height, x1Scale, yScale, strokeWidth)
 
@@ -86,6 +75,18 @@ class Chart.D3Bar extends Chart.D3Chart
       .append('g')
       .attr('class', 'scale scale-y')
       .call(D3Bar.yAxis(yScale))
+
+  renderDataset: (data, x0Scale) =>
+    @getRootElement()
+      .select('.margin-convention-element')
+      .append('g')
+      .attr('class', 'chart')
+      .selectAll('.dataset')
+      .data(data)
+      .enter()
+      .append('g')
+      .attr('class', 'dataset')
+      .attr('transform', (d) -> "translate(#{x0Scale(d.key)},0)")
 
   renderRect: (chartHeight, xScale, yScale) =>
     @getRootElement()
