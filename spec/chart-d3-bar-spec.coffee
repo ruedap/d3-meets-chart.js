@@ -29,34 +29,37 @@ describe 'Chart.D3Bar', ->
     context 'when arguments are valid', ->
       context 'when arguments are blank arrays', ->
         it 'should return a blank array', ->
-          expect(Chart.D3Bar.generateData([], [])).to.eql([])
+          actual = Chart.D3Bar.generateData([], [])
+          expect(actual).to.be.an Array
+          expect(actual).to.eql([])
 
       context 'when arguments are not blank arrays', ->
         it 'should return an array', ->
           actual = Chart.D3Bar.generateData(@data.labels, @data.datasets)
+          expect(actual).to.be.an Array
           expect(actual[0].key).to.be('January')
           expect(actual[0].values[1].value).to.be(28)
           expect(actual[6].values[1].value).to.be(100)
 
   describe '.xAxis', ->
-    it 'should return Function', ->
+    it 'should return a function', ->
       actual = Chart.D3Bar.xAxis(d3.scale.ordinal())
       expect(actual).to.be.a 'function'
 
   describe '.yAxis', ->
-    it 'should return Function', ->
+    it 'should return a function', ->
       actual = Chart.D3Bar.yAxis(d3.scale.ordinal())
       expect(actual).to.be.a 'function'
 
   describe '.xScale', ->
-    it 'should return Function', ->
-      actual = Chart.D3Bar.xScale([0, 1], 100)
+    it 'should return a function', ->
+      actual = Chart.D3Bar.xScale([0, 0], 0)
       expect(actual).to.be.a 'function'
 
   describe '.yScale', ->
-    it 'should return Function', ->
+    it 'should return a function', ->
       data = Chart.D3Bar.generateData(@data.labels, @data.datasets)
-      actual = Chart.D3Bar.yScale(data, 100)
+      actual = Chart.D3Bar.yScale(data, 0)
       expect(actual).to.be.a 'function'
 
   describe '::constructor', ->
@@ -67,3 +70,9 @@ describe 'Chart.D3Bar', ->
 
   describe '::render', ->
     it 'pending'
+
+  describe '::renderXAxis', ->
+    it 'should return an array', ->
+      xScale = Chart.D3Bar.xScale([0, 0], 0)
+      actual = @d3Bar.renderXAxis(xScale, 0)
+      expect(actual).to.be.an Array

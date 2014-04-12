@@ -36,7 +36,7 @@ class Chart.D3Bar extends Chart.D3Chart
     super(selectors, data, options, margin)
 
   # TODO: Refactor
-  render: ->
+  render: =>
     labels = @data.labels
     datasets = @data.datasets
     data = D3Bar.generateData(labels, datasets)
@@ -52,12 +52,7 @@ class Chart.D3Bar extends Chart.D3Chart
     x1Scale = D3Bar.xScale(d3.range(datasets.length), x0Scale.rangeBand())
     yScale = D3Bar.yScale(data, height)
 
-    @getRootElement()
-      .select('.margin-convention-element')
-      .append('g')
-      .attr('class', 'scale scale-x')
-      .attr('transform', "translate(0,#{height})")
-      .call(D3Bar.xAxis(x0Scale))
+    @renderXAxis(x0Scale, height)
 
     @getRootElement()
       .select('.margin-convention-element')
@@ -107,6 +102,14 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('fill', (d) -> d.strokeColor)
       .attr('stroke-width', strokeWidth)
     this
+
+  renderXAxis: (xScale, height) =>
+    @getRootElement()
+      .select('.margin-convention-element')
+      .append('g')
+      .attr('class', 'scale scale-x')
+      .attr('transform', "translate(0,#{height})")
+      .call(D3Bar.xAxis(xScale))
 
   rectBorderPath = (datum, i, h, xScale, yScale, sw) ->
     _x = xScale(i)
