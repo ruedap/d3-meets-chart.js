@@ -77,13 +77,8 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('y', (d, i) -> yScale(d.value))
       .attr('height', (d) -> height - yScale(d.value))
       .style('fill', (d) -> d.fillColor)
-    datasetElement
-      .selectAll('.bar')
-      .append('path')
-      .attr 'd', (d, i) ->
-        rectBorderPath(d, i, height, x1Scale, yScale, strokeWidth)
-      .attr('fill', (d) -> d.strokeColor)
-      .attr('stroke-width', strokeWidth)
+
+    @renderRectBorder(height, x1Scale, yScale, strokeWidth)
 
     @updateStyleBasedOnOptions(options)
     this
@@ -103,6 +98,16 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('class', 'scale scale-y')
       .call(D3Bar.yAxis(yScale))
 
+  renderRectBorder: (chartHeight, xScale, yScale, strokeWidth) =>
+    @getRootElement()
+      .selectAll('.dataset')
+      .selectAll('.bar')
+      .append('path')
+      .attr 'd', (d, i) ->
+        rectBorderPath(d, i, chartHeight, xScale, yScale, strokeWidth)
+      .attr('fill', (d) -> d.strokeColor)
+      .attr('stroke-width', strokeWidth)
+
   updateStyleBasedOnOptions: (options) =>
     @getRootElement()
       .selectAll('.scale line, .scale path')
@@ -116,19 +121,20 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('fill', options.scaleFontColor)
 
   # TODO: test
-  rectBorderPath = (datum, i, h, xScale, yScale, sw) ->
+  rectBorderPath = (datum, i, chartHeight, xScale, yScale, strokeWidth) ->
+    _ch = chartHeight
+    _sw = strokeWidth
     _x = xScale(i)
     _w = D3Bar.adjustRangeBand(xScale.rangeBand())
     _y = yScale(datum.value)
-    _h = h - yScale(datum.value)
     _data = [
-      { x: _x, y: h },
+      { x: _x, y: _ch },
       { x: _x, y: _y },
       { x: _x + _w, y: _y },
-      { x: _x + _w, y: h },
-      { x: _x + _w - sw, y: h },
-      { x: _x + _w - sw, y: _y + sw },
-      { x: _x + sw, y: _y + sw },
-      { x: _x + sw, y: h },
+      { x: _x + _w, y: _ch },
+      { x: _x + _w - _sw, y: _ch },
+      { x: _x + _w - _sw, y: _y + _sw },
+      { x: _x + _sw, y: _y + _sw },
+      { x: _x + _sw, y: _ch },
     ]
     d3.svg.line().x((d) -> d.x).y((d) -> d.y)(_data) + 'z'
