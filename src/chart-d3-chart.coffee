@@ -1,10 +1,14 @@
 class Chart.D3Chart
   'use strict'
 
-  constructor: (@selectors, @data, @options) ->
-    @margin = top: 20, right: 20, bottom: 20, left: 20
-    @defineRootElement @getRootElement(), @getRootElementWidth(),
-      @getRootElementHeight(), @margin
+  constructor: (@selectors, @data, @options, margin) ->
+    margin or= top: 0, right: 0, bottom: 0, left: 0
+    @defineRootElement(
+      @getRootElement(),
+      @getRootElementWidth(),
+      @getRootElementHeight(),
+      margin
+    )
 
   # FIXME: style(responsive) and percent unit support
   attrTranslateToCenter: =>

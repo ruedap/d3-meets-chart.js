@@ -2,7 +2,8 @@ class Chart.D3Bar extends Chart.D3Chart
   'use strict'
 
   constructor: (selectors, data, options) ->
-    super(selectors, data, options)
+    margin = top: 13, right: 23, bottom: 24, left: 55
+    super(selectors, data, options, margin)
 
   generateData: (labels, datasets) ->
     return if !(labels? and datasets?)
@@ -33,6 +34,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .domain(d3.range(datasets.length))
       .rangeRoundBands([0, xScale1.rangeBand()], 0, 0)
     yScale = d3.scale.linear().range([@height, 0])
+    yAxis = d3.svg.axis().scale(yScale).orient('left')
     maxY = d3.max(data, (d) -> d3.max(d.values, (d) -> d.value))
     yScale.domain([0, maxY]).nice()
     height = @height
@@ -46,8 +48,17 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('transform', "translate(0,#{height})")
       .call(xAxis)
 
+    @getRootElement()
+      .select('.margin-convention-element')
+      .append('g')
+      .attr('class', 'y axis')
+      .attr('transform', "translate(20,0")
+      .call(yAxis)
+
     datasetElement = @getRootElement()
       .select('.margin-convention-element')
+      .append('g')
+      .attr('class', 'chart')
       .selectAll('.dataset')
       .data(data)
       .enter()
