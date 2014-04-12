@@ -19,6 +19,12 @@ describe 'Chart.D3Bar', ->
     it 'should return Number', ->
       expect(Chart.D3Bar.adjustRangeBand(100)).to.be 99
 
+  describe '.xAxis', ->
+    it 'pending'
+    
+  describe '.yAxis', ->
+    it 'pending'
+
   describe '::constructor', ->
     it 'should have same values in properties', ->
       expect(@d3Bar.selectors).to.be '#svg'

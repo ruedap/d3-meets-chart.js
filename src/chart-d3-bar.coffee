@@ -4,6 +4,12 @@ class Chart.D3Bar extends Chart.D3Chart
   @adjustRangeBand: (rangeBand) ->
     rangeBand - 1  # Set 1 pixel margin width
 
+  @xAxis: (xScale) ->
+    d3.svg.axis().scale(xScale).ticks(10).orient('bottom')
+
+  @yAxis: (yScale) ->
+    d3.svg.axis().scale(yScale).ticks(20).orient('left')
+
   constructor: (selectors, data, options) ->
     margin = top: 13, right: 23, bottom: 24, left: 55
     super(selectors, data, options, margin)
@@ -27,19 +33,19 @@ class Chart.D3Bar extends Chart.D3Chart
     labels = @data.labels
     datasets = @data.datasets
     data = @generateData(labels, datasets)
+    options = @options
     return this if _.isEmpty(data)
 
     xScale1 = d3.scale.ordinal().rangeRoundBands([0, @width], 0, 0)
     xScale2 = d3.scale.ordinal()
-    xAxis = d3.svg.axis().scale(xScale1).orient('bottom')
+    xAxis = D3Bar.xAxis(xScale1)
     xScale1.domain(labels)
     xScale2
       .domain(d3.range(datasets.length))
       .rangeBands([0, xScale1.rangeBand()], 0, 0)
-    yScale = d3.scale.linear().range([@height, 0])
-    yAxis = d3.svg.axis().scale(yScale).orient('left')
     maxY = d3.max(data, (d) -> d3.max(d.values, (d) -> d.value))
-    yScale.domain([0, maxY]).nice()
+    yScale = d3.scale.linear().domain([0, maxY]).range([@height, 0]).nice()
+    width = @width
     height = @height
 
     strokeWidth = @options.barStrokeWidth
@@ -47,16 +53,26 @@ class Chart.D3Bar extends Chart.D3Chart
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
-      .attr('class', 'x axis')
+      .attr('class', 'scale scale-x')
       .attr('transform', "translate(0,#{height})")
       .call(xAxis)
 
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
-      .attr('class', 'y axis')
-      .attr('transform', "translate(20,0")
-      .call(yAxis)
+      .attr('class', 'scale scale-y')
+      .call(D3Bar.yAxis(yScale).tickSize(6, -width))
+
+    # decoration
+    @getRootElement()
+      .selectAll('.scale line, .scale path')
+      .attr('stroke', options.scaleLineColor)
+    @getRootElement()
+      .selectAll('.scale text')
+      .attr('font-family', options.scaleFontFamily)
+      .attr('font-size', options.scaleFontSize)
+      .attr('font-style', options.scaleFontStyle)
+      .attr('fill', options.scaleFontColor)
 
     datasetElement = @getRootElement()
       .select('.margin-convention-element')
