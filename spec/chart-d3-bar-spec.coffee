@@ -34,7 +34,7 @@ describe 'Chart.D3Bar', ->
           expect(@d3Bar.generateData([], [])).to.eql([])
 
       context 'when arguments are not blank arrays', ->
-        it 'should return a array', ->
+        it 'should return an array', ->
           actual = @d3Bar.generateData(@data.labels, @data.datasets)
           expect(actual[0].key).to.be('January')
           expect(actual[0].values[1].value).to.be(28)
