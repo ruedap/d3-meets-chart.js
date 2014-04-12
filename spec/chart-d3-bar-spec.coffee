@@ -83,3 +83,8 @@ describe 'Chart.D3Bar', ->
       yScale = Chart.D3Bar.yScale(data, 0)
       actual = @d3Bar.renderYAxis(yScale)
       expect(actual).to.be.an Array
+
+  describe '::updateStyleBasedOnOptions', ->
+    it 'should return an array', ->
+      actual = @d3Bar.updateStyleBasedOnOptions({})
+      expect(actual).to.be.an Array

@@ -55,18 +55,6 @@ class Chart.D3Bar extends Chart.D3Chart
     @renderXAxis(x0Scale, height)
     @renderYAxis(yScale)
 
-    # decoration
-    @getRootElement()
-      .selectAll('.scale line, .scale path')
-      .attr('stroke', options.scaleLineColor)
-      .attr('fill', 'none')
-    @getRootElement()
-      .selectAll('.scale text')
-      .attr('font-family', options.scaleFontFamily)
-      .attr('font-size', options.scaleFontSize)
-      .attr('font-style', options.scaleFontStyle)
-      .attr('fill', options.scaleFontColor)
-
     datasetElement = @getRootElement()
       .select('.margin-convention-element')
       .append('g')
@@ -96,6 +84,8 @@ class Chart.D3Bar extends Chart.D3Chart
         rectBorderPath(d, i, height, x1Scale, yScale, strokeWidth)
       .attr('fill', (d) -> d.strokeColor)
       .attr('stroke-width', strokeWidth)
+
+    @updateStyleBasedOnOptions(options)
     this
 
   renderXAxis: (xScale, height) =>
@@ -112,6 +102,18 @@ class Chart.D3Bar extends Chart.D3Chart
       .append('g')
       .attr('class', 'scale scale-y')
       .call(D3Bar.yAxis(yScale))
+
+  updateStyleBasedOnOptions: (options) =>
+    @getRootElement()
+      .selectAll('.scale line, .scale path')
+      .attr('stroke', options.scaleLineColor)
+      .attr('fill', 'none')
+    @getRootElement()
+      .selectAll('.scale text')
+      .attr('font-family', options.scaleFontFamily)
+      .attr('font-size', options.scaleFontSize)
+      .attr('font-style', options.scaleFontStyle)
+      .attr('fill', options.scaleFontColor)
 
   # TODO: test
   rectBorderPath = (datum, i, h, xScale, yScale, sw) ->
