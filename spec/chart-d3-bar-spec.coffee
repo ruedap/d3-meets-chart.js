@@ -16,7 +16,10 @@ describe 'Chart.D3Bar', ->
         strokeColor: 'rgba(151,187,205,1)'
         data: [28, 48, 40, 19, 96, 27, 100]
       ]
-    instance = new Chart.D3Bar '#svg', args.data, {}
+    args.options =
+      animationSteps: 60
+      animationEasing: 'easeOutQuad'
+    instance = new Chart.D3Bar('#svg', args.data, args.options)
 
   after ->
     args = {}
@@ -81,9 +84,9 @@ describe 'Chart.D3Bar', ->
 
   describe '::constructor', ->
     it 'should have same values in properties', ->
-      expect(instance.selectors).to.be '#svg'
-      expect(instance.data).to.eql args.data
-      expect(instance.options).to.eql {}
+      expect(instance.selectors).to.be('#svg')
+      expect(instance.data).to.eql(args.data)
+      expect(instance.options).to.have.key('animationSteps')
 
   describe '::render', ->
     xit 'should return a Chart.D3Bar object', ->
