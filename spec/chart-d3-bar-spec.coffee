@@ -143,3 +143,10 @@ describe 'Chart.D3Bar', ->
       yScale = Chart.D3Bar.yScale(data, 0)
       actual = instance.transitBar(0, {}, yScale)
       expect(actual).to.be.an Array
+
+  describe '::transitBarBorder', ->
+    it 'should return an array', ->
+      el = instance.getRootElement()
+      actual = instance.transitBarBorder(el, 0)
+      expect(actual).to.be.an Array
+      expect(actual).to.have.length 1

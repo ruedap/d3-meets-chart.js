@@ -13,9 +13,9 @@ class Chart.D3Bar extends Chart.D3Chart
   @xScale: (domain, max) ->
     d3.scale.ordinal().domain(domain).rangeRoundBands([0, max], 0, 0)
 
-  @yScale: (data, min) ->
+  @yScale: (data, max, min = 0) ->
     maxY = d3.max(data, (d) -> d3.max(d.values, (d) -> d.value))
-    d3.scale.linear().domain([0, maxY]).range([min, 0]).nice()
+    d3.scale.linear().domain([0, maxY]).range([max, min]).nice()
 
   @generateData: (labels, datasets) ->
     return if !(labels? and datasets?)
@@ -49,6 +49,7 @@ class Chart.D3Bar extends Chart.D3Chart
     margin = top: 13, right: 23, bottom: 24, left: 55
     super(selectors, data, options, margin)
 
+  # TODO: enable test
   render: =>
     labels = @data.labels
     datasets = @data.datasets
@@ -73,8 +74,12 @@ class Chart.D3Bar extends Chart.D3Chart
 
     @updateStyleBasedOnOptions(options)
 
-    # TODO: enable test for transition
-    @transitBar(chartHeight, options, yScale)
+    el = @getRootElement()
+      .transition()
+      .duration(options.animationSteps * 17.333)
+      .ease(options.animationEasing)
+    @transitBar(el, chartHeight, options, yScale)
+    @transitBarBorder(el, chartHeight)
     this
 
   renderXAxis: (x0Scale, chartHeight) =>
@@ -144,12 +149,19 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('font-style', options.scaleFontStyle)
       .attr('fill', options.scaleFontColor)
 
-  transitBar: (chartHeight, options, yScale) =>
+  transitBar: (el,chartHeight, options, yScale) =>
     @getRootElement()
       .selectAll('.bar')
       .attr('y', chartHeight)
       .attr('height', 0)
-      .transition()
-      .duration(options.animationSteps * 17)
+    el.selectAll('.bar')
       .attr('y', (d, i) -> yScale(d.value))
       .attr('height', (d) -> chartHeight - yScale(d.value))
+
+  # FIXME: stroke width problem
+  transitBarBorder: (el, chartHeight) =>
+    @getRootElement()
+      .selectAll('.bar-border')
+      .attr('transform', "translate(0,#{chartHeight}) scale(1,0)")
+    el.selectAll('.bar-border')
+      .attr('transform', 'translate(0,0) scale(1,1)')
