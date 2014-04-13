@@ -132,17 +132,13 @@ describe 'Chart.D3Bar', ->
       expect(actual).to.be.an Array
 
   describe '::transitBar', ->
-    before ->
-      x1Scale = Chart.D3Bar.xScale([0, 0], 0)
+    it 'should return an array', ->
+      el = instance.getRootElement()
       data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
       yScale = Chart.D3Bar.yScale(data, 0)
-      instance.renderBar(0, x1Scale, yScale)
-
-    xit 'should return an array', ->
-      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
-      yScale = Chart.D3Bar.yScale(data, 0)
-      actual = instance.transitBar(0, {}, yScale)
+      actual = instance.transitBar(el, 0, yScale)
       expect(actual).to.be.an Array
+      expect(actual).to.have.length 1
 
   describe '::transitBarBorder', ->
     it 'should return an array', ->

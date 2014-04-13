@@ -78,7 +78,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .transition()
       .duration(options.animationSteps * 17.333)
       .ease(options.animationEasing)
-    @transitBar(el, chartHeight, options, yScale)
+    @transitBar(el, chartHeight, yScale)
     @transitBarBorder(el, chartHeight)
     this
 
@@ -149,7 +149,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('font-style', options.scaleFontStyle)
       .attr('fill', options.scaleFontColor)
 
-  transitBar: (el,chartHeight, options, yScale) =>
+  transitBar: (el,chartHeight, yScale) =>
     @getRootElement()
       .selectAll('.bar')
       .attr('y', chartHeight)
