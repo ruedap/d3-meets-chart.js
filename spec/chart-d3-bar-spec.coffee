@@ -88,6 +88,12 @@ describe 'Chart.D3Bar', ->
       expect(instance.data).to.eql(args.data)
       expect(instance.options).to.have.key('animationSteps')
 
+  describe '::getTransitionElement', ->
+    it 'should return an array', ->
+      actual = instance.getTransitionElement(100, args.options)
+      expect(actual).to.be.an Array
+      expect(actual).to.have.length 1
+
   describe '::render', ->
     xit 'should return a Chart.D3Bar object', ->
       actual = instance.render()
