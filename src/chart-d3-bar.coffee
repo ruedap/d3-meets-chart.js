@@ -68,15 +68,18 @@ class Chart.D3Bar extends Chart.D3Chart
     x1Scale = D3Bar.xScale(d3.range(datasets.length), x0Scale.rangeBand())
     yScale = D3Bar.yScale(data, chartHeight)
 
-    @renderXGrid(x0Scale, chartHeight, options.scaleGridLineColor)
-    @renderYGrid(yScale, chartWidth, options.scaleGridLineColor)
+    @renderXGrid(x0Scale, chartHeight)
+    @renderYGrid(yScale, chartWidth)
+    @renderGrid()
     @renderXAxis(x0Scale, chartHeight)
     @renderYAxis(yScale)
     @renderBars(data, x0Scale)
     @renderBar(chartHeight, x1Scale, yScale)
     @renderBarBorder(chartHeight, x1Scale, yScale, strokeWidth)
 
-    @updateStyleBasedOnOptions(options)
+    @updateGridTickStyle(options)
+    @updateScaleStrokeStyle(options)
+    @updateScaleTextStyle(options)
 
     el = @getRootElement()
       .transition()
@@ -86,7 +89,7 @@ class Chart.D3Bar extends Chart.D3Chart
     @transitBarBorder(el, chartHeight)
     this
 
-  renderXGrid: (x0Scale, chartHeight, scaleGridLineColor) =>
+  renderXGrid: (x0Scale, chartHeight) =>
     x = x0Scale.rangeBand() / 2
     @getRootElement()
       .select('.margin-convention-element')
@@ -94,24 +97,20 @@ class Chart.D3Bar extends Chart.D3Chart
       .classed('grid-group': true, 'grid-x-group': true)
       .call(D3Bar.xAxis(x0Scale).tickFormat(''))
       .selectAll('.tick line')
-      .attr(x1: x, x2: x, y2: chartHeight, stroke: scaleGridLineColor)
-    @getRootElement()
-      .selectAll('.grid-x-group')
-      .selectAll('.domain, text')
-      .data([])
-      .exit()
-      .remove()
+      .attr(x1: x, x2: x, y2: chartHeight)
 
-  renderYGrid: (yScale, chartWidth, scaleGridLineColor) =>
+  renderYGrid: (yScale, chartWidth) =>
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
       .classed('grid-group': true, 'grid-y-group': true)
       .call(D3Bar.yAxis(yScale).tickFormat(''))
       .selectAll('.tick line')
-      .attr(x1: 0, x2: chartWidth, stroke: scaleGridLineColor)
+      .attr(x1: 0, x2: chartWidth)
+
+  renderGrid: =>
     @getRootElement()
-      .selectAll('.grid-y-group')
+      .selectAll('.grid-group')
       .selectAll('.domain, text')
       .data([])
       .exit()
@@ -121,7 +120,7 @@ class Chart.D3Bar extends Chart.D3Chart
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
-      .classed(scale: true, 'scale-x': true)
+      .classed('scale-group': true, 'scale-x-group': true)
       .attr('transform', "translate(0,#{chartHeight})")
       .call(D3Bar.xAxis(x0Scale))
 
@@ -129,7 +128,7 @@ class Chart.D3Bar extends Chart.D3Chart
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
-      .classed(scale: true, 'scale-y': true)
+      .classed('scale-group': true, 'scale-y-group': true)
       .call(D3Bar.yAxis(yScale))
 
   renderBars: (data, x0Scale) =>
@@ -172,17 +171,26 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('stroke', (d) -> d.strokeColor)
       .attr('stroke-width', strokeWidth)
 
-  updateStyleBasedOnOptions: (options) =>
+  updateGridTickStyle: (options) =>
     @getRootElement()
-      .selectAll('.scale line, .scale path')
-      .attr('stroke', options.scaleLineColor)
-      .attr('fill', 'none')
+      .selectAll('.grid-group .tick line')
+      .attr(stroke: options.scaleGridLineColor)
+
+  updateScaleStrokeStyle: (options) =>
     @getRootElement()
-      .selectAll('.scale text')
-      .attr('font-family', options.scaleFontFamily)
-      .attr('font-size', options.scaleFontSize)
-      .attr('font-style', options.scaleFontStyle)
-      .attr('fill', options.scaleFontColor)
+      .selectAll('.scale-group')
+      .selectAll('.domain, .tick line')
+      .attr(fill: 'none')
+      .attr(stroke: options.scaleLineColor)
+      .attr('stroke-width': options.scaleLineWidth)
+
+  updateScaleTextStyle: (options) =>
+    @getRootElement()
+      .selectAll('.scale-group text')
+      .attr('font-family': options.scaleFontFamily)
+      .attr('font-size': options.scaleFontSize)
+      .attr('font-style': options.scaleFontStyle)
+      .attr('fill': options.scaleFontColor)
 
   transitBar: (el,chartHeight, yScale) =>
     @getRootElement()

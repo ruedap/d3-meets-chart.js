@@ -93,7 +93,7 @@ describe 'Chart.D3Bar', ->
   describe '::renderXGrid', ->
     it 'should return an array', ->
       x0Scale = Chart.D3Bar.xScale([0, 0], 0)
-      actual = instance.renderXGrid(x0Scale, 0, 0)
+      actual = instance.renderXGrid(x0Scale, 0)
       expect(actual).to.be.an Array
       expect(actual).to.have.length 1
 
@@ -101,9 +101,15 @@ describe 'Chart.D3Bar', ->
     it 'should return an array', ->
       data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
       yScale = Chart.D3Bar.yScale(data, 0)
-      actual = instance.renderYGrid(yScale, 0, 0)
+      actual = instance.renderYGrid(yScale, 0)
       expect(actual).to.be.an Array
       expect(actual).to.have.length 1
+
+  describe '::renderGrid', ->
+    it 'should return an array', ->
+      actual = instance.renderGrid()
+      expect(actual).to.be.an Array
+      expect(actual).to.have.length 2
 
   describe '::renderXAxis', ->
     it 'should return an array', ->
@@ -141,10 +147,23 @@ describe 'Chart.D3Bar', ->
       actual = instance.renderBarBorder(0, x1Scale, yScale, 0)
       expect(actual).to.be.an Array
 
-  describe '::updateStyleBasedOnOptions', ->
+  describe '::updateGridTickStyle', ->
     it 'should return an array', ->
-      actual = instance.updateStyleBasedOnOptions({})
+      actual = instance.updateGridTickStyle(instance.options)
       expect(actual).to.be.an Array
+      expect(actual).to.have.length 1
+
+  describe '::updateScaleStrokeStyle', ->
+    it 'should return an array', ->
+      actual = instance.updateScaleStrokeStyle(instance.options)
+      expect(actual).to.be.an Array
+      expect(actual).to.have.length 2
+
+  describe '::updateScaleTextStyle', ->
+    it 'should return an array', ->
+      actual = instance.updateScaleTextStyle(instance.options)
+      expect(actual).to.be.an Array
+      expect(actual).to.have.length 1
 
   describe '::transitBar', ->
     it 'should return an array', ->
