@@ -86,7 +86,7 @@ describe 'Chart.D3Bar', ->
       expect(instance.options).to.eql {}
 
   describe '::render', ->
-    it 'should return a Chart.D3Bar object', ->
+    xit 'should return a Chart.D3Bar object', ->
       actual = instance.render()
       expect(actual).to.be.a Chart.D3Bar
 
@@ -129,4 +129,17 @@ describe 'Chart.D3Bar', ->
   describe '::updateStyleBasedOnOptions', ->
     it 'should return an array', ->
       actual = instance.updateStyleBasedOnOptions({})
+      expect(actual).to.be.an Array
+
+  describe '::transitBar', ->
+    before ->
+      x1Scale = Chart.D3Bar.xScale([0, 0], 0)
+      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
+      yScale = Chart.D3Bar.yScale(data, 0)
+      instance.renderBar(0, x1Scale, yScale)
+
+    xit 'should return an array', ->
+      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
+      yScale = Chart.D3Bar.yScale(data, 0)
+      actual = instance.transitBar(0, {}, yScale)
       expect(actual).to.be.an Array

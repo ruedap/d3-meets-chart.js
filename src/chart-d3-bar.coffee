@@ -72,6 +72,9 @@ class Chart.D3Bar extends Chart.D3Chart
     @renderBarBorder(chartHeight, x1Scale, yScale, strokeWidth)
 
     @updateStyleBasedOnOptions(options)
+
+    # TODO: enable test for transition
+    @transitBar(chartHeight, options, yScale)
     this
 
   renderXAxis: (x0Scale, chartHeight) =>
@@ -140,3 +143,13 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('font-size', options.scaleFontSize)
       .attr('font-style', options.scaleFontStyle)
       .attr('fill', options.scaleFontColor)
+
+  transitBar: (chartHeight, options, yScale) =>
+    @getRootElement()
+      .selectAll('.bar')
+      .attr('y', chartHeight)
+      .attr('height', 0)
+      .transition()
+      .duration(options.animationSteps * 17)
+      .attr('y', (d, i) -> yScale(d.value))
+      .attr('height', (d) -> chartHeight - yScale(d.value))
