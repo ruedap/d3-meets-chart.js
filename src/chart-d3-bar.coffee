@@ -121,7 +121,7 @@ class Chart.D3Bar extends Chart.D3Chart
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
-      .attr('class', 'scale scale-x')
+      .classed(scale: true, 'scale-x': true)
       .attr('transform', "translate(0,#{chartHeight})")
       .call(D3Bar.xAxis(x0Scale))
 
@@ -129,19 +129,19 @@ class Chart.D3Bar extends Chart.D3Chart
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
-      .attr('class', 'scale scale-y')
+      .classed(scale: true, 'scale-y': true)
       .call(D3Bar.yAxis(yScale))
 
   renderBars: (data, x0Scale) =>
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
-      .attr('class', 'bar-chart')
+      .classed('bar-chart', true)
       .selectAll('.bars-group')
       .data(data)
       .enter()
       .append('g')
-      .attr('class', 'bars-group')
+      .classed('bars-group', true)
       .attr('transform', (d) -> "translate(#{x0Scale(d.key)},0)")
 
   renderBar: (chartHeight, x1Scale, yScale) =>
@@ -151,9 +151,9 @@ class Chart.D3Bar extends Chart.D3Chart
       .data((d, i) -> d.values)
       .enter()
       .append('g')
-      .attr('class', 'bar-group')
+      .classed('bar-group', true)
       .append('rect')
-      .attr('class', 'bar')
+      .classed('bar', true)
       .attr('x', (d, i) -> x1Scale(i))
       .attr('width', D3Bar.adjustRangeBand(x1Scale.rangeBand()))
       .attr('y', (d, i) -> yScale(d.value))
@@ -165,7 +165,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .selectAll('.bars-group')
       .selectAll('.bar-group')
       .append('path')
-      .attr('class', 'bar-border')
+      .classed('bar-border', true)
       .attr 'd', (d, i) ->
         D3Bar.rectBorderPath(d, i, chartHeight, x1Scale, yScale, strokeWidth)
       .attr('fill', 'none')
