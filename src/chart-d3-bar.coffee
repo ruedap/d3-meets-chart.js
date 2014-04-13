@@ -51,6 +51,12 @@ class Chart.D3Bar extends Chart.D3Chart
     margin = top: 13, right: 23, bottom: 24, left: 55
     super(selectors, data, options, margin)
 
+  getTransitionElement: (duration, options) =>
+    @getRootElement()
+      .transition()
+      .duration(duration)
+      .ease(options.animationEasing)
+
   # TODO: enable test
   render: =>
     labels = @data.labels
@@ -81,10 +87,7 @@ class Chart.D3Bar extends Chart.D3Chart
     @updateScaleStrokeStyle(options)
     @updateScaleTextStyle(options)
 
-    el = @getRootElement()
-      .transition()
-      .duration(@duration())
-      .ease(options.animationEasing)
+    el = @getTransitionElement(@duration(), options)
     @transitBar(el, chartHeight, yScale)
     @transitBarBorder(el, chartHeight)
     this
