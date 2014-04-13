@@ -76,7 +76,7 @@ class Chart.D3Bar extends Chart.D3Chart
 
     el = @getRootElement()
       .transition()
-      .duration(options.animationSteps * 17.333)
+      .duration(@duration())
       .ease(options.animationEasing)
     @transitBar(el, chartHeight, yScale)
     @transitBarBorder(el, chartHeight)
