@@ -33,21 +33,17 @@ class Chart.D3Bar extends Chart.D3Chart
 
   @rectBorderPath = (datum, i, chartHeight, xScale, yScale, strokeWidth) ->
     _ch = chartHeight
-    _sw = strokeWidth
+    _swh = strokeWidth / 2
     _x = xScale(i)
     _w = D3Bar.adjustRangeBand(xScale.rangeBand())
-    _y = yScale(datum.value)
+    _y = yScale(datum.value) + _swh
     _data = [
-      { x: _x, y: _ch },
-      { x: _x, y: _y },
-      { x: _x + _w, y: _y },
-      { x: _x + _w, y: _ch },
-      { x: _x + _w - _sw, y: _ch },
-      { x: _x + _w - _sw, y: _y + _sw },
-      { x: _x + _sw, y: _y + _sw },
-      { x: _x + _sw, y: _ch },
+      { x: _x + _swh, y: _ch },
+      { x: _x + _swh, y: _y },
+      { x: _x + _w - _swh, y: _y },
+      { x: _x + _w - _swh, y: _ch },
     ]
-    d3.svg.line().x((d) -> d.x).y((d) -> d.y)(_data) + 'z'
+    d3.svg.line().x((d) -> d.x).y((d) -> d.y)(_data)
 
   constructor: (selectors, data, options) ->
     margin = top: 13, right: 23, bottom: 24, left: 55
@@ -129,7 +125,8 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('class', 'bar-border')
       .attr 'd', (d, i) ->
         D3Bar.rectBorderPath(d, i, chartHeight, x1Scale, yScale, strokeWidth)
-      .attr('fill', (d) -> d.strokeColor)
+      .attr('fill', 'none')
+      .attr('stroke', (d) -> d.strokeColor)
       .attr('stroke-width', strokeWidth)
 
   updateStyleBasedOnOptions: (options) =>

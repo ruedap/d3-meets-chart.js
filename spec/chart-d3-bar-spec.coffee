@@ -76,7 +76,7 @@ describe 'Chart.D3Bar', ->
       yScale = Chart.D3Bar.yScale(data, 0)
       datum = data[0].values[0]
       actual = Chart.D3Bar.rectBorderPath(datum, 0, 450, xScale, yScale, 3)
-      expectation = 'M0,450L0,0L49,0L49,450L46,450L46,3L3,3L3,450z'
+      expectation = 'M1.5,450L1.5,1.5L47.5,1.5L47.5,450'
       expect(actual).to.be expectation
 
   describe '::constructor', ->
