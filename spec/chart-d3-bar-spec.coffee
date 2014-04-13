@@ -86,7 +86,9 @@ describe 'Chart.D3Bar', ->
       expect(instance.options).to.eql {}
 
   describe '::render', ->
-    it 'pending'
+    it 'should return a Chart.D3Bar object', ->
+      actual = instance.render()
+      expect(actual).to.be.a Chart.D3Bar
 
   describe '::renderXAxis', ->
     it 'should return an array', ->
