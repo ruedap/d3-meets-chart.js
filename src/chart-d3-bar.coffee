@@ -5,10 +5,12 @@ class Chart.D3Bar extends Chart.D3Chart
     rangeBand - 1  # Set 1 pixel margin width
 
   @xAxis: (xScale) ->
-    d3.svg.axis().scale(xScale).ticks(10).tickSize(6, 6).orient('bottom')
+    d3.svg.axis().scale(xScale).ticks(10).tickSize(3, 3)
+      .tickPadding(5).orient('bottom')
 
   @yAxis: (yScale) ->
-    d3.svg.axis().scale(yScale).ticks(20).tickSize(6, 0).orient('left')
+    d3.svg.axis().scale(yScale).ticks(20).tickSize(3, 0)
+      .tickPadding(7).orient('left')
 
   @xScale: (domain, max) ->
     d3.scale.ordinal().domain(domain).rangeRoundBands([0, max], 0, 0)
