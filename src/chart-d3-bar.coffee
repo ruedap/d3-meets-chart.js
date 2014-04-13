@@ -4,8 +4,8 @@ class Chart.D3Bar extends Chart.D3Chart
   @adjustRangeBand: (rangeBand) ->
     rangeBand - 1  # Set 1 pixel margin width
 
-  @xAxis: (xScale) ->
-    d3.svg.axis().scale(xScale).ticks(10).tickSize(3, 3)
+  @xAxis: (xScale, ticks = 10) ->
+    d3.svg.axis().scale(xScale).ticks(ticks).tickSize(3, 3)
       .tickPadding(5).orient('bottom')
 
   @yAxis: (yScale) ->
@@ -68,6 +68,8 @@ class Chart.D3Bar extends Chart.D3Chart
     x1Scale = D3Bar.xScale(d3.range(datasets.length), x0Scale.rangeBand())
     yScale = D3Bar.yScale(data, chartHeight)
 
+    @renderXGrid(x0Scale, chartHeight, options.scaleGridLineColor)
+    @renderYGrid(yScale, chartWidth, options.scaleGridLineColor)
     @renderXAxis(x0Scale, chartHeight)
     @renderYAxis(yScale)
     @renderBars(data, x0Scale)
@@ -83,6 +85,37 @@ class Chart.D3Bar extends Chart.D3Chart
     @transitBar(el, chartHeight, yScale)
     @transitBarBorder(el, chartHeight)
     this
+
+  renderXGrid: (x0Scale, chartHeight, scaleGridLineColor) =>
+    x = x0Scale.rangeBand() / 2
+    @getRootElement()
+      .select('.margin-convention-element')
+      .append('g')
+      .classed('grid-group': true, 'grid-x-group': true)
+      .call(D3Bar.xAxis(x0Scale).tickFormat(''))
+      .selectAll('.tick line')
+      .attr(x1: x, x2: x, y2: chartHeight, stroke: scaleGridLineColor)
+    @getRootElement()
+      .selectAll('.grid-x-group')
+      .selectAll('.domain, text')
+      .data([])
+      .exit()
+      .remove()
+
+  renderYGrid: (yScale, chartWidth, scaleGridLineColor) =>
+    @getRootElement()
+      .select('.margin-convention-element')
+      .append('g')
+      .classed('grid-group': true, 'grid-y-group': true)
+      .call(D3Bar.yAxis(yScale).tickFormat(''))
+      .selectAll('.tick line')
+      .attr(x1: 0, x2: chartWidth, stroke: scaleGridLineColor)
+    @getRootElement()
+      .selectAll('.grid-y-group')
+      .selectAll('.domain, text')
+      .data([])
+      .exit()
+      .remove()
 
   renderXAxis: (x0Scale, chartHeight) =>
     @getRootElement()
