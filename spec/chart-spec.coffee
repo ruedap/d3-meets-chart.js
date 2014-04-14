@@ -44,6 +44,19 @@ describe 'Chart', ->
         expect(chart.Doughnut.defaults.animation).to.be.ok()
         expect(doughnut.options.animation).not.to.be.ok()
 
+  describe '::Line', ->
+    it 'should return the same constructor name', ->
+      line = new Chart('#svg').Line([])
+      expect(line.constructor.name).to.be 'D3Line'
+
+    describe '.defaults', ->
+      it 'should have not same values as arguments', ->
+        options = animation: false
+        chart = new Chart('#svg')
+        line = chart.Line([], options)
+        expect(chart.Line.defaults.animation).to.be.ok()
+        expect(line.options.animation).not.to.be.ok()
+
   describe '::Pie', ->
     it 'should return the same constructor name', ->
       pie = new Chart('#svg').Pie([])
