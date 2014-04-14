@@ -1,6 +1,7 @@
 class Chart.D3Bar extends Chart.D3Chart
   'use strict'
 
+  # FIXME
   @adjustRangeBand: (rangeBand) ->
     rangeBand - 1  # Set 1 pixel margin width
 

@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Bar Chart</title>
+    <title>Line Chart</title>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" charset="utf-8"></script>
     <script>
       window.OriginChart = Chart;
@@ -25,25 +25,27 @@
     <svg id="svg" class="d3mc" width="600" height="450"></svg>
 
     <script>
-
       var data = {
         labels : ["January","February","March","April","May","June","July"],
         datasets : [
           {
             fillColor : "rgba(220,220,220,0.5)",
             strokeColor : "rgba(220,220,220,1)",
+            pointColor : "rgba(220,220,220,1)",
+            pointStrokeColor : "#fff",
             data : [65,59,90,81,56,55,40]
           },
           {
             fillColor : "rgba(151,187,205,0.5)",
             strokeColor : "rgba(151,187,205,1)",
+            pointColor : "rgba(151,187,205,1)",
+            pointStrokeColor : "#fff",
             data : [28,48,40,19,96,27,100]
           }
         ]
       };
 
       var options = {
-
         //Boolean - If we show the scale above the chart data
         scaleOverlay : false,
 
@@ -91,17 +93,38 @@
         //Number - Width of the grid lines
         scaleGridLineWidth : 1,
 
-        //Boolean - If there is a stroke on each bar
-        barShowStroke : true,
+        //Boolean - Whether the line is curved between points
+        bezierCurve : true,
 
-        //Number - Pixel width of the bar stroke
-        barStrokeWidth : 2,
+        //Boolean - Whether to show a dot for each point
+        pointDot : true,
 
-        //Number - Spacing between each of the X value sets
-        barValueSpacing : 1,
+        //Number - Radius of each point dot in pixels
+        pointDotRadius : 3,
 
-        //Number - Spacing between data sets within X values
-        barDatasetSpacing : 1,
+        //Number - Pixel width of point dot stroke
+        pointDotStrokeWidth : 1,
+
+        //Boolean - Whether to show a stroke for datasets
+        datasetStroke : true,
+
+        //Number - Pixel width of dataset stroke
+        datasetStrokeWidth : 2,
+
+        //Boolean - Whether to fill the dataset with a colour
+        datasetFill : true,
+
+        //Boolean - Whether to animate the chart
+        animation : true,
+
+        //Number - Number of animation steps
+        animationSteps : 60,
+
+        //String - Animation easing effect
+        animationEasing : "easeOutQuart",
+
+        //Function - Fires when the animation is complete
+        onAnimationComplete : null,
 
         // animation: true,
         // animationSteps: 100,
@@ -136,9 +159,9 @@
       };
 
       var myOriginChart = new OriginChart(document.getElementById("canvas").getContext("2d"))
-        .Bar(data, options);
+        .Line(data, options);
       var myChart = new Chart("#svg")
-        .Bar(data, options);
+        .Line(data, options);
 
     </script>
   </body>
