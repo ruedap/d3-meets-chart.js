@@ -1,3 +1,4 @@
+# Concrete class
 class Chart.D3Pie extends Chart.D3Chart
   'use strict'
 

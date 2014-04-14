@@ -1,3 +1,4 @@
+# Abstract root class
 class Chart.D3Chart
   'use strict'
 

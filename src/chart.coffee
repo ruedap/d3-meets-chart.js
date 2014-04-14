@@ -1,3 +1,4 @@
+# Concrete class for Chart.js API
 class Chart
   'use strict'
 
