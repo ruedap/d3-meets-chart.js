@@ -4,9 +4,9 @@ describe 'Chart', ->
   # TODO: move
   it 'should return same attributes', ->
     svg = d3.select('#svg')
-    expect(svg.attr('id')).to.be 'svg'
-    expect(svg.attr('width')).to.be '600'
-    expect(svg.attr('height')).to.be '450'
+    expect(svg.attr('id')).to.be('svg')
+    expect(svg.attr('width')).to.be('600')
+    expect(svg.attr('height')).to.be('450')
 
   describe '::constructor', ->
     context 'when an argument is invalid', ->
@@ -15,13 +15,13 @@ describe 'Chart', ->
 
     context 'when an argument is valid', ->
       it 'should return the same selector', ->
-        chart = new Chart '#svg'
-        expect(chart.selectors).to.be '#svg'
+        chart = new Chart('#svg')
+        expect(chart.selectors).to.be('#svg')
 
   describe '::Bar', ->
     it 'should return the same constructor name', ->
       bar = new Chart('#svg').Bar([])
-      expect(bar.constructor.name).to.be 'D3Bar'
+      expect(bar.constructor.name).to.be('D3Bar')
 
     describe '.defaults', ->
       it 'should have not same values as arguments', ->
@@ -34,7 +34,7 @@ describe 'Chart', ->
   describe '::Doughnut', ->
     it 'should return the same constructor name', ->
       doughnut = new Chart('#svg').Doughnut([])
-      expect(doughnut.constructor.name).to.be 'D3Doughnut'
+      expect(doughnut.constructor.name).to.be('D3Doughnut')
 
     describe '.defaults', ->
       it 'should have not same values as arguments', ->
@@ -47,7 +47,7 @@ describe 'Chart', ->
   describe '::Line', ->
     it 'should return the same constructor name', ->
       line = new Chart('#svg').Line([])
-      expect(line.constructor.name).to.be 'D3Line'
+      expect(line.constructor.name).to.be('D3Line')
 
     describe '.defaults', ->
       it 'should have not same values as arguments', ->
@@ -60,7 +60,7 @@ describe 'Chart', ->
   describe '::Pie', ->
     it 'should return the same constructor name', ->
       pie = new Chart('#svg').Pie([])
-      expect(pie.constructor.name).to.be 'D3Pie'
+      expect(pie.constructor.name).to.be('D3Pie')
 
     describe '.defaults', ->
       it 'should have not same values as arguments', ->
@@ -71,7 +71,7 @@ describe 'Chart', ->
         expect(pie.options.animation).not.to.be.ok()
 
   describe '::getEasingType', ->
-    before -> @chart = new Chart '#svg'
+    before -> @chart = new Chart('#svg')
 
     context 'when an argument is invalid', ->
       context 'when an argument is String', ->
@@ -84,24 +84,24 @@ describe 'Chart', ->
 
     context 'when an argument is valid', ->
       it 'should return the easing type name', ->
-        expect(@chart.getEasingType('easeInExpo')).to.be 'exp-in'
+        expect(@chart.getEasingType('easeInExpo')).to.be('exp-in')
 
   describe '::mergeOptions', ->
     before ->
-      @chart = new Chart '#svg'
+      @chart = new Chart('#svg')
       @defaults = foo: 'foo', animationEasing: 'easeInExpo'
 
     context 'when arguments are invalid', ->
       it 'should return the defaults Object', ->
         options = null
         expect(@chart.mergeOptions(@defaults, options)).to
-          .eql foo: 'foo', animationEasing: 'exp-in'
+          .eql(foo: 'foo', animationEasing: 'exp-in')
 
     context 'when arguments are valid', ->
       it 'should return the merged Object', ->
         options = foo: 'bar'
         expect(@chart.mergeOptions(@defaults, options)).to
-          .eql foo: 'bar', animationEasing: 'exp-in'
+          .eql(foo: 'bar', animationEasing: 'exp-in')
 
   describe '::validateData', ->
     context 'when an argument is invalid', ->

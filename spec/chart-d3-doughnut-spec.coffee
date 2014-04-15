@@ -18,16 +18,16 @@ describe 'Chart.D3Doughnut', ->
       value: 120
       color: '#4D5360'
     ]
-    @d3Doughnut = new Chart.D3Doughnut '#svg', @data, {}
+    @d3Doughnut = new Chart.D3Doughnut('#svg', @data, {})
 
   describe '::constructor', ->
     it 'should have same values in properties', ->
-      expect(@d3Doughnut.selectors).to.be '#svg'
-      expect(@d3Doughnut.data).to.eql @data
-      expect(@d3Doughnut.options).to.eql {}
+      expect(@d3Doughnut.selectors).to.be('#svg')
+      expect(@d3Doughnut.data).to.eql(@data)
+      expect(@d3Doughnut.options).to.eql({})
 
   describe '::getInnerRadius', ->
     it 'should return Number', ->
       options = percentageInnerCutout: 50.2
-      actual = @d3Doughnut.getInnerRadius 195, options
-      expect(actual).to.be 97
+      actual = @d3Doughnut.getInnerRadius(195, options)
+      expect(actual).to.be(97)

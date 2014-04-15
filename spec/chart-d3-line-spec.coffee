@@ -38,4 +38,4 @@ describe 'Chart.D3Line', ->
   describe '::render', ->
     xit 'should return a Chart.D3Line object', ->
       actual = instance.render()
-      expect(actual).to.be.a Chart.D3Line
+      expect(actual).to.be.a(Chart.D3Line)

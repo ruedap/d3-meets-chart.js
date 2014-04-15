@@ -3,11 +3,11 @@ class Chart
   'use strict'
 
   constructor: (@selectors) ->
-    unless _.isString @selectors
-      throw new TypeError 'This argument is not selectors string'
+    unless _.isString(@selectors)
+      throw new TypeError('This argument is not selectors string')
 
   Bar: (data, options) ->
-    @validateData data
+    @validateData(data)
     @Bar.defaults =
       # Boolean - If we show the scale above the chart data.
       scaleOverlay: false
@@ -60,11 +60,11 @@ class Chart
       animationEasing: 'easeOutQuad'
       # Function - Fires when the animation is complete.
       onAnimationComplete: null
-    mergedOptions = @mergeOptions @Bar.defaults, options
+    mergedOptions = @mergeOptions(@Bar.defaults, options)
     new Chart.D3Bar(@selectors, data, mergedOptions).render()
 
   Doughnut: (data, options) ->
-    @validateData data
+    @validateData(data)
     @Doughnut.defaults =
       # Boolean - Whether we should show a stroke on each segment.
       segmentShowStroke: true
@@ -86,11 +86,11 @@ class Chart
       animateScale: false
       # Function - Will fire on animation completion.
       onAnimationComplete: null
-    mergedOptions = @mergeOptions @Doughnut.defaults, options
+    mergedOptions = @mergeOptions(@Doughnut.defaults, options)
     new Chart.D3Doughnut(@selectors, data, mergedOptions).render()
 
   Line: (data, options) ->
-    @validateData data
+    @validateData(data)
     @Line.defaults =
       # Boolean - If we show the scale above the chart data.
       scaleOverlay: false
@@ -149,11 +149,11 @@ class Chart
       animationEasing: 'easeOutQuad'
       # Function - Fires when the animation is complete.
       onAnimationComplete: null
-    mergedOptions = @mergeOptions @Line.defaults, options
+    mergedOptions = @mergeOptions(@Line.defaults, options)
     new Chart.D3Line(@selectors, data, mergedOptions).render()
 
   Pie: (data, options) ->
-    @validateData data
+    @validateData(data)
     @Pie.defaults =
       # Boolean - Whether we should show a stroke on each segment.
       segmentShowStroke: true
@@ -173,7 +173,7 @@ class Chart
       animateScale: false
       # Function - Will fire on animation completion.
       onAnimationComplete: null
-    mergedOptions = @mergeOptions @Pie.defaults, options
+    mergedOptions = @mergeOptions(@Pie.defaults, options)
     new Chart.D3Pie(@selectors, data, mergedOptions).render()
 
   easingTypes:
@@ -217,10 +217,9 @@ class Chart
     easingTypeName
 
   mergeOptions: (defaults, options) ->
-    # TODO: Avoid Underscore.js
-    mergedOptions = _.extend {}, defaults, options
-    mergedOptions.animationEasing = @getEasingType mergedOptions.animationEasing
-    mergedOptions
+    mo = _.extend({}, defaults, options)
+    mo.animationEasing = @getEasingType(mo.animationEasing)
+    mo
 
   validateData: (data) ->
     if !(_.isArray(data) or _.isObject(data))

@@ -22,22 +22,22 @@ class Chart.D3Chart
     @width = width - margin.left - margin.right
     @height = height - margin.top - margin.bottom
     @getRootElement()
-      .attr 'width', @width + margin.left + margin.right
-      .attr 'height', @height + margin.top + margin.bottom
-      .append 'g'
-      .attr 'transform', "translate(#{margin.left},#{margin.top})"
-      .attr 'class', 'margin-convention-element'
+      .attr(width: @width + margin.left + margin.right)
+      .attr(height: @height + margin.top + margin.bottom)
+      .append('g')
+      .attr(transform: "translate(#{margin.left},#{margin.top})")
+      .classed('margin-convention-element': true)
 
   duration: (options = @options) ->
     options.animationSteps * 17.333
 
   getRootElement: =>
-    d3.select @selectors
+    d3.select(@selectors)
 
   # FIXME: style(responsive) and percent unit support
   getRootElementHeight: =>
-    +@getRootElement().attr 'height'
+    +@getRootElement().attr('height')
 
   # FIXME: style(responsive) and percent unit support
   getRootElementWidth: =>
-    +@getRootElement().attr 'width'
+    +@getRootElement().attr('width')

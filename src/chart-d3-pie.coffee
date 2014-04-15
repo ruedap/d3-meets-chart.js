@@ -3,31 +3,29 @@ class Chart.D3Pie extends Chart.D3Chart
   'use strict'
 
   constructor: (selectors, data, options) ->
-    super selectors, data, options
+    super(selectors, data, options)
 
   animateRotate: (path, arc, options) ->
     return if !(options.animation and options.animateRotate)
     path
       .transition()
-      .call @transitionEndAll, options
+      .call(@transitionEndAll, options)
       .duration @duration()
-      .ease options.animationEasing
+      .ease(options.animationEasing)
       .attrTween 'd', (d) ->
-        interpolate = d3.interpolate {startAngle: 0, endAngle: 0}, d
-        (t)-> arc interpolate(t)
+        interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d)
+        (t) -> arc(interpolate(t))
 
   animateScale: (options) ->
     return if !(options.animation and options.animateScale)
     @getRootElement()
-      .selectAll 'g'
-      .attr
-        transform: "#{@attrTranslateToCenter()} scale(0)"
+      .selectAll('g')
+      .attr(transform: "#{@attrTranslateToCenter()} scale(0)")
       .transition()
-      .call @transitionEndAll, options
-      .duration @duration()
-      .ease options.animationEasing
-      .attr
-        transform: 'scale(1)'
+      .call(@transitionEndAll, options)
+      .duration(@duration())
+      .ease(options.animationEasing)
+      .attr(transform: 'scale(1)')
 
   attrSegmentStroke: (options) ->
     if options.segmentShowStroke
@@ -39,14 +37,14 @@ class Chart.D3Pie extends Chart.D3Chart
 
   drawChart: (arc, options) ->
     pie = d3.layout.pie().value((d) -> d.value).sort(null)
-    colors = @data.map (d) -> d.color
+    colors = @data.map((d) -> d.color)
     @getRootElement()
-      .append 'g'
-      .selectAll 'path'
+      .append('g')
+      .selectAll('path')
       .data pie(@data)
       .enter()
-      .append 'path'
-      .attr @attrSegmentStroke(options)
+      .append('path')
+      .attr(@attrSegmentStroke(options))
       .attr
         d: arc
         transform: @attrTranslateToCenter()
@@ -63,14 +61,14 @@ class Chart.D3Pie extends Chart.D3Chart
     width = @getRootElementWidth()
     height = @getRootElementHeight()
     margin = 5
-    outerRadius = @getOuterRadius width, height, margin
-    innerRadius = @getInnerRadius outerRadius, @options
+    outerRadius = @getOuterRadius(width, height, margin)
+    innerRadius = @getInnerRadius(outerRadius, @options)
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
-    path = @drawChart arc, @options
-    @transitionEndAllCount = @setAnimationComplete @options
-    @options.onAnimationComplete.call this if isNaN @transitionEndAllCount
-    @animateRotate path, arc, @options
-    @animateScale @options
+    path = @drawChart(arc, @options)
+    @transitionEndAllCount = @setAnimationComplete(@options)
+    @options.onAnimationComplete.call(this) if isNaN(@transitionEndAllCount)
+    @animateRotate(path, arc, @options)
+    @animateScale(@options)
     this
 
   setAnimationComplete: (options) ->
@@ -85,8 +83,8 @@ class Chart.D3Pie extends Chart.D3Chart
   transitionEndAll: (transition, options) =>
     n = 0
     transition
-      .each -> ++n
+      .each(-> ++n)
       .each 'end', =>
         # TODO: need test
         if !--n and (--@transitionEndAllCount == 0)
-          options.onAnimationComplete.apply this, arguments
+          options.onAnimationComplete.apply(this, arguments)

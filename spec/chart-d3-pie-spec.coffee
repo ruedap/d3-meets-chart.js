@@ -12,13 +12,13 @@ describe 'Chart.D3Pie', ->
       value: 100
       color: '#69d2e7'
     ]
-    @d3Pie = new Chart.D3Pie '#svg', @data, {}
+    @d3Pie = new Chart.D3Pie('#svg', @data, {})
 
   describe '::constructor', ->
     it 'should have same values in properties', ->
-      expect(@d3Pie.selectors).to.be '#svg'
-      expect(@d3Pie.data).to.be @data
-      expect(@d3Pie.options).to.eql {}
+      expect(@d3Pie.selectors).to.be('#svg')
+      expect(@d3Pie.data).to.be(@data)
+      expect(@d3Pie.options).to.eql({})
 
   describe '::animateRotate', ->
     it 'pending'
@@ -34,14 +34,14 @@ describe 'Chart.D3Pie', ->
 
   describe '::getOuterRadius', ->
     it 'should return a Number', ->
-      actual = @d3Pie.getOuterRadius 450, 400.5, 5
-      expect(actual).to.be 195
+      actual = @d3Pie.getOuterRadius(450, 400.5, 5)
+      expect(actual).to.be(195)
 
   describe '::getInnerRadius', ->
     it 'should return 0', ->
       options = percentageInnerCutout: 50.2
-      actual = @d3Pie.getInnerRadius 195, options
-      expect(actual).to.be 0
+      actual = @d3Pie.getInnerRadius(195, options)
+      expect(actual).to.be(0)
 
   describe '::render', ->
     it 'pending'
@@ -50,7 +50,7 @@ describe 'Chart.D3Pie', ->
     context 'when an argument is invalid', ->
       it 'should return Infinity', ->
         options = {}
-        expect(@d3Pie.setAnimationComplete(options)).to.be Infinity
+        expect(@d3Pie.setAnimationComplete(options)).to.be(Infinity)
 
     context 'when an argument is valid', ->
       before ->
@@ -59,25 +59,25 @@ describe 'Chart.D3Pie', ->
       context 'when all of options are true', ->
         it 'should return 2', ->
           options = animation: true, animateRotate: true, animateScale: true
-          options = _.extend {}, @options, options
-          expect(@d3Pie.setAnimationComplete(options)).to.be 2
+          options = _.extend({}, @options, options)
+          expect(@d3Pie.setAnimationComplete(options)).to.be(2)
 
       context 'when `animation` is true', ->
         context 'when any one of `animateRotate` or `animateScale` are true', ->
           it 'should return 1', ->
             options = animation: true, animateRotate: true, animateScale: false
-            options = _.extend {}, @options, options
-            expect(@d3Pie.setAnimationComplete(options)).to.be 1
+            options = _.extend({}, @options, options)
+            expect(@d3Pie.setAnimationComplete(options)).to.be(1)
 
           it 'should return 1', ->
             options = animation: true, animateRotate: false, animateScale: true
-            options = _.extend {}, @options, options
-            expect(@d3Pie.setAnimationComplete(options)).to.be 1
+            options = _.extend({}, @options, options)
+            expect(@d3Pie.setAnimationComplete(options)).to.be(1)
 
       context 'when `animation` is false', ->
         it 'should return NaN', ->
           options = animation: false, animateRotate: true, animateScale: true
-          options = _.extend {}, @options, options
+          options = _.extend({}, @options, options)
           actual = @d3Pie.setAnimationComplete(options)
           expect(isNaN(actual)).to.be.ok()
 
