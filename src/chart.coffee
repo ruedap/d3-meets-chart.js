@@ -224,9 +224,3 @@ class @Chart
   validateData: (data) ->
     if !(_.isArray(data) or _.isObject(data))
       throw new TypeError "#{data} is not an array or object"
-
-# For test on Node.js
-if module?.exports?
-  module.exports.Chart = Chart
-  global._ = require 'underscore'
-  global.d3 = require 'd3'
