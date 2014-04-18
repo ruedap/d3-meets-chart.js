@@ -1,5 +1,6 @@
 gulp = require 'gulp'
 mocha = require 'gulp-mocha'
+karma = require 'gulp-karma'
 coffee = require 'gulp-coffee'
 stylus = require 'gulp-stylus'
 concat = require 'gulp-concat'
@@ -31,13 +32,16 @@ src =
   stylusSrc: [
     './src/d3-meets-chart.styl'
   ]
+  main: dir.tmp + file.main
   specRunner: dir.tmp + file.specRunner
+  d3: 'node_modules/d3/d3.min.js'
+  lodash: 'node_modules/lodash/lodash.js'
 
 gulp.task 'coffee-src', ->
   gulp
     .src src.coffeeSrc
     .pipe plumber()
-    .pipe coffee(bare: true)
+    .pipe coffee()
     .pipe concat(file.main)
     .pipe gulp.dest(dir.tmp)
 
@@ -45,7 +49,7 @@ gulp.task 'coffee-spec', ->
   gulp
     .src src.coffeeSpec
     .pipe plumber()
-    .pipe coffee(bare: true)
+    .pipe coffee()
     .pipe concat(file.specRunner)
     .pipe gulp.dest(dir.tmp)
 
@@ -56,13 +60,15 @@ gulp.task 'stylus-src', ->
     .pipe stylus()
     .pipe gulp.dest(dir.tmp)
 
-gulp.task 'mocha-exe', ['coffee'], ->
-  gulp
-    .src src.specRunner
-    .pipe plumber()
-    .pipe mocha(reporter: 'spec')
+gulp.task 'karma', ['compile'], ->
+  gulp.src([src.d3, src.lodash, src.main, src.specRunner])
+    .pipe(plumber())
+    .pipe karma
+      configFile: 'karma.conf.js'
+      action: 'run'
+    .on('error', (err) -> throw err)
 
-gulp.task 'mocha-clean', ['mocha-exe'], ->
+gulp.task 'clean', ['karma'], ->
   gulp
     .src src.specRunner
     .pipe rimraf()
@@ -73,6 +79,6 @@ gulp.task 'watch', ->
 
 gulp.task 'coffee', ['coffee-src', 'coffee-spec']
 gulp.task 'stylus', ['stylus-src']
-gulp.task 'mocha', ['mocha-exe', 'mocha-clean']
-gulp.task 'spec', ['coffee', 'mocha', 'stylus']
+gulp.task 'compile', ['coffee-src', 'coffee-spec', 'stylus-src']
+gulp.task 'spec', ['compile', 'karma', 'clean']
 gulp.task 'default', ['spec']

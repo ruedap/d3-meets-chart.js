@@ -1,5 +1,5 @@
 # Concrete class for Chart.js API
-class Chart
+class @Chart
   'use strict'
 
   constructor: (@selectors) ->

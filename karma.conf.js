@@ -15,7 +15,10 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-
+      "node_modules/d3/d3.js",
+      "node_modules/lodash/lodash.js",
+      "tmp/d3-meets-chart.js",
+      "tmp/spec-runner.js"
     ],
 
 
