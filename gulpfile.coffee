@@ -72,7 +72,7 @@ gulp.task 'clean', ['karma'], ->
   gulp
     .src src.specRunner
     .pipe rimraf()
-    .pipe notify("☕")
+    # .pipe notify("☕")
 
 gulp.task 'watch', ->
   gulp.watch ['./src/*.coffee', './src/*.styl', './spec/*.coffee'], ['spec']
