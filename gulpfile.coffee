@@ -1,13 +1,13 @@
-gulp = require 'gulp'
-mocha = require 'gulp-mocha'
-karma = require 'gulp-karma'
-coffee = require 'gulp-coffee'
-stylus = require 'gulp-stylus'
-concat = require 'gulp-concat'
-uglify = require 'gulp-uglify'
-notify = require 'gulp-notify'
-rimraf = require 'gulp-rimraf'
-plumber = require 'gulp-plumber'
+gulp = require('gulp')
+mocha = require('gulp-mocha')
+karma = require('gulp-karma')
+coffee = require('gulp-coffee')
+stylus = require('gulp-stylus')
+concat = require('gulp-concat')
+uglify = require('gulp-uglify')
+notify = require('gulp-notify')
+rimraf = require('gulp-rimraf')
+plumber = require('gulp-plumber')
 
 dir =
   tmp: './tmp/'
@@ -38,26 +38,23 @@ src =
   lodash: 'node_modules/lodash/lodash.js'
 
 gulp.task 'coffee-src', ->
-  gulp
-    .src src.coffeeSrc
-    .pipe plumber()
-    .pipe coffee()
-    .pipe concat(file.main)
-    .pipe gulp.dest(dir.tmp)
+  gulp.src(src.coffeeSrc)
+    .pipe(plumber())
+    .pipe(coffee())
+    .pipe(concat(file.main))
+    .pipe(gulp.dest(dir.tmp))
 
 gulp.task 'coffee-spec', ->
-  gulp
-    .src src.coffeeSpec
-    .pipe plumber()
-    .pipe coffee()
-    .pipe concat(file.specRunner)
-    .pipe gulp.dest(dir.tmp)
+  gulp.src(src.coffeeSpec)
+    .pipe(plumber())
+    .pipe(coffee())
+    .pipe(concat(file.specRunner))
+    .pipe(gulp.dest(dir.tmp))
 
 gulp.task 'stylus-src', ->
-  gulp
-    .src src.stylusSrc
-    .pipe plumber()
-    .pipe stylus()
+  gulp.src(src.stylusSrc)
+    .pipe(plumber())
+    .pipe(stylus())
     .pipe gulp.dest(dir.tmp)
 
 gulp.task 'karma', ['compile'], ->
@@ -69,16 +66,15 @@ gulp.task 'karma', ['compile'], ->
     .on('error', (err) -> throw err)
 
 gulp.task 'clean', ['karma'], ->
-  gulp
-    .src src.specRunner
-    .pipe rimraf()
-    # .pipe notify("☕")
+  gulp.src(src.specRunner)
+    .pipe(plumber())
+    .pipe(rimraf())
 
 gulp.task 'watch', ->
-  gulp.watch ['./src/*.coffee', './src/*.styl', './spec/*.coffee'], ['spec']
+  gulp.watch(['./src/*.coffee', './src/*.styl', './spec/*.coffee'], ['spec'])
 
-gulp.task 'coffee', ['coffee-src', 'coffee-spec']
-gulp.task 'stylus', ['stylus-src']
-gulp.task 'compile', ['coffee-src', 'coffee-spec', 'stylus-src']
-gulp.task 'spec', ['compile', 'karma', 'clean']
-gulp.task 'default', ['spec']
+gulp.task('coffee', ['coffee-src', 'coffee-spec'])
+gulp.task('stylus', ['stylus-src'])
+gulp.task('compile', ['coffee-src', 'coffee-spec', 'stylus-src'])
+gulp.task('spec', ['compile', 'karma', 'clean'])
+gulp.task('default', ['spec'])
