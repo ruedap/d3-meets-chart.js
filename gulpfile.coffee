@@ -1,6 +1,5 @@
 gulp = require('gulp')
 mocha = require('gulp-mocha')
-karma = require('gulp-karma')
 coffee = require('gulp-coffee')
 stylus = require('gulp-stylus')
 concat = require('gulp-concat')
@@ -57,15 +56,7 @@ gulp.task 'stylus-src', ->
     .pipe(stylus())
     .pipe gulp.dest(dir.tmp)
 
-gulp.task 'karma', ['compile'], ->
-  gulp.src([src.d3, src.lodash, src.main, src.specRunner])
-    .pipe(plumber())
-    .pipe karma
-      configFile: 'karma.conf.js'
-      action: 'run'
-    .on('error', (err) -> throw err)
-
-gulp.task 'clean', ['karma'], ->
+gulp.task 'clean', ->
   gulp.src(src.specRunner)
     .pipe(plumber())
     .pipe(rimraf())
@@ -76,5 +67,5 @@ gulp.task 'watch', ->
 gulp.task('coffee', ['coffee-src', 'coffee-spec'])
 gulp.task('stylus', ['stylus-src'])
 gulp.task('compile', ['coffee-src', 'coffee-spec', 'stylus-src'])
-gulp.task('spec', ['compile', 'karma', 'clean'])
+gulp.task('spec', ['compile', 'clean'])
 gulp.task('default', ['spec'])
