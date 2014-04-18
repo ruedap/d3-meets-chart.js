@@ -22,6 +22,7 @@
     "gulp": "~3.5.5",
     "gulp-coffee": "~1.4.1",
     "gulp-concat": "~2.2.0",
+    "gulp-karma": "~0.0.4",
     "gulp-mocha": "~0.4.1",
     "gulp-notify": "~1.2.5",
     "gulp-plumber": "~0.5.6",
