@@ -54,27 +54,6 @@ describe 'Chart.D3Bar', ->
           expect(actual[0].values[1].value).to.be(28)
           expect(actual[6].values[1].value).to.be(100)
 
-  describe '.xAxis', ->
-    it 'should return a function', ->
-      actual = Chart.D3Bar.xAxis(d3.scale.ordinal())
-      expect(actual).to.be.a('function')
-
-  describe '.yAxis', ->
-    it 'should return a function', ->
-      actual = Chart.D3Bar.yAxis(d3.scale.ordinal())
-      expect(actual).to.be.a('function')
-
-  describe '.xScale', ->
-    it 'should return a function', ->
-      actual = Chart.D3Bar.xScale([0, 0], 0)
-      expect(actual).to.be.a('function')
-
-  describe '.yScale', ->
-    it 'should return a function', ->
-      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
-      actual = Chart.D3Bar.yScale(data, 0)
-      expect(actual).to.be.a('function')
-
   describe '.rectBorderPath', ->
     it 'should return a string of `d` attribute', ->
       data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
@@ -102,45 +81,10 @@ describe 'Chart.D3Bar', ->
       actual = instance.render()
       expect(actual).to.be.a(Chart.D3Bar)
 
-  describe '::renderXGrid', ->
-    it 'should return an array', ->
-      x0Scale = Chart.D3Bar.xScale([0, 0], 0)
-      actual = instance.renderXGrid(x0Scale, 0)
-      expect(actual).to.be.an(Array)
-      expect(actual).to.have.length(1)
-
-  describe '::renderYGrid', ->
-    it 'should return an array', ->
-      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
-      yScale = Chart.D3Bar.yScale(data, 0)
-      actual = instance.renderYGrid(yScale, 0)
-      expect(actual).to.be.an(Array)
-      expect(actual).to.have.length(1)
-
-  describe '::renderGrid', ->
-    it 'should return an array', ->
-      actual = instance.renderGrid()
-      expect(actual).to.be.an(Array)
-      expect(actual).to.have.length(2)
-
-  describe '::renderXAxis', ->
-    it 'should return an array', ->
-      x0Scale = Chart.D3Bar.xScale([0, 0], 0)
-      actual = instance.renderXAxis(x0Scale, 0)
-      expect(actual).to.be.an(Array)
-
-  describe '::renderYAxis', ->
-    it 'should return an array', ->
-      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
-      yScale = Chart.D3Bar.yScale(data, 0)
-      actual = instance.renderYAxis(yScale)
-      expect(actual).to.be.an(Array)
-
   describe '::renderBars', ->
     it 'should return an array', ->
-      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
       x0Scale = Chart.D3Bar.xScale([0, 0], 0)
-      actual = instance.renderBars(data, x0Scale)
+      actual = instance.renderBars([], x0Scale)
       expect(actual).to.be.an(Array)
 
   describe '::renderBar', ->
