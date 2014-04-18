@@ -29,6 +29,7 @@
     "gulp-stylus": "~0.1.0",
     "gulp-uglify": "~0.2.1",
     "karma": "^0.12.9",
+    "karma-coffee-preprocessor": "^0.2.1",
     "mocha": "~1.18.2",
     "stylus": "~0.43.1"
   }
