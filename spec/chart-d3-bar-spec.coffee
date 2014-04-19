@@ -66,9 +66,17 @@ describe 'Chart.D3Bar', ->
             args.data.datasets
           )
           expect(actual).to.be.an(Array)
+
+        it 'should have same values in properties', ->
+          actual = instance.generateData(
+            args.data.labels,
+            args.data.datasets
+          )
           expect(actual[0].key).to.be('January')
-          expect(actual[0].values[1].value).to.be(28)
-          expect(actual[6].values[1].value).to.be(100)
+          values = actual[0].values[1]
+          expect(values.value).to.be(28)
+          expect(values.fillColor).to.be('rgba(151,187,205,0.5)')
+          expect(values.strokeColor).to.be('rgba(151,187,205,1)')
 
   describe '::getTransitionElement', ->
     it 'should return an array', ->
