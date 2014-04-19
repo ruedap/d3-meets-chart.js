@@ -7,6 +7,7 @@ uglify = require('gulp-uglify')
 notify = require('gulp-notify')
 rimraf = require('gulp-rimraf')
 plumber = require('gulp-plumber')
+licenseFind = require('gulp-license-finder')
 
 dir =
   tmp: './tmp/'
@@ -61,6 +62,9 @@ gulp.task 'clean', ->
     .pipe(plumber())
     .pipe(rimraf())
 
+gulp.task 'licenses', ->
+  licenseFind().pipe(gulp.dest('./audit'))
+  
 gulp.task 'watch', ->
   gulp.watch(['./src/*.coffee', './src/*.styl', './spec/*.coffee'], ['spec'])
 
