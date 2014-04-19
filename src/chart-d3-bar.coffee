@@ -6,20 +6,6 @@ class Chart.D3Bar extends Chart.D3Chart
   @adjustRangeBand: (rangeBand) ->
     rangeBand - 1  # Set 1 pixel margin width
 
-  @generateData: (labels, datasets) ->
-    return if !(labels? and datasets?)
-    array = []
-    datasets.forEach (ds) ->
-      ds.data.map (d, i) ->
-        array.push
-          value: d
-          label: labels[i]
-          fillColor: ds.fillColor
-          strokeColor: ds.strokeColor
-    d3.nest()
-      .key((d) -> d.label)
-      .entries(array)
-
   @rectBorderPath = (datum, i, chartHeight, xScale, yScale, strokeWidth) ->
     _ch = chartHeight
     _swh = strokeWidth / 2
@@ -38,6 +24,20 @@ class Chart.D3Bar extends Chart.D3Chart
     margin = top: 13, right: 23, bottom: 24, left: 55
     super(selectors, data, options, margin)
 
+  generateData: (labels, datasets) ->
+    return if !(labels? and datasets?)
+    array = []
+    datasets.forEach (ds) ->
+      ds.data.map (d, i) ->
+        array.push
+          value: d
+          label: labels[i]
+          fillColor: ds.fillColor
+          strokeColor: ds.strokeColor
+    d3.nest()
+      .key((d) -> d.label)
+      .entries(array)
+
   getTransitionElement: (duration, options) =>
     @getRootElement()
       .transition()
@@ -48,7 +48,7 @@ class Chart.D3Bar extends Chart.D3Chart
   render: =>
     labels = @data.labels
     datasets = @data.datasets
-    data = D3Bar.generateData(labels, datasets)
+    data = @generateData(labels, datasets)
     return this if _.isEmpty(data)
 
     options = @options

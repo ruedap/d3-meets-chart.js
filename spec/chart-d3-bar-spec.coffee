@@ -29,34 +29,9 @@ describe 'Chart.D3Bar', ->
     it 'should return a number', ->
       expect(Chart.D3Bar.adjustRangeBand(100)).to.be(99)
 
-  describe '.generateData', ->
-    context 'when arguments are invalid', ->
-      it 'should return an undefined', ->
-        expect(Chart.D3Bar.generateData([], null)).to.be(undefined)
-        expect(Chart.D3Bar.generateData(null, [])).to.be(undefined)
-        expect(Chart.D3Bar.generateData(null, null)).to.be(undefined)
-
-    context 'when arguments are valid', ->
-      context 'when arguments are blank arrays', ->
-        it 'should return a blank array', ->
-          actual = Chart.D3Bar.generateData([], [])
-          expect(actual).to.be.an(Array)
-          expect(actual).to.eql([])
-
-      context 'when arguments are not blank arrays', ->
-        it 'should return an array', ->
-          actual = Chart.D3Bar.generateData(
-            args.data.labels,
-            args.data.datasets
-          )
-          expect(actual).to.be.an(Array)
-          expect(actual[0].key).to.be('January')
-          expect(actual[0].values[1].value).to.be(28)
-          expect(actual[6].values[1].value).to.be(100)
-
   describe '.rectBorderPath', ->
     it 'should return a string of `d` attribute', ->
-      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
+      data = instance.generateData(args.data.labels, args.data.datasets)
       xScale = Chart.D3Bar.xScale([0, 100], 100)
       yScale = Chart.D3Bar.yScale(data, 0)
       datum = data[0].values[0]
@@ -69,6 +44,31 @@ describe 'Chart.D3Bar', ->
       expect(instance.selectors).to.be('#svg')
       expect(instance.data).to.eql(args.data)
       expect(instance.options).to.have.key('animationSteps')
+
+  describe '::generateData', ->
+    context 'when arguments are invalid', ->
+      it 'should return an undefined', ->
+        expect(instance.generateData([], null)).to.be(undefined)
+        expect(instance.generateData(null, [])).to.be(undefined)
+        expect(instance.generateData(null, null)).to.be(undefined)
+
+    context 'when arguments are valid', ->
+      context 'when arguments are blank arrays', ->
+        it 'should return a blank array', ->
+          actual = instance.generateData([], [])
+          expect(actual).to.be.an(Array)
+          expect(actual).to.eql([])
+
+      context 'when arguments are not blank arrays', ->
+        it 'should return an array', ->
+          actual = instance.generateData(
+            args.data.labels,
+            args.data.datasets
+          )
+          expect(actual).to.be.an(Array)
+          expect(actual[0].key).to.be('January')
+          expect(actual[0].values[1].value).to.be(28)
+          expect(actual[6].values[1].value).to.be(100)
 
   describe '::getTransitionElement', ->
     it 'should return an array', ->
@@ -90,7 +90,7 @@ describe 'Chart.D3Bar', ->
   describe '::renderBar', ->
     it 'should return an array', ->
       x1Scale = Chart.D3Bar.xScale([0, 0], 0)
-      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
+      data = instance.generateData(args.data.labels, args.data.datasets)
       yScale = Chart.D3Bar.yScale(data, 0)
       actual = instance.renderBar(0, x1Scale, yScale)
       expect(actual).to.be.an(Array)
@@ -98,7 +98,7 @@ describe 'Chart.D3Bar', ->
   describe '::renderBarBorder', ->
     it 'should return an array', ->
       x1Scale = Chart.D3Bar.xScale([0, 0], 0)
-      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
+      data = instance.generateData(args.data.labels, args.data.datasets)
       yScale = Chart.D3Bar.yScale(data, 0)
       actual = instance.renderBarBorder(0, x1Scale, yScale, 0)
       expect(actual).to.be.an(Array)
@@ -124,7 +124,7 @@ describe 'Chart.D3Bar', ->
   describe '::transitBar', ->
     it 'should return an array', ->
       el = instance.getRootElement()
-      data = Chart.D3Bar.generateData(args.data.labels, args.data.datasets)
+      data = instance.generateData(args.data.labels, args.data.datasets)
       yScale = Chart.D3Bar.yScale(data, 0)
       actual = instance.transitBar(el, 0, yScale)
       expect(actual).to.be.an(Array)
