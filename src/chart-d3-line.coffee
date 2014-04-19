@@ -29,4 +29,24 @@ class Chart.D3Line extends Chart.D3Chart
     data = @generateData(labels, datasets)
     return this if _.isEmpty(data)
 
+    options = @options
+    strokeWidth = @options.barStrokeWidth
+
+    chartWidth = @width
+    chartHeight = @height
+
+    x0Scale = D3Line.xScale(labels, chartWidth)
+    x1Scale = D3Line.xScale(d3.range(datasets.length), x0Scale.rangeBand())
+    yScale = D3Line.yScale(data, chartHeight)
+
+    @renderXGrid(x0Scale, chartHeight)
+    @renderYGrid(yScale, chartWidth)
+    @renderGrid()
+    @renderXAxis(x0Scale, chartHeight)
+    @renderYAxis(yScale)
+
+    @updateGridTickStyle(options)
+    @updateScaleStrokeStyle(options)
+    @updateScaleTextStyle(options)
+
     this
