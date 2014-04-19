@@ -119,27 +119,6 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('stroke', (d) -> d.strokeColor)
       .attr('stroke-width', strokeWidth)
 
-  updateGridTickStyle: (options) =>
-    @getRootElement()
-      .selectAll('.grid-group .tick line')
-      .attr(stroke: options.scaleGridLineColor)
-
-  updateScaleStrokeStyle: (options) =>
-    @getRootElement()
-      .selectAll('.scale-group')
-      .selectAll('.domain, .tick line')
-      .attr(fill: 'none')
-      .attr(stroke: options.scaleLineColor)
-      .attr('stroke-width': options.scaleLineWidth)
-
-  updateScaleTextStyle: (options) =>
-    @getRootElement()
-      .selectAll('.scale-group text')
-      .attr('font-family': options.scaleFontFamily)
-      .attr('font-size': options.scaleFontSize)
-      .attr('font-style': options.scaleFontStyle)
-      .attr('fill': options.scaleFontColor)
-
   transitBar: (el,chartHeight, yScale) =>
     @getRootElement()
       .selectAll('.bar')

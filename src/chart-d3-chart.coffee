@@ -98,3 +98,24 @@ class Chart.D3Chart
       .append('g')
       .classed('scale-group': true, 'scale-y-group': true)
       .call(D3Chart.yAxis(yScale))
+
+  updateGridTickStyle: (options) =>
+    @getRootElement()
+      .selectAll('.grid-group .tick line')
+      .attr(stroke: options.scaleGridLineColor)
+
+  updateScaleStrokeStyle: (options) =>
+    @getRootElement()
+      .selectAll('.scale-group')
+      .selectAll('.domain, .tick line')
+      .attr(fill: 'none')
+      .attr(stroke: options.scaleLineColor)
+      .attr('stroke-width': options.scaleLineWidth)
+
+  updateScaleTextStyle: (options) =>
+    @getRootElement()
+      .selectAll('.scale-group text')
+      .attr('font-family': options.scaleFontFamily)
+      .attr('font-size': options.scaleFontSize)
+      .attr('font-style': options.scaleFontStyle)
+      .attr('fill': options.scaleFontColor)

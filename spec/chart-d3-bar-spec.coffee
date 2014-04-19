@@ -111,24 +111,6 @@ describe 'Chart.D3Bar', ->
       actual = instance.renderBarBorder(0, x1Scale, yScale, 0)
       expect(actual).to.be.an(Array)
 
-  describe '::updateGridTickStyle', ->
-    it 'should return an array', ->
-      actual = instance.updateGridTickStyle(instance.options)
-      expect(actual).to.be.an(Array)
-      expect(actual).to.have.length(1)
-
-  describe '::updateScaleStrokeStyle', ->
-    it 'should return an array', ->
-      actual = instance.updateScaleStrokeStyle(instance.options)
-      expect(actual).to.be.an(Array)
-      expect(actual).to.have.length(2)
-
-  describe '::updateScaleTextStyle', ->
-    it 'should return an array', ->
-      actual = instance.updateScaleTextStyle(instance.options)
-      expect(actual).to.be.an(Array)
-      expect(actual).to.have.length(1)
-
   describe '::transitBar', ->
     it 'should return an array', ->
       el = instance.getRootElement()

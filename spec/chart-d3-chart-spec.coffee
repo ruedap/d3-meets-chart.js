@@ -94,3 +94,21 @@ describe 'Chart.D3Chart', ->
       yScale = Chart.D3Chart.yScale([], 0)
       actual = instance.renderYAxis(yScale)
       expect(actual).to.be.an(Array)
+
+  describe '::updateGridTickStyle', ->
+    it 'should return an array', ->
+      actual = instance.updateGridTickStyle(instance.options)
+      expect(actual).to.be.an(Array)
+      expect(actual).to.have.length(1)
+
+  describe '::updateScaleStrokeStyle', ->
+    it 'should return an array', ->
+      actual = instance.updateScaleStrokeStyle(instance.options)
+      expect(actual).to.be.an(Array)
+      expect(actual).to.have.length(2)
+
+  describe '::updateScaleTextStyle', ->
+    it 'should return an array', ->
+      actual = instance.updateScaleTextStyle(instance.options)
+      expect(actual).to.be.an(Array)
+      expect(actual).to.have.length(1)
