@@ -29,6 +29,13 @@ describe 'Chart.D3Line', ->
     args = {}
     instance = null
 
+  describe '.area', ->
+    it 'should return a function', ->
+      xScale = Chart.D3Line.xScale([0, 0], 0)
+      yScale = Chart.D3Line.yScale([], 0)
+      actual = Chart.D3Line.area(xScale, yScale, args.data.labels, 0)
+      expect(actual).to.be.a('function')
+
   describe '.line', ->
     it 'should return a function', ->
       xScale = Chart.D3Line.xScale([0, 0], 0)

@@ -2,18 +2,25 @@
 class Chart.D3Line extends Chart.D3Chart
   'use strict'
 
-  @xScale: (domain, max) ->
-    d3.scale.ordinal().domain(domain).rangePoints([0, max], 0, 0)
-
-  @yScale: (data, max, min = 0) ->
-    maxY = d3.max(data, (d) -> d3.max(d.data))
-    d3.scale.linear().domain([0, maxY]).range([max, min]).nice()
+  @area: (xScale, yScale, labels, chartHeight) ->
+    d3.svg.area()
+      .x((d, i) -> xScale(labels[i]))
+      .y0(chartHeight)
+      .y1((d) -> yScale(d))
+      .interpolate('cardinal')
 
   @line: (xScale, yScale, labels) ->
     d3.svg.line()
       .x((d, i) -> xScale(labels[i]))
       .y((d) -> yScale(d))
       .interpolate('cardinal')
+
+  @xScale: (domain, max) ->
+    d3.scale.ordinal().domain(domain).rangePoints([0, max], 0, 0)
+
+  @yScale: (data, max, min = 0) ->
+    maxY = d3.max(data, (d) -> d3.max(d.data))
+    d3.scale.linear().domain([0, maxY]).range([max, min]).nice()
 
   constructor: (selectors, data, options) ->
     margin = top: 13, right: 23, bottom: 24, left: 55
@@ -40,7 +47,8 @@ class Chart.D3Line extends Chart.D3Chart
     @renderXAxis(xScale, chartHeight)
     @renderYAxis(yScale)
 
-    @renderAreas(data, labels, xScale, yScale, chartHeight, options)
+    area = D3Line.area(xScale, yScale, labels, chartHeight)
+    @renderAreas(area, data)
     line = D3Line.line(xScale, yScale, labels)
     @renderLines(line, data, options)
 
@@ -49,12 +57,7 @@ class Chart.D3Line extends Chart.D3Chart
     @updateScaleTextStyle(options)
     this
 
-  renderAreas: (data, labels, xScale, yScale, chartHeight, options) =>
-    area = d3.svg.area()
-      .x((d, i) -> xScale(labels[i]))
-      .y0(chartHeight)
-      .y1((d) -> yScale(d))
-      .interpolate('cardinal')
+  renderAreas: (area, data) =>
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
