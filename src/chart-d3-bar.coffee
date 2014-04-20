@@ -127,7 +127,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('stroke', (d) -> d.strokeColor)
       .attr('stroke-width', strokeWidth)
 
-  transitBar: (el,chartHeight, yScale) =>
+  transitBar: (el, chartHeight, yScale) =>
     @getRootElement()
       .selectAll('.bar')
       .attr('y', chartHeight)

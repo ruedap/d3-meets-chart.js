@@ -2,18 +2,20 @@
 class Chart.D3Line extends Chart.D3Chart
   'use strict'
 
-  @area: (xScale, yScale, labels, chartHeight) ->
+  @area: (xScale, yScale, labels, options, chartHeight) ->
+    interpolate = if options.bezierCurve then 'linear' else 'linear'
     d3.svg.area()
       .x((d, i) -> xScale(labels[i]))
       .y0(chartHeight)
       .y1((d) -> yScale(d))
-      .interpolate('linear')
+      .interpolate(interpolate)
 
-  @line: (xScale, yScale, labels) ->
+  @line: (xScale, yScale, labels, options) ->
+    interpolate = if options.bezierCurve then 'linear' else 'linear'
     d3.svg.line()
       .x((d, i) -> xScale(labels[i]))
       .y((d) -> yScale(d))
-      .interpolate('linear')
+      .interpolate(interpolate)
 
   @xScale: (domain, max) ->
     d3.scale.ordinal().domain(domain).rangePoints([0, max], 0, 0)
@@ -48,9 +50,9 @@ class Chart.D3Line extends Chart.D3Chart
     @renderYAxis(yScale)
 
     @renderLinesGroup(data)
-    area = D3Line.area(xScale, yScale, labels, chartHeight)
-    @renderAreas(area, data)
-    line = D3Line.line(xScale, yScale, labels)
+    area = D3Line.area(xScale, yScale, labels, options, chartHeight)
+    @renderAreas(area, data, options)
+    line = D3Line.line(xScale, yScale, labels, options)
     @renderLines(line, data, options)
     @renderDots(data, labels, xScale, yScale, options)
 
@@ -72,7 +74,8 @@ class Chart.D3Line extends Chart.D3Chart
       .append('g')
       .classed('line-group', true)
 
-  renderAreas: (area, data) =>
+  renderAreas: (area, data, options) =>
+    return unless options.datasetFill
     @getRootElement()
       .selectAll('.line-group')
       .data(data)
@@ -83,6 +86,7 @@ class Chart.D3Line extends Chart.D3Chart
       .attr('fill', (d) -> d.fillColor)
 
   renderDots: (data, labels, xScale, yScale, options) =>
+    return unless options.pointDot
     dataset = _.map data, (each1) ->
       _.map each1.data, (each2) ->
         value: each2
@@ -115,3 +119,12 @@ class Chart.D3Line extends Chart.D3Chart
       .attr('stroke', (d) -> d.strokeColor)
       .attr('stroke-width', options.datasetStrokeWidth)
       .attr('fill', 'none')
+
+  transitBar: (el, chartHeight, yScale) =>
+    @getRootElement()
+      .selectAll('.bar')
+      .attr('y', chartHeight)
+      .attr('height', 0)
+    el.selectAll('.bar')
+      .attr('y', (d, i) -> yScale(d.value))
+      .attr('height', (d) -> chartHeight - yScale(d.value))
