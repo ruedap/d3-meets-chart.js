@@ -64,6 +64,11 @@ describe 'Chart.D3Line', ->
       actual = instance.render()
       expect(actual).to.be.a(Chart.D3Line)
 
+  describe '::renderLinesGroup', ->
+    it 'should return an array', ->
+      actual = instance.renderLinesGroup([])
+      expect(actual).to.be.an(Array)
+
   describe '::renderAreas', ->
     it 'should return an array', ->
       xScale = Chart.D3Line.xScale([0, 0], 0)

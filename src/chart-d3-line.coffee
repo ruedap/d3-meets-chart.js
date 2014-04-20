@@ -47,6 +47,7 @@ class Chart.D3Line extends Chart.D3Chart
     @renderXAxis(xScale, chartHeight)
     @renderYAxis(yScale)
 
+    @renderLinesGroup(data)
     area = D3Line.area(xScale, yScale, labels, chartHeight)
     @renderAreas(area, data)
     line = D3Line.line(xScale, yScale, labels)
@@ -57,7 +58,7 @@ class Chart.D3Line extends Chart.D3Chart
     @updateScaleTextStyle(options)
     this
 
-  renderAreas: (area, data) =>
+  renderLinesGroup: (data) =>
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
@@ -69,6 +70,11 @@ class Chart.D3Line extends Chart.D3Chart
       .enter()
       .append('g')
       .classed('line-group', true)
+
+  renderAreas: (area, data) =>
+    @getRootElement()
+      .selectAll('.line-group')
+      .data(data)
       .append('path')
       .classed('area', true)
       .attr('d', (d) -> area(d.data))
