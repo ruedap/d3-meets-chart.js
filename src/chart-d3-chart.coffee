@@ -91,6 +91,7 @@ class Chart.D3Chart
       .append('g')
       .classed('scale-group': true, 'scale-y-group': true)
       .call(D3Chart.yAxis(yScale))
+      .select('.tick > text').remove()  # Remove tick of zero
 
   updateGridTickStyle: (options) =>
     @getRootElement()
