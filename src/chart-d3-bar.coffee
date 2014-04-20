@@ -20,6 +20,13 @@ class Chart.D3Bar extends Chart.D3Chart
     ]
     d3.svg.line().x((d) -> d.x).y((d) -> d.y)(_data)
 
+  @xScale: (domain, max) ->
+    d3.scale.ordinal().domain(domain).rangeRoundBands([0, max], 0, 0)
+
+  @yScale: (data, max, min = 0) ->
+    maxY = d3.max(data, (d) -> d3.max(d.values, (d) -> d.value))
+    d3.scale.linear().domain([0, maxY]).range([max, min]).nice()
+
   constructor: (selectors, data, options) ->
     margin = top: 13, right: 23, bottom: 24, left: 55
     super(selectors, data, options, margin)
@@ -66,7 +73,7 @@ class Chart.D3Bar extends Chart.D3Chart
     @renderGrid()
     @renderXAxis(x0Scale, chartHeight)
     @renderYAxis(yScale)
-    
+
     @renderBars(data, x0Scale)
     @renderBar(chartHeight, x1Scale, yScale)
     @renderBarBorder(chartHeight, x1Scale, yScale, strokeWidth)

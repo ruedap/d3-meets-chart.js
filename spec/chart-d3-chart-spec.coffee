@@ -19,16 +19,6 @@ describe 'Chart.D3Chart', ->
       actual = Chart.D3Chart.yAxis(d3.scale.ordinal())
       expect(actual).to.be.a('function')
 
-  describe '.xScale', ->
-    it 'should return a function', ->
-      actual = Chart.D3Chart.xScale([0, 0], 0)
-      expect(actual).to.be.a('function')
-
-  describe '.yScale', ->
-    it 'should return a function', ->
-      actual = Chart.D3Chart.yScale([], 0)
-      expect(actual).to.be.a('function')
-
   describe '::constructor', ->
     it 'should have same values in properties', ->
       expect(instance.selectors).to.be('#svg')
@@ -65,14 +55,14 @@ describe 'Chart.D3Chart', ->
 
   describe '::renderXGrid', ->
     it 'should return an array', ->
-      x0Scale = Chart.D3Chart.xScale([0, 0], 0)
-      actual = instance.renderXGrid(x0Scale, 0)
+      xScale = d3.scale.ordinal().domain(d3.range(2))
+      actual = instance.renderXGrid(xScale, 0)
       expect(actual).to.be.an(Array)
       expect(actual).to.have.length(1)
 
   describe '::renderYGrid', ->
     it 'should return an array', ->
-      yScale = Chart.D3Chart.yScale([], 0)
+      yScale = d3.scale.ordinal().domain(d3.range(2))
       actual = instance.renderYGrid(yScale, 0)
       expect(actual).to.be.an(Array)
       expect(actual).to.have.length(1)
@@ -85,13 +75,13 @@ describe 'Chart.D3Chart', ->
 
   describe '::renderXAxis', ->
     it 'should return an array', ->
-      x0Scale = Chart.D3Chart.xScale([0, 0], 0)
-      actual = instance.renderXAxis(x0Scale, 0)
+      xScale = d3.scale.ordinal().domain(d3.range(2))
+      actual = instance.renderXAxis(xScale, 0)
       expect(actual).to.be.an(Array)
 
   describe '::renderYAxis', ->
     it 'should return an array', ->
-      yScale = Chart.D3Chart.yScale([], 0)
+      yScale = d3.scale.ordinal().domain(d3.range(2))
       actual = instance.renderYAxis(yScale)
       expect(actual).to.be.an(Array)
 

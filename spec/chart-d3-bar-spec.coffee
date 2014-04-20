@@ -39,6 +39,16 @@ describe 'Chart.D3Bar', ->
       expectation = 'M1.5,450L1.5,1.5L47.5,1.5L47.5,450'
       expect(actual).to.be(expectation)
 
+  describe '.xScale', ->
+    it 'should return a function', ->
+      actual = Chart.D3Bar.xScale([0, 0], 0)
+      expect(actual).to.be.a('function')
+
+  describe '.yScale', ->
+    it 'should return a function', ->
+      actual = Chart.D3Bar.yScale([], 0)
+      expect(actual).to.be.a('function')
+
   describe '::constructor', ->
     it 'should have same values in properties', ->
       expect(instance.selectors).to.be('#svg')

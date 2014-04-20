@@ -10,13 +10,6 @@ class Chart.D3Chart
     d3.svg.axis().scale(yScale).ticks(20).tickSize(3, 0)
       .tickPadding(7).orient('left')
 
-  @xScale: (domain, max) ->
-    d3.scale.ordinal().domain(domain).rangeRoundBands([0, max], 0, 0)
-
-  @yScale: (data, max, min = 0) ->
-    maxY = d3.max(data, (d) -> d3.max(d.values, (d) -> d.value))
-    d3.scale.linear().domain([0, maxY]).range([max, min]).nice()
-
   constructor: (@selectors, @data, @options, margin) ->
     margin or= top: 0, right: 0, bottom: 0, left: 0
     @defineRootElement(
@@ -84,13 +77,13 @@ class Chart.D3Chart
       .exit()
       .remove()
 
-  renderXAxis: (x0Scale, chartHeight) =>
+  renderXAxis: (xScale, chartHeight) =>
     @getRootElement()
       .select('.margin-convention-element')
       .append('g')
       .classed('scale-group': true, 'scale-x-group': true)
       .attr('transform', "translate(0,#{chartHeight})")
-      .call(D3Chart.xAxis(x0Scale))
+      .call(D3Chart.xAxis(xScale))
 
   renderYAxis: (yScale) =>
     @getRootElement()
