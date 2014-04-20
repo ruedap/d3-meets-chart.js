@@ -34,17 +34,19 @@ class Chart.D3Line extends Chart.D3Chart
     @renderXAxis(xScale, chartHeight)
     @renderYAxis(yScale)
 
-    @renderLines(data, labels, xScale, yScale, chartHeight, options)
+    @renderAreas(data, labels, xScale, yScale, chartHeight, options)
+    @renderLines(data, labels, xScale, yScale, options)
 
     @updateGridTickStyle(options)
     @updateScaleStrokeStyle(options)
     @updateScaleTextStyle(options)
     this
 
-  renderLines: (data, labels, xScale, yScale, chartHeight, options) =>
-    line = d3.svg.line()
+  renderAreas: (data, labels, xScale, yScale, chartHeight, options) =>
+    area = d3.svg.area()
       .x((d, i) -> xScale(labels[i]))
-      .y((d) -> yScale(d))
+      .y0(chartHeight)
+      .y1((d) -> yScale(d))
       .interpolate('cardinal')
     @getRootElement()
       .select('.margin-convention-element')
@@ -57,6 +59,20 @@ class Chart.D3Line extends Chart.D3Chart
       .enter()
       .append('g')
       .classed('line-group', true)
+      .append('path')
+      .classed('area', true)
+      .attr('d', (d) -> area(d.data))
+      .attr('stroke', 'none')
+      .attr('fill', (d) -> d.fillColor)
+
+  renderLines: (data, labels, xScale, yScale, options) =>
+    line = d3.svg.line()
+      .x((d, i) -> xScale(labels[i]))
+      .y((d) -> yScale(d))
+      .interpolate('cardinal')
+    @getRootElement()
+      .selectAll('.line-group')
+      .data(data)
       .append('path')
       .classed('line', true)
       .attr('d', (d) -> line(d.data))
