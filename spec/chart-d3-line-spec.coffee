@@ -3,6 +3,8 @@ describe 'Chart.D3Line', ->
 
   args = {}
   instance = undefined
+  xScale = undefined
+  yScale = undefined
 
   before ->
     args.data =
@@ -24,22 +26,22 @@ describe 'Chart.D3Line', ->
       animationSteps: 60
       animationEasing: 'easeOutQuad'
     instance = new Chart.D3Line('#svg', args.data, args.options)
+    xScale = Chart.D3Line.xScale([0, 0], 0)
+    yScale = Chart.D3Line.yScale([], 0)
 
   after ->
-    args = {}
+    args = null
     instance = null
+    xScale = null
+    yScale = null
 
   describe '.area', ->
     it 'should return a function', ->
-      xScale = Chart.D3Line.xScale([0, 0], 0)
-      yScale = Chart.D3Line.yScale([], 0)
       actual = Chart.D3Line.area(xScale, yScale, args.data.labels, 0)
       expect(actual).to.be.a('function')
 
   describe '.line', ->
     it 'should return a function', ->
-      xScale = Chart.D3Line.xScale([0, 0], 0)
-      yScale = Chart.D3Line.yScale([], 0)
       actual = Chart.D3Line.line(xScale, yScale, args.data.labels)
       expect(actual).to.be.a('function')
 
@@ -71,15 +73,11 @@ describe 'Chart.D3Line', ->
 
   describe '::renderAreas', ->
     it 'should return an array', ->
-      xScale = Chart.D3Line.xScale([0, 0], 0)
-      yScale = Chart.D3Line.yScale([], 0)
       actual = instance.renderAreas([], [], xScale, yScale, 0, {})
       expect(actual).to.be.an(Array)
 
   describe '::renderLines', ->
     it 'should return an array', ->
-      xScale = Chart.D3Line.xScale([0, 0], 0)
-      yScale = Chart.D3Line.yScale([], 0)
       line = Chart.D3Line.line(xScale, yScale, {})
       actual = instance.renderLines(line, {}, {})
       expect(actual).to.be.an(Array)
