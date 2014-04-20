@@ -68,16 +68,24 @@ describe 'Chart.D3Line', ->
 
   describe '::renderLinesGroup', ->
     it 'should return an array', ->
-      actual = instance.renderLinesGroup([])
+      actual = instance.renderLinesGroup(args.data)
       expect(actual).to.be.an(Array)
 
   describe '::renderAreas', ->
     it 'should return an array', ->
-      actual = instance.renderAreas([], [], xScale, yScale, 0, {})
+      area = Chart.D3Line.area(xScale, yScale, args.data.labels, 0)
+      actual = instance.renderAreas(area, args.data)
+      expect(actual).to.be.an(Array)
+
+  describe '::renderDots', ->
+    it 'should return an array', ->
+      actual = instance.renderDots(
+        args.data, args.data.labels, xScale, yScale, args.options
+      )
       expect(actual).to.be.an(Array)
 
   describe '::renderLines', ->
     it 'should return an array', ->
-      line = Chart.D3Line.line(xScale, yScale, {})
-      actual = instance.renderLines(line, {}, {})
+      line = Chart.D3Line.line(xScale, yScale, args.data.labels)
+      actual = instance.renderLines(line, args.data, args.options)
       expect(actual).to.be.an(Array)

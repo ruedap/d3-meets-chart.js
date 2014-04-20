@@ -7,13 +7,13 @@ class Chart.D3Line extends Chart.D3Chart
       .x((d, i) -> xScale(labels[i]))
       .y0(chartHeight)
       .y1((d) -> yScale(d))
-      .interpolate('cardinal')
+      .interpolate('linear')
 
   @line: (xScale, yScale, labels) ->
     d3.svg.line()
       .x((d, i) -> xScale(labels[i]))
       .y((d) -> yScale(d))
-      .interpolate('cardinal')
+      .interpolate('linear')
 
   @xScale: (domain, max) ->
     d3.scale.ordinal().domain(domain).rangePoints([0, max], 0, 0)
@@ -52,6 +52,7 @@ class Chart.D3Line extends Chart.D3Chart
     @renderAreas(area, data)
     line = D3Line.line(xScale, yScale, labels)
     @renderLines(line, data, options)
+    @renderDots(data, labels, xScale, yScale, options)
 
     @updateGridTickStyle(options)
     @updateScaleStrokeStyle(options)
@@ -80,6 +81,29 @@ class Chart.D3Line extends Chart.D3Chart
       .attr('d', (d) -> area(d.data))
       .attr('stroke', 'none')
       .attr('fill', (d) -> d.fillColor)
+
+  renderDots: (data, labels, xScale, yScale, options) =>
+    dataset = _.map data, (each1) ->
+      _.map each1.data, (each2) ->
+        value: each2
+        fillColor: each1.fillColor
+        strokeColor: each1.strokeColor
+        pointColor: each1.pointColor
+        pointStrokeColor: each1.pointStrokeColor
+    @getRootElement()
+      .selectAll('.line-group')
+      .data(dataset)
+      .selectAll('.dot')
+      .data((d) -> d)
+      .enter()
+      .append('circle')
+      .classed(dot: true)
+      .attr(r: options.pointDotRadius)
+      .attr('cx', (d, i) -> xScale(labels[i]))
+      .attr('cy', (d) -> yScale(d.value))
+      .attr('stroke', (d, i) -> d.pointStrokeColor)
+      .attr('stroke-width', options.pointDotStrokeWidth)
+      .attr('fill', (d, i) -> d.pointColor)
 
   renderLines: (line, data, options) =>
     @getRootElement()
