@@ -39,7 +39,6 @@ class Chart.D3Line extends Chart.D3Chart
     @updateGridTickStyle(options)
     @updateScaleStrokeStyle(options)
     @updateScaleTextStyle(options)
-
     this
 
   renderLines: (data, labels, xScale, yScale) =>

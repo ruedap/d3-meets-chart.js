@@ -29,6 +29,16 @@ describe 'Chart.D3Line', ->
     args = {}
     instance = null
 
+  describe '.xScale', ->
+    it 'should return a function', ->
+      actual = Chart.D3Line.xScale([0, 0], 0)
+      expect(actual).to.be.a('function')
+
+  describe '.yScale', ->
+    it 'should return a function', ->
+      actual = Chart.D3Line.yScale([], 0)
+      expect(actual).to.be.a('function')
+
   describe '::constructor', ->
     it 'should have same values in properties', ->
       expect(instance.selectors).to.be('#svg')
@@ -44,5 +54,5 @@ describe 'Chart.D3Line', ->
     it 'should return an array', ->
       xScale = Chart.D3Line.xScale([0, 0], 0)
       yScale = Chart.D3Line.yScale([], 0)
-      actual = instance.renderLines([], xScale, yScale)
+      actual = instance.renderLines([], [], xScale, yScale)
       expect(actual).to.be.an(Array)
