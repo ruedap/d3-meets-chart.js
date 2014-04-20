@@ -35,42 +35,14 @@ describe 'Chart.D3Line', ->
       expect(instance.data).to.eql(args.data)
       expect(instance.options).to.have.key('animationSteps')
 
-  describe '::generateData', ->
-    context 'when arguments are invalid', ->
-      it 'should return an undefined', ->
-        expect(instance.generateData([], null)).to.be(undefined)
-        expect(instance.generateData(null, [])).to.be(undefined)
-        expect(instance.generateData(null, null)).to.be(undefined)
-
-    context 'when arguments are valid', ->
-      context 'when arguments are blank arrays', ->
-        it 'should return a blank array', ->
-          actual = instance.generateData([], [])
-          expect(actual).to.be.an(Array)
-          expect(actual).to.eql([])
-
-      context 'when arguments are not blank arrays', ->
-        it 'should return an array', ->
-          actual = instance.generateData(
-            args.data.labels,
-            args.data.datasets
-          )
-          expect(actual).to.be.an(Array)
-
-        it 'should have same values in properties', ->
-          actual = instance.generateData(
-            args.data.labels,
-            args.data.datasets
-          )
-          expect(actual[0].key).to.be('January')
-          values = actual[0].values[1]
-          expect(values.value).to.be(28)
-          expect(values.fillColor).to.be('rgba(151,187,205,0.5)')
-          expect(values.strokeColor).to.be('rgba(151,187,205,1)')
-          expect(values.pointColor).to.be('rgba(151,187,205,1)')
-          expect(values.pointStrokeColor).to.be('#fff')
-
   describe '::render', ->
     xit 'should return a Chart.D3Line object', ->
       actual = instance.render()
       expect(actual).to.be.a(Chart.D3Line)
+
+  describe '::renderLines', ->
+    it 'should return an array', ->
+      xScale = Chart.D3Line.xScale([0, 0], 0)
+      yScale = Chart.D3Line.yScale([], 0)
+      actual = instance.renderLines([], xScale, yScale)
+      expect(actual).to.be.an(Array)

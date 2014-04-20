@@ -66,6 +66,7 @@ class Chart.D3Bar extends Chart.D3Chart
     @renderGrid()
     @renderXAxis(x0Scale, chartHeight)
     @renderYAxis(yScale)
+    
     @renderBars(data, x0Scale)
     @renderBar(chartHeight, x1Scale, yScale)
     @renderBarBorder(chartHeight, x1Scale, yScale, strokeWidth)
