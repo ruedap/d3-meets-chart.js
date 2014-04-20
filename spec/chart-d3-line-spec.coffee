@@ -29,6 +29,13 @@ describe 'Chart.D3Line', ->
     args = {}
     instance = null
 
+  describe '.line', ->
+    it 'should return a function', ->
+      xScale = Chart.D3Line.xScale([0, 0], 0)
+      yScale = Chart.D3Line.yScale([], 0)
+      actual = Chart.D3Line.line(xScale, yScale, args.data.labels)
+      expect(actual).to.be.a('function')
+
   describe '.xScale', ->
     it 'should return a function', ->
       actual = Chart.D3Line.xScale([0, 0], 0)
@@ -61,5 +68,6 @@ describe 'Chart.D3Line', ->
     it 'should return an array', ->
       xScale = Chart.D3Line.xScale([0, 0], 0)
       yScale = Chart.D3Line.yScale([], 0)
-      actual = instance.renderLines([], [], xScale, yScale, {})
+      line = Chart.D3Line.line(xScale, yScale, {})
+      actual = instance.renderLines(line, {}, {})
       expect(actual).to.be.an(Array)

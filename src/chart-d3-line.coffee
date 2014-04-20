@@ -9,6 +9,12 @@ class Chart.D3Line extends Chart.D3Chart
     maxY = d3.max(data, (d) -> d3.max(d.data))
     d3.scale.linear().domain([0, maxY]).range([max, min]).nice()
 
+  @line: (xScale, yScale, labels) ->
+    d3.svg.line()
+      .x((d, i) -> xScale(labels[i]))
+      .y((d) -> yScale(d))
+      .interpolate('cardinal')
+
   constructor: (selectors, data, options) ->
     margin = top: 13, right: 23, bottom: 24, left: 55
     super(selectors, data, options, margin)
@@ -35,7 +41,8 @@ class Chart.D3Line extends Chart.D3Chart
     @renderYAxis(yScale)
 
     @renderAreas(data, labels, xScale, yScale, chartHeight, options)
-    @renderLines(data, labels, xScale, yScale, options)
+    line = D3Line.line(xScale, yScale, labels)
+    @renderLines(line, data, options)
 
     @updateGridTickStyle(options)
     @updateScaleStrokeStyle(options)
@@ -65,11 +72,7 @@ class Chart.D3Line extends Chart.D3Chart
       .attr('stroke', 'none')
       .attr('fill', (d) -> d.fillColor)
 
-  renderLines: (data, labels, xScale, yScale, options) =>
-    line = d3.svg.line()
-      .x((d, i) -> xScale(labels[i]))
-      .y((d) -> yScale(d))
-      .interpolate('cardinal')
+  renderLines: (line, data, options) =>
     @getRootElement()
       .selectAll('.line-group')
       .data(data)
