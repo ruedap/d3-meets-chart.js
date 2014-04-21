@@ -1,4 +1,4 @@
-# Concrete class
+# Concrete class for line chart
 class Chart.D3Line extends Chart.D3Chart
   'use strict'
 
@@ -30,7 +30,7 @@ class Chart.D3Line extends Chart.D3Chart
     margin = top: 13, right: 23, bottom: 24, left: 55
     super(selectors, data, options, margin)
 
-  # TODO: enable test
+  # TODO: enable spec
   render: =>
     labels = @data.labels
     data = @data.datasets
@@ -95,13 +95,13 @@ class Chart.D3Line extends Chart.D3Chart
 
   renderDots: (data, labels, xScale, yScale, options) =>
     return unless options.pointDot
-    dataset = data.map (each1) ->
-      each1.data.map (each2) ->
-        value: each2
-        fillColor: each1.fillColor
-        strokeColor: each1.strokeColor
-        pointColor: each1.pointColor
-        pointStrokeColor: each1.pointStrokeColor
+    dataset = data.map (d1) ->
+      d1.data.map (d2) ->
+        value: d2
+        fillColor: d1.fillColor
+        strokeColor: d1.strokeColor
+        pointColor: d1.pointColor
+        pointStrokeColor: d1.pointStrokeColor
     @getRootElement()
       .selectAll('.line-group')
       .data(dataset)

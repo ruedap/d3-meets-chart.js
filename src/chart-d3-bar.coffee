@@ -1,4 +1,4 @@
-# Concrete class
+# Concrete class for bar chart
 class Chart.D3Bar extends Chart.D3Chart
   'use strict'
 
@@ -45,7 +45,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .key((d) -> d.label)
       .entries(array)
 
-  # TODO: enable test
+  # TODO: enable spec
   render: =>
     labels = @data.labels
     datasets = @data.datasets

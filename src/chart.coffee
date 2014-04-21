@@ -2,6 +2,7 @@
 class @Chart
   'use strict'
 
+  # Concrete class for utility fucntions
   class Chart.Util
     @extend: (dest, sources...) ->
       for source in sources
@@ -213,7 +214,7 @@ class @Chart
     easeInBounce: 'bounce-out'          # Invert? but based on Chart.js
     easeOutBounce: 'bounce-in'          # Invert? but based on Chart.js
     easeInOutBounce: 'bounce-in-out'    # Differs from Chart.js
-    # TODO: Implement custom easing type
+    # TODO: Implement custom easing types
     # easeInQuart: ''
     # easeOutQuart: ''
     # easeInOutQuart: ''

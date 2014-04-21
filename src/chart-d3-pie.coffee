@@ -1,4 +1,4 @@
-# Concrete class
+# Concrete class for pie chart
 class Chart.D3Pie extends Chart.D3Chart
   'use strict'
 
@@ -56,7 +56,7 @@ class Chart.D3Pie extends Chart.D3Chart
   getInnerRadius: (outerRadius, options) ->
     0
 
-  # TODO: Refactor
+  # TODO: enable spec
   render: ->
     width = @getRootElementWidth()
     height = @getRootElementHeight()
@@ -85,6 +85,6 @@ class Chart.D3Pie extends Chart.D3Chart
     transition
       .each(-> ++n)
       .each 'end', =>
-        # TODO: need test
+        # TODO: need spec
         if !--n and (--@transitionEndAllCount == 0)
           options.onAnimationComplete.apply(this, arguments)

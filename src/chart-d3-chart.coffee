@@ -19,7 +19,6 @@ class Chart.D3Chart
       margin
     )
 
-  # FIXME: style(responsive) and percent unit support
   attrTranslateToCenter: =>
     halfWidth = @getRootElementWidth() / 2
     halfHeight = @getRootElementHeight() / 2
@@ -42,13 +41,11 @@ class Chart.D3Chart
   getRootElement: =>
     d3.select(@selectors)
 
-  # FIXME: style(responsive) and percent unit support
   getRootElementHeight: =>
-    +@getRootElement().attr('height')
+    +(@getRootElement().attr('height'))
 
-  # FIXME: style(responsive) and percent unit support
   getRootElementWidth: =>
-    +@getRootElement().attr('width')
+    +(@getRootElement().attr('width'))
 
   getTransitionElement: (duration, options) =>
     @getRootElement()
@@ -97,7 +94,7 @@ class Chart.D3Chart
       .append('g')
       .classed('scale-group': true, 'scale-y-group': true)
       .call(D3Chart.yAxis(yScale))
-      .select('.tick > text').remove()  # Remove tick of zero
+      .select('.tick > text').remove()  # Remove first tick
 
   updateGridTickStyle: (options) =>
     @getRootElement()
