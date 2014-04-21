@@ -3,13 +3,18 @@ class @Chart
   'use strict'
 
   class Chart.Util
+    @extend: (dest, sources...) ->
+      for source in sources
+        dest[key] = value for key, value of source
+      dest
+
     # http://bonsaiden.github.io/JavaScript-Garden/#types.typeof
     @is: (type, obj) ->
       klass = Object::toString.call(obj).slice(8, -1)
       obj isnt undefined and obj isnt null and klass is type
 
   constructor: (@selectors) ->
-    unless _.isString(@selectors)
+    unless Chart.Util.is('String', @selectors)
       throw new TypeError('This argument is not selectors string')
 
   Bar: (data, options) ->
