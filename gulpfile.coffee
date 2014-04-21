@@ -6,14 +6,17 @@ concat = require('gulp-concat')
 uglify = require('gulp-uglify')
 notify = require('gulp-notify')
 rimraf = require('gulp-rimraf')
+rename = require('gulp-rename')
 plumber = require('gulp-plumber')
 licenseFind = require('gulp-license-finder')
+runSequence = require('run-sequence')
 
 dir =
   tmp: './tmp/'
 
 file =
   main: 'd3-meets-chart.js'
+  mainMin: 'd3-meets-chart.min.js'
   specRunner: 'spec-runner.js'
 
 src =
@@ -33,7 +36,10 @@ src =
     './src/d3-meets-chart.styl'
   ]
   main: dir.tmp + file.main
+  mainMin: dir.tmp + file.mainMin
   specRunner: dir.tmp + file.specRunner
+
+# Tasks
 
 gulp.task 'coffee-src', ->
   gulp.src(src.coffeeSrc)
@@ -55,19 +61,29 @@ gulp.task 'stylus-src', ->
     .pipe(stylus())
     .pipe gulp.dest(dir.tmp)
 
+gulp.task 'uglify', ->
+  gulp.src(src.main)
+    .pipe(rename(src.mainMin))
+    .pipe(uglify())
+    .pipe(gulp.dest('./'))
+
 gulp.task 'clean', ->
-  gulp.src(src.specRunner)
+  gulp.src(dir.tmp)
     .pipe(plumber())
     .pipe(rimraf())
 
 gulp.task 'licenses', ->
   licenseFind().pipe(gulp.dest('./audit'))
 
-gulp.task 'watch', ->
-  gulp.watch(['./src/*.coffee', './src/*.styl', './spec/*.coffee'], ['spec'])
+# Runners
+
+gulp.task 'compile', ->
+  runSequence('clean', 'coffee-src', 'coffee-spec', 'stylus-src', 'uglify')
 
 gulp.task('coffee', ['coffee-src', 'coffee-spec'])
 gulp.task('stylus', ['stylus-src'])
-gulp.task('compile', ['coffee-src', 'coffee-spec', 'stylus-src'])
-gulp.task('spec', ['compile', 'clean'])
-gulp.task('default', ['spec'])
+
+gulp.task 'watch', ->
+  gulp.watch(['./src/*.coffee', './src/*.styl', './spec/*.coffee'], ['compile'])
+
+gulp.task('default', ['compile'])
