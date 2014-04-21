@@ -3,6 +3,7 @@ class Chart.D3Line extends Chart.D3Chart
   'use strict'
 
   @area: (xScale, yScale, labels, options, chartHeight) ->
+    # TODO: Implement bezierCurve
     interpolate = if options.bezierCurve then 'linear' else 'linear'
     d3.svg.area()
       .x((d, i) -> xScale(labels[i]))
@@ -11,6 +12,7 @@ class Chart.D3Line extends Chart.D3Chart
       .interpolate(interpolate)
 
   @line: (xScale, yScale, labels, options) ->
+    # TODO: Implement bezierCurve
     interpolate = if options.bezierCurve then 'linear' else 'linear'
     d3.svg.line()
       .x((d, i) -> xScale(labels[i]))
@@ -59,6 +61,10 @@ class Chart.D3Line extends Chart.D3Chart
     @updateGridTickStyle(options)
     @updateScaleStrokeStyle(options)
     @updateScaleTextStyle(options)
+
+    el = @getTransitionElement(@duration(), options)
+    @transitAreas(el, chartHeight)
+
     this
 
   renderLinesGroup: (data) =>
@@ -120,11 +126,9 @@ class Chart.D3Line extends Chart.D3Chart
       .attr('stroke-width', options.datasetStrokeWidth)
       .attr('fill', 'none')
 
-  transitBar: (el, chartHeight, yScale) =>
+  transitAreas: (el, chartHeight) =>
     @getRootElement()
-      .selectAll('.bar')
-      .attr('y', chartHeight)
-      .attr('height', 0)
-    el.selectAll('.bar')
-      .attr('y', (d, i) -> yScale(d.value))
-      .attr('height', (d) -> chartHeight - yScale(d.value))
+      .selectAll('.area')
+      .attr('transform', "translate(0,#{chartHeight}) scale(1,0)")
+    el.selectAll('.area')
+      .attr('transform', 'translate(0,0) scale(1,1)')

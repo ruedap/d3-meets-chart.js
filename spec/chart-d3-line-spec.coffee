@@ -114,3 +114,10 @@ describe 'Chart.D3Line', ->
       line = Chart.D3Line.line(xScale, yScale, args.data.labels, args.options)
       actual = instance.renderLines(line, args.data, args.options)
       expect(actual).to.be.an(Array)
+
+  describe '::transitBar', ->
+    it 'should return an array', ->
+      el = instance.getRootElement()
+      actual = instance.transitAreas(el, 0)
+      expect(actual).to.be.an(Array)
+      expect(actual).to.have.length(1)
