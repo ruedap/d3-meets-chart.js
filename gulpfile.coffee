@@ -34,8 +34,6 @@ src =
   ]
   main: dir.tmp + file.main
   specRunner: dir.tmp + file.specRunner
-  d3: 'node_modules/d3/d3.min.js'
-  lodash: 'node_modules/lodash/lodash.js'
 
 gulp.task 'coffee-src', ->
   gulp.src(src.coffeeSrc)
@@ -64,7 +62,7 @@ gulp.task 'clean', ->
 
 gulp.task 'licenses', ->
   licenseFind().pipe(gulp.dest('./audit'))
-  
+
 gulp.task 'watch', ->
   gulp.watch(['./src/*.coffee', './src/*.styl', './spec/*.coffee'], ['spec'])
 
