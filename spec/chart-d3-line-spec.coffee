@@ -6,7 +6,7 @@ describe 'Chart.D3Line', ->
   xScale = undefined
   yScale = undefined
 
-  before ->
+  beforeEach ->
     args.data =
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July']
       datasets: [
@@ -33,8 +33,8 @@ describe 'Chart.D3Line', ->
     xScale = Chart.D3Line.xScale([0, 0], 0)
     yScale = Chart.D3Line.yScale([], 0)
 
-  after ->
-    args = null
+  afterEach ->
+    args = {}
     instance = null
     xScale = null
     yScale = null

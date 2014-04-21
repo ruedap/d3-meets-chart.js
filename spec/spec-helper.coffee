@@ -1,4 +1,4 @@
-before ->
+beforeEach ->
   d3.select('body')
     .append('svg')
     .attr

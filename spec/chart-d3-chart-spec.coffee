@@ -2,12 +2,18 @@ describe 'Chart.D3Chart', ->
   'use strict'
 
   instance = undefined
+  xScale = undefined
+  yScale = undefined
 
-  before ->
+  beforeEach ->
     instance = new Chart.D3Chart('#svg', [], {})
+    xScale = d3.scale.ordinal().domain(d3.range(2))
+    yScale = d3.scale.ordinal().domain(d3.range(2))
 
-  after ->
+  afterEach ->
     instance = null
+    xScale = null
+    yScale = null
 
   describe '.xAxis', ->
     it 'should return a function', ->
@@ -62,14 +68,12 @@ describe 'Chart.D3Chart', ->
 
   describe '::renderXGrid', ->
     it 'should return an array', ->
-      xScale = d3.scale.ordinal().domain(d3.range(2))
       actual = instance.renderXGrid(xScale, 0)
       expect(actual).to.be.an(Array)
       expect(actual).to.have.length(1)
 
   describe '::renderYGrid', ->
     it 'should return an array', ->
-      yScale = d3.scale.ordinal().domain(d3.range(2))
       actual = instance.renderYGrid(yScale, 0)
       expect(actual).to.be.an(Array)
       expect(actual).to.have.length(1)
@@ -82,13 +86,11 @@ describe 'Chart.D3Chart', ->
 
   describe '::renderXAxis', ->
     it 'should return an array', ->
-      xScale = d3.scale.ordinal().domain(d3.range(2))
       actual = instance.renderXAxis(xScale, 0)
       expect(actual).to.be.an(Array)
 
   describe '::renderYAxis', ->
     it 'should return an array', ->
-      yScale = d3.scale.ordinal().domain(d3.range(2))
       actual = instance.renderYAxis(yScale)
       expect(actual).to.be.an(Array)
 

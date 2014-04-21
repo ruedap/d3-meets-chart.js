@@ -3,8 +3,11 @@ describe 'Chart.D3Bar', ->
 
   args = {}
   instance = undefined
+  x0Scale = undefined
+  x1Scale = undefined
+  yScale = undefined
 
-  before ->
+  beforeEach ->
     args.data =
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July']
       datasets: [
@@ -20,10 +23,17 @@ describe 'Chart.D3Bar', ->
       animationSteps: 60
       animationEasing: 'easeOutQuad'
     instance = new Chart.D3Bar('#svg', args.data, args.options)
+    x0Scale = Chart.D3Bar.xScale([0, 0], 0)
+    x1Scale = Chart.D3Bar.xScale([0, 100], 100)
+    _data = instance.generateData(args.data.labels, args.data.datasets)
+    yScale = Chart.D3Bar.yScale(_data, 0)
 
-  after ->
+  afterEach ->
     args = {}
     instance = null
+    x0Scale = null
+    x1Scale = null
+    yScale = null
 
   describe '.adjustRangeBand', ->
     it 'should return a number', ->
@@ -32,10 +42,8 @@ describe 'Chart.D3Bar', ->
   describe '.rectBorderPath', ->
     it 'should return a string of `d` attribute', ->
       data = instance.generateData(args.data.labels, args.data.datasets)
-      xScale = Chart.D3Bar.xScale([0, 100], 100)
-      yScale = Chart.D3Bar.yScale(data, 0)
       datum = data[0].values[0]
-      actual = Chart.D3Bar.rectBorderPath(datum, 0, 450, xScale, yScale, 3)
+      actual = Chart.D3Bar.rectBorderPath(datum, 0, 450, x1Scale, yScale, 3)
       expectation = 'M1.5,450L1.5,1.5L47.5,1.5L47.5,450'
       expect(actual).to.be(expectation)
 
@@ -95,31 +103,22 @@ describe 'Chart.D3Bar', ->
 
   describe '::renderBars', ->
     it 'should return an array', ->
-      x0Scale = Chart.D3Bar.xScale([0, 0], 0)
       actual = instance.renderBars([], x0Scale)
       expect(actual).to.be.an(Array)
 
   describe '::renderBar', ->
     it 'should return an array', ->
-      x1Scale = Chart.D3Bar.xScale([0, 0], 0)
-      data = instance.generateData(args.data.labels, args.data.datasets)
-      yScale = Chart.D3Bar.yScale(data, 0)
       actual = instance.renderBar(0, x1Scale, yScale)
       expect(actual).to.be.an(Array)
 
   describe '::renderBarBorder', ->
     it 'should return an array', ->
-      x1Scale = Chart.D3Bar.xScale([0, 0], 0)
-      data = instance.generateData(args.data.labels, args.data.datasets)
-      yScale = Chart.D3Bar.yScale(data, 0)
       actual = instance.renderBarBorder(0, x1Scale, yScale, 0)
       expect(actual).to.be.an(Array)
 
   describe '::transitBar', ->
     it 'should return an array', ->
       el = instance.getRootElement()
-      data = instance.generateData(args.data.labels, args.data.datasets)
-      yScale = Chart.D3Bar.yScale(data, 0)
       actual = instance.transitBar(el, 0, yScale)
       expect(actual).to.be.an(Array)
       expect(actual).to.have.length(1)

@@ -6,11 +6,11 @@ class Chart.D3Bar extends Chart.D3Chart
   @adjustRangeBand: (rangeBand) ->
     rangeBand - 1  # Set 1 pixel margin width
 
-  @rectBorderPath = (datum, i, chartHeight, xScale, yScale, strokeWidth) ->
+  @rectBorderPath = (datum, i, chartHeight, x1Scale, yScale, strokeWidth) ->
     _ch = chartHeight
     _swh = strokeWidth / 2
-    _x = xScale(i)
-    _w = D3Bar.adjustRangeBand(xScale.rangeBand())
+    _x = x1Scale(i)
+    _w = D3Bar.adjustRangeBand(x1Scale.rangeBand())
     _y = yScale(datum.value) + _swh
     _data = [
       { x: _x + _swh, y: _ch },
