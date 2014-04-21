@@ -4,11 +4,10 @@
     <title>Doughnut Chart</title>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" charset="utf-8"></script>
     <script>
-      window.OriginChart = Chart;
+      window.ChartJs = Chart;
     </script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.4/d3.min.js" charset="utf-8"></script>
+    <script src="../../node_modules/d3/d3.min.js" charset="utf-8"></script>
     <script src="../../tmp/d3-meets-chart.js"></script>
-    <link href="../../tmp/d3-meets-chart.css" media="all" rel="stylesheet" />
     <meta name = "viewport" content = "initial-scale = 1, user-scalable = no">
   </head>
   <body>
@@ -83,7 +82,7 @@
         // onAnimationComplete: function () { console.log('hello'); }
       };
 
-      var myOriginChart = new OriginChart(document.getElementById("canvas").getContext("2d"))
+      var myChartJs = new ChartJs(document.getElementById("canvas").getContext("2d"))
         .Doughnut(data, options);
       var myChat = new Chart("#svg")
         .Doughnut(data, options);
