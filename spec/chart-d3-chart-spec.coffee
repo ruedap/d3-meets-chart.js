@@ -53,6 +53,13 @@ describe 'Chart.D3Chart', ->
       actual = instance.getRootElementWidth()
       expect(actual).to.be(600)
 
+  describe '::getTransitionElement', ->
+    it 'should return an array', ->
+      options = animationEasing: 'easeOutQuad'
+      actual = instance.getTransitionElement(100, options)
+      expect(actual).to.be.an(Array)
+      expect(actual).to.have.length(1)
+
   describe '::renderXGrid', ->
     it 'should return an array', ->
       xScale = d3.scale.ordinal().domain(d3.range(2))

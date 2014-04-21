@@ -45,12 +45,6 @@ class Chart.D3Bar extends Chart.D3Chart
       .key((d) -> d.label)
       .entries(array)
 
-  getTransitionElement: (duration, options) =>
-    @getRootElement()
-      .transition()
-      .duration(duration)
-      .ease(options.animationEasing)
-
   # TODO: enable test
   render: =>
     labels = @data.labels

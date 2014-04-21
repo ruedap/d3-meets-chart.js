@@ -50,6 +50,12 @@ class Chart.D3Chart
   getRootElementWidth: =>
     +@getRootElement().attr('width')
 
+  getTransitionElement: (duration, options) =>
+    @getRootElement()
+      .transition()
+      .duration(duration)
+      .ease(options.animationEasing)
+
   renderXGrid: (x0Scale, chartHeight) =>
     x = x0Scale.rangeBand() / 2
     @getRootElement()
