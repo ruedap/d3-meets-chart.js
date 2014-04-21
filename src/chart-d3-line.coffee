@@ -64,6 +64,7 @@ class Chart.D3Line extends Chart.D3Chart
 
     el = @getTransitionElement(@duration(), options)
     @transitAreas(el, chartHeight)
+    @transitLines(el, chartHeight)
 
     this
 
@@ -131,4 +132,11 @@ class Chart.D3Line extends Chart.D3Chart
       .selectAll('.area')
       .attr('transform', "translate(0,#{chartHeight}) scale(1,0)")
     el.selectAll('.area')
+      .attr('transform', 'translate(0,0) scale(1,1)')
+
+  transitLines: (el, chartHeight) =>
+    @getRootElement()
+      .selectAll('.line')
+      .attr('transform', "translate(0,#{chartHeight}) scale(1,0)")
+    el.selectAll('.line')
       .attr('transform', 'translate(0,0) scale(1,1)')

@@ -115,9 +115,16 @@ describe 'Chart.D3Line', ->
       actual = instance.renderLines(line, args.data, args.options)
       expect(actual).to.be.an(Array)
 
-  describe '::transitBar', ->
+  describe '::transitAreas', ->
     it 'should return an array', ->
       el = instance.getRootElement()
       actual = instance.transitAreas(el, 0)
+      expect(actual).to.be.an(Array)
+      expect(actual).to.have.length(1)
+
+  describe '::transitLines', ->
+    it 'should return an array', ->
+      el = instance.getRootElement()
+      actual = instance.transitLines(el, 0)
       expect(actual).to.be.an(Array)
       expect(actual).to.have.length(1)
