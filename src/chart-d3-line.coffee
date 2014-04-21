@@ -34,7 +34,7 @@ class Chart.D3Line extends Chart.D3Chart
   render: =>
     labels = @data.labels
     data = @data.datasets
-    return this if _.isEmpty(data)
+    return this unless (data? or data?.length?)
 
     options = @options
     strokeWidth = @options.barStrokeWidth
@@ -95,8 +95,8 @@ class Chart.D3Line extends Chart.D3Chart
 
   renderDots: (data, labels, xScale, yScale, options) =>
     return unless options.pointDot
-    dataset = _.map data, (each1) ->
-      _.map each1.data, (each2) ->
+    dataset = data.map (each1) ->
+      each1.data.map (each2) ->
         value: each2
         fillColor: each1.fillColor
         strokeColor: each1.strokeColor

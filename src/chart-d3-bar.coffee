@@ -50,7 +50,7 @@ class Chart.D3Bar extends Chart.D3Chart
     labels = @data.labels
     datasets = @data.datasets
     data = @generateData(labels, datasets)
-    return this if _.isEmpty(data)
+    return this unless (data? or data?.length?)
 
     options = @options
     strokeWidth = @options.barStrokeWidth

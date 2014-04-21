@@ -72,7 +72,7 @@ class Chart.D3Pie extends Chart.D3Chart
     this
 
   setAnimationComplete: (options) ->
-    return Infinity unless _.isFunction options.onAnimationComplete
+    return Infinity unless typeof options.onAnimationComplete is 'function'
     if options.animation and options.animateRotate and options.animateScale
       2
     else if options.animation and (options.animateRotate or options.animateScale)

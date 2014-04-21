@@ -59,25 +59,25 @@ describe 'Chart.D3Pie', ->
       context 'when all of options are true', ->
         it 'should return 2', ->
           options = animation: true, animateRotate: true, animateScale: true
-          options = _.extend({}, @options, options)
+          options = Chart.Util.extend({}, @options, options)
           expect(@d3Pie.setAnimationComplete(options)).to.be(2)
 
       context 'when `animation` is true', ->
         context 'when any one of `animateRotate` or `animateScale` are true', ->
           it 'should return 1', ->
             options = animation: true, animateRotate: true, animateScale: false
-            options = _.extend({}, @options, options)
+            options = Chart.Util.extend({}, @options, options)
             expect(@d3Pie.setAnimationComplete(options)).to.be(1)
 
           it 'should return 1', ->
             options = animation: true, animateRotate: false, animateScale: true
-            options = _.extend({}, @options, options)
+            options = Chart.Util.extend({}, @options, options)
             expect(@d3Pie.setAnimationComplete(options)).to.be(1)
 
       context 'when `animation` is false', ->
         it 'should return NaN', ->
           options = animation: false, animateRotate: true, animateScale: true
-          options = _.extend({}, @options, options)
+          options = Chart.Util.extend({}, @options, options)
           actual = @d3Pie.setAnimationComplete(options)
           expect(isNaN(actual)).to.be.ok()
 

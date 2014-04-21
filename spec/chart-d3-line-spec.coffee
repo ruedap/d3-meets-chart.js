@@ -97,7 +97,7 @@ describe 'Chart.D3Line', ->
       it 'should return an array', ->
         args.options.pointDot = true
         actual = instance.renderDots(
-          args.data, args.data.labels, xScale, yScale, args.options
+          args.data.datasets, args.data.labels, xScale, yScale, args.options
         )
         expect(actual).to.be.an(Array)
 
@@ -105,7 +105,7 @@ describe 'Chart.D3Line', ->
       it 'should return an undefined', ->
         args.options.pointDot = false
         actual = instance.renderDots(
-          args.data, args.data.labels, xScale, yScale, args.options
+          args.data.datasets, args.data.labels, xScale, yScale, args.options
         )
         expect(actual).to.be(undefined)
 

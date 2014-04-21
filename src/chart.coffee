@@ -228,10 +228,10 @@ class @Chart
     easingTypeName
 
   mergeOptions: (defaults, options) ->
-    mo = _.extend({}, defaults, options)
+    mo = Chart.Util.extend({}, defaults, options)
     mo.animationEasing = @getEasingType(mo.animationEasing)
     mo
 
   validateData: (data) ->
-    if !(_.isArray(data) or _.isObject(data))
+    if !(Chart.Util.is('Array', data) or Chart.Util.is('Object', data))
       throw new TypeError "#{data} is not an array or object"
