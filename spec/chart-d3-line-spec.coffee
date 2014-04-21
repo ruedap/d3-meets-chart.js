@@ -122,6 +122,13 @@ describe 'Chart.D3Line', ->
       expect(actual).to.be.an(Array)
       expect(actual).to.have.length(1)
 
+  describe '::transitDots', ->
+    it 'should return an array', ->
+      el = instance.getRootElement()
+      actual = instance.transitDots(el, 0)
+      expect(actual).to.be.an(Array)
+      expect(actual).to.have.length(1)
+
   describe '::transitLines', ->
     it 'should return an array', ->
       el = instance.getRootElement()
