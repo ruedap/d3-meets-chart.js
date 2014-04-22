@@ -5,7 +5,9 @@
   "main": "d3-meets-chart.js",
   "files": [
     "d3-meets-chart.js",
-    "d3-meets-chart.min.js"
+    "d3-meets-chart.min.js",
+    "LICENSE.md",
+    "README.md"
   ],
   "scripts": {
     "compile": "gulp compile"

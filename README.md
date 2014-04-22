@@ -52,4 +52,4 @@ Internet Explorer 9+ and modern browsers.
 
 ## License
 
-Released under the MIT license.  
+Released under the [MIT license](LICENSE.md).  
