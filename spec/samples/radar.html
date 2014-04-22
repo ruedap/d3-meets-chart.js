@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Radar Chart</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" charset="utf-8"></script>
+    <script>
+      window.ChartJs = Chart;
+    </script>
+    <script src="../../bower_components/d3/d3.min.js" charset="utf-8"></script>
+    <script src="../../tmp/d3-meets-chart.min.js"></script>
+    <meta name="viewport" content="initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <style>
+      body {
+        background: skyblue;
+        background: white;
+      }
+    </style>
+    <canvas id="canvas" width="450" height="450"></canvas>
+    <svg id="svg" class="d3mc" width="450" height="450"></svg>
+
+    <script>
+
+      var data = {
+        labels : ["Eating","Drinking","Sleeping","Designing","Coding","Partying","Running"],
+        datasets : [
+          {
+            fillColor : "rgba(220,220,220,0.5)",
+            strokeColor : "rgba(220,220,220,1)",
+            pointColor : "rgba(220,220,220,1)",
+            pointStrokeColor : "#fff",
+            data : [65,59,90,81,56,55,40]
+          },
+          {
+            fillColor : "rgba(151,187,205,0.5)",
+            strokeColor : "rgba(151,187,205,1)",
+            pointColor : "rgba(151,187,205,1)",
+            pointStrokeColor : "#fff",
+            data : [28,48,40,19,96,27,100]
+          }
+        ]
+      };
+
+      var options = {
+        // segmentShowStroke: true,
+        // segmentStrokeColor: '#000',
+        // segmentStrokeWidth: 10,
+        // animation: true,
+        // animationSteps: 100,
+        // animationEasing: 'linear',
+        // animationEasing: 'easeInQuad',
+        // animationEasing: 'easeOutQuad',
+        // animationEasing: 'easeInOutQuad',
+        // animationEasing: 'easeInCubic',
+        // animationEasing: 'easeOutCubic',
+        // animationEasing: 'easeInOutCubic',
+        // animationEasing: 'easeInSine',
+        // animationEasing: 'easeOutSine',
+        // animationEasing: 'easeInOutSine',
+        // animationEasing: 'easeInExpo',
+        // animationEasing: 'easeOutExpo',
+        // animationEasing: 'easeInOutExpo',
+        // animationEasing: 'easeInCirc',
+        // animationEasing: 'easeOutCirc',
+        // animationEasing: 'easeInOutCirc',
+        // animationEasing: 'easeInElastic',
+        // animationEasing: 'easeOutElastic',
+        // animationEasing: 'easeInOutElastic',
+        // animationEasing: 'easeInBack',
+        // animationEasing: 'easeOutBack',
+        // animationEasing: 'easeInOutBack',
+        // animationEasing: 'easeInBounce',
+        // animationEasing: 'easeOutBounce',
+        // animationEasing: 'easeInOutBounce',
+        // animateRotate: true,
+        // animateScale: true,
+        // onAnimationComplete: function () { console.log('hello'); }
+      };
+
+      var myChartJs = new ChartJs(document.getElementById("canvas").getContext("2d"))
+        .Radar(data, options);
+      var myChart = new Chart("#svg")
+        .Radar(data, options);
+
+    </script>
+  </body>
+</html>

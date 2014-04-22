@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Polar Chart</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" charset="utf-8"></script>
+    <script>
+      window.ChartJs = Chart;
+    </script>
+    <script src="../../bower_components/d3/d3.min.js" charset="utf-8"></script>
+    <script src="../../tmp/d3-meets-chart.min.js"></script>
+    <meta name="viewport" content="initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <style>
+      body {
+        background: skyblue;
+        background: white;
+      }
+    </style>
+    <canvas id="canvas" width="450" height="450"></canvas>
+    <svg id="svg" class="d3mc" width="450" height="450"></svg>
+
+    <script>
+
+      var data = [
+        {
+          value: Math.random(),
+          color: "#D97041"
+        },
+        {
+          value: Math.random(),
+          color: "#C7604C"
+        },
+        {
+          value: Math.random(),
+          color: "#21323D"
+        },
+        {
+          value: Math.random(),
+          color: "#9D9B7F"
+        },
+        {
+          value: Math.random(),
+          color: "#7D4F6D"
+        },
+        {
+          value: Math.random(),
+          color: "#584A5E"
+        }
+      ];
+
+      var options = {
+        // segmentShowStroke: true,
+        // segmentStrokeColor: '#000',
+        // segmentStrokeWidth: 10,
+        // animation: true,
+        // animationSteps: 100,
+        // animationEasing: 'linear',
+        // animationEasing: 'easeInQuad',
+        // animationEasing: 'easeOutQuad',
+        // animationEasing: 'easeInOutQuad',
+        // animationEasing: 'easeInCubic',
+        // animationEasing: 'easeOutCubic',
+        // animationEasing: 'easeInOutCubic',
+        // animationEasing: 'easeInSine',
+        // animationEasing: 'easeOutSine',
+        // animationEasing: 'easeInOutSine',
+        // animationEasing: 'easeInExpo',
+        // animationEasing: 'easeOutExpo',
+        // animationEasing: 'easeInOutExpo',
+        // animationEasing: 'easeInCirc',
+        // animationEasing: 'easeOutCirc',
+        // animationEasing: 'easeInOutCirc',
+        // animationEasing: 'easeInElastic',
+        // animationEasing: 'easeOutElastic',
+        // animationEasing: 'easeInOutElastic',
+        // animationEasing: 'easeInBack',
+        // animationEasing: 'easeOutBack',
+        // animationEasing: 'easeInOutBack',
+        // animationEasing: 'easeInBounce',
+        // animationEasing: 'easeOutBounce',
+        // animationEasing: 'easeInOutBounce',
+        // animateRotate: true,
+        // animateScale: true,
+        // onAnimationComplete: function () { console.log('hello'); }
+      };
+
+      var myChartJs = new ChartJs(document.getElementById("canvas").getContext("2d"))
+        .PolarArea(data, options);
+      var myChart = new Chart("#svg")
+        .PolarArea(data, options);
+
+    </script>
+  </body>
+</html>
