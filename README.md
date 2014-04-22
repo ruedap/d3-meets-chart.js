@@ -40,14 +40,31 @@ chart.Pie(data);
 Congrats! :congratulations:
 
 
+## Chart types
+
+| Bar | Line | Radar |
+|:-:|:-:|:-:|
+| :ok_woman: Available | :ok_woman: Available | :no_good: Not available |
+
+| Pie | Doughnut | Polar |
+|:-:|:-:|:-:|
+| :ok_woman: Available | :ok_woman: Available | :no_good: Not available |
+
+
+## Chart options
+
+See [Chart.js documentation](http://www.chartjs.org/docs/). About the same.
+
+
+## Chart API
+
+:rotating_light: Experimental :rotating_light:
+
+
+
 ## Browser support
 
 Internet Explorer 9+ and modern browsers.
-
-
-## API
-
-:rotating_light: Experimental :rotating_light:
 
 
 ## License
