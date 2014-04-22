@@ -1,0 +1,31 @@
+{
+  "name": "d3-meets-chart.js",
+  "version": "0.0.0",
+  "authors": [
+    "ruedap <ruedap@ruedap.com>"
+  ],
+  "description": "Simple HTML5 Charts using the <svg> tag with D3.js",
+  "main": "d3-meets-chart.js",
+  "dependencies": {
+    "d3": ">=3.4.4"
+  },
+  "keywords": [
+    "d3", "chart", "svg"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "spec",
+    "tmp",
+    "audit",
+    "coverage",
+    "package.json",
+    "karma.conf.js",
+    "gulpfile.js",
+    "gulpfile.coffee"
+  ]
+}
