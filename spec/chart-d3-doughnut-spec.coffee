@@ -2,7 +2,7 @@ describe 'Chart.D3Doughnut', ->
   'use strict'
 
   args = {}
-  instance = undefined
+  instance = null
 
   beforeEach ->
     args.data = [

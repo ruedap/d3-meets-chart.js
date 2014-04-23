@@ -2,9 +2,9 @@ describe 'Chart.D3Line', ->
   'use strict'
 
   args = {}
-  instance = undefined
-  xScale = undefined
-  yScale = undefined
+  instance = null
+  xScale = null
+  yScale = null
 
   beforeEach ->
     args.data =
@@ -86,11 +86,11 @@ describe 'Chart.D3Line', ->
         expect(actual).to.be.an(Array)
 
     context 'when options.datasetFill is true', ->
-      it 'should return an array', ->
+      it 'should return a null', ->
         args.options.datasetFill = false
         area = Chart.D3Line.area(xScale, yScale, args.data.labels, 0)
         actual = instance.renderAreas(area, args.data, args.options)
-        expect(actual).to.be(undefined)
+        expect(actual).to.be(null)
 
   describe '::renderDots', ->
     context 'when options.pointDot is true', ->
@@ -102,12 +102,12 @@ describe 'Chart.D3Line', ->
         expect(actual).to.be.an(Array)
 
     context 'when options.pointDot is false', ->
-      it 'should return an undefined', ->
+      it 'should return a null', ->
         args.options.pointDot = false
         actual = instance.renderDots(
           args.data.datasets, args.data.labels, xScale, yScale, args.options
         )
-        expect(actual).to.be(undefined)
+        expect(actual).to.be(null)
 
   describe '::renderLines', ->
     it 'should return an array', ->

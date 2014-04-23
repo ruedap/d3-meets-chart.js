@@ -83,7 +83,7 @@ class Chart.D3Line extends Chart.D3Chart
       .classed('line-group', true)
 
   renderAreas: (area, data, options) =>
-    return unless options.datasetFill
+    return null unless options.datasetFill
     @getRootElement()
       .selectAll('.line-group')
       .data(data)
@@ -94,7 +94,7 @@ class Chart.D3Line extends Chart.D3Chart
       .attr('fill', (d) -> d.fillColor)
 
   renderDots: (data, labels, xScale, yScale, options) =>
-    return unless options.pointDot
+    return null unless options.pointDot
     dataset = data.map (d1) ->
       d1.data.map (d2) ->
         value: d2

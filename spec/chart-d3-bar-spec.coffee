@@ -2,10 +2,10 @@ describe 'Chart.D3Bar', ->
   'use strict'
 
   args = {}
-  instance = undefined
-  x0Scale = undefined
-  x1Scale = undefined
-  yScale = undefined
+  instance = null
+  x0Scale = null
+  x1Scale = null
+  yScale = null
 
   beforeEach ->
     args.data =
@@ -65,10 +65,10 @@ describe 'Chart.D3Bar', ->
 
   describe '::generateData', ->
     context 'when arguments are invalid', ->
-      it 'should return an undefined', ->
-        expect(instance.generateData([], null)).to.be(undefined)
-        expect(instance.generateData(null, [])).to.be(undefined)
-        expect(instance.generateData(null, null)).to.be(undefined)
+      it 'should return a null', ->
+        expect(instance.generateData([], null)).to.be(null)
+        expect(instance.generateData(null, [])).to.be(null)
+        expect(instance.generateData(null, null)).to.be(null)
 
     context 'when arguments are valid', ->
       context 'when arguments are blank arrays', ->

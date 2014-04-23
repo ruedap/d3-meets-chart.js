@@ -32,7 +32,7 @@ class Chart.D3Bar extends Chart.D3Chart
     super(selectors, data, options, margin)
 
   generateData: (labels, datasets) ->
-    return if !(labels? and datasets?)
+    return null if !(labels? and datasets?)
     array = []
     datasets.forEach (ds) ->
       ds.data.map (d, i) ->

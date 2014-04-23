@@ -1,9 +1,9 @@
 describe 'Chart.D3Chart', ->
   'use strict'
 
-  instance = undefined
-  xScale = undefined
-  yScale = undefined
+  instance = null
+  xScale = null
+  yScale = null
 
   beforeEach ->
     instance = new Chart.D3Chart('#svg', [], {})

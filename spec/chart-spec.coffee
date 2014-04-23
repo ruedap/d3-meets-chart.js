@@ -2,7 +2,7 @@ describe 'Chart', ->
   'use strict'
 
   args = {}
-  instance = undefined
+  instance = null
 
   beforeEach ->
     args.options = animation: false
