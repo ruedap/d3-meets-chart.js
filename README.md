@@ -1,4 +1,4 @@
-# D3 meets Chart.js
+# D3 meets Chart.js [![Build Status](https://travis-ci.org/ruedap/d3-meets-chart.js.svg?branch=master)](https://travis-ci.org/ruedap/d3-meets-chart.js)
 
 > Simple HTML5 Charts using the \<svg\> tag with [D3.js](http://d3js.org/).  
 > The original implementation on which it is based, is [Chart.js](http://www.chartjs.org/).
@@ -9,7 +9,7 @@ If you :heart_eyes: SVG & CSS. Because everything is an element.
 Otherwise, you might want to use [Chart.js](http://www.chartjs.org/).
 
 
-## Get started
+## Getting started
 
 Install using [bower](http://bower.io/) or [download as zip](https://github.com/ruedap/d3-meets-chart.js/tags).
 
