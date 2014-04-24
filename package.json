@@ -1,13 +1,14 @@
 {
   "name": "d3-meets-chart.js",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Simple HTML5 Charts using the <svg> tag with D3.js",
   "main": "d3-meets-chart.js",
   "files": [
     "d3-meets-chart.js",
     "d3-meets-chart.min.js",
     "LICENSE.md",
-    "README.md"
+    "README.md",
+    "samples"
   ],
   "scripts": {
     "compile": "gulp compile"
