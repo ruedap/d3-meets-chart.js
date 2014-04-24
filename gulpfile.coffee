@@ -1,5 +1,6 @@
 gulp = require('gulp')
 mocha = require('gulp-mocha')
+karma = require('gulp-karma')
 coffee = require('gulp-coffee')
 stylus = require('gulp-stylus')
 concat = require('gulp-concat')
@@ -38,6 +39,11 @@ src =
   main: dir.tmp + file.main
   mainMin: dir.tmp + file.mainMin
   specRunner: dir.tmp + file.specRunner
+  karmaFiles: [
+    'bower_components/d3/d3.min.js',
+    'tmp/d3-meets-chart.js',
+    'tmp/spec-runner.js'
+  ]
 
 # Tasks
 
@@ -74,6 +80,18 @@ gulp.task 'clean', ->
 
 gulp.task 'licenses', ->
   licenseFind().pipe(gulp.dest('./audit'))
+
+gulp.task 'karma-travis', ->
+  gulp.src(src.karmaFiles)
+    .pipe(
+      karma(
+        configFile: 'karma.conf.js'
+        browsers: ['Firefox', 'PhantomJS']
+        reporters: ['progress', 'coverage']
+        action: 'run'
+      )
+    )
+    .on('error', (err) -> throw err)
 
 # Runners
 
