@@ -11,7 +11,11 @@ Otherwise, you might want to use [Chart.js](http://www.chartjs.org/).
 
 ## Get started
 
-Install using bower: `bower install d3-meets-chart.js` or [download as zip](https://github.com/ruedap/d3-meets-chart.js/tags).
+Install using [bower](http://bower.io/) or [download as zip](https://github.com/ruedap/d3-meets-chart.js/tags).
+
+``` sh
+$ bower install d3-meets-chart.js
+```
 
 `d3-meets-chart.js` depends on D3.js, so include it only *after* D3.js has been defined in the document:
 
@@ -20,21 +24,21 @@ Install using bower: `bower install d3-meets-chart.js` or [download as zip](http
 <script src="path/to/d3-meets-chart.min.js"></script>
 ```
 
-Create a instance for a SVG element you'd like to chart:
+Create a instance for a `svg` element you'd like to chart:
 
 ``` html
 <svg id="my-chart" width="500" height="500"></svg>
 ```
 
 ``` javascript
-var chart = new Chart('svg#my-chart');
+var myChart = new Chart('svg#my-chart');
 ```
 
 And call a chart type method with chart data arguments:
 
 ``` javascript
 var data = [{value: 30}, {value: 50}, {value: 100}];
-chart.Pie(data);
+myChart.Pie(data);
 ```
 
 Congrats! :congratulations:
