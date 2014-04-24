@@ -98,6 +98,9 @@ gulp.task 'karma-travis', ->
 gulp.task 'compile', ->
   runSequence('clean', 'coffee-src', 'coffee-spec', 'stylus-src', 'uglify')
 
+gulp.task 'travis', ->
+  runSequence('clean', 'coffee-src', 'coffee-spec', 'stylus-src', 'uglify', 'karma-travis')
+
 gulp.task('coffee', ['coffee-src', 'coffee-spec'])
 gulp.task('stylus', ['stylus-src'])
 

@@ -11,7 +11,7 @@
     "samples"
   ],
   "scripts": {
-    "compile": "gulp compile"
+    "test": "gulp travis"
   },
   "author": {
     "name": "ruedap",
