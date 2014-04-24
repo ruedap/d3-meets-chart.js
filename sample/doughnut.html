@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Doughnut Chart</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="../d3-meets-chart.min.js"></script>
+    <meta name="viewport" content="initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <svg id="svg" class="d3mc" width="450" height="450"></svg>
+
+    <script>
+      var data = [
+        {
+          value : 30,
+          color :"#F7464A"
+        },
+        {
+          value : 50,
+          color : "#46BFBD"
+        },
+        {
+          value : 100,
+          color : "#FDB45C"
+        },
+        {
+          value : 40,
+          color : "#949FB1"
+        },
+        {
+          value : 120,
+          color : "#4D5360"
+        }
+      ];
+
+      var myChat = new Chart("#svg").Doughnut(data);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Pie Chart</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="../d3-meets-chart.min.js"></script>
+    <meta name="viewport" content="initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <svg id="svg" class="d3mc" width="450" height="450"></svg>
+
+    <script>
+      var data = [
+        {
+          value : 30,
+          color :"#f38630"
+        },
+        {
+          value : 50,
+          color : "#e0e4cc"
+        },
+        {
+          value : 100,
+          color : "#69D2E7"
+        }
+      ];
+
+      var myChart = new Chart("#svg").Pie(data);
+    </script>
+  </body>
+</html>
