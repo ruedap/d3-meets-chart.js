@@ -11,7 +11,7 @@ Otherwise, you might want to use [Chart.js](http://www.chartjs.org/).
 
 ## Get started
 
-Install using bower: `bower install d3-meets-chart.js` or download as zip.
+Install using bower: `bower install d3-meets-chart.js` or [download as zip](https://github.com/ruedap/d3-meets-chart.js/tags).
 
 `d3-meets-chart.js` depends on D3.js, so include it only *after* D3.js has been defined in the document:
 
@@ -61,12 +61,16 @@ See [Chart.js documentation](http://www.chartjs.org/docs/). About the same.
 :rotating_light: Experimental :rotating_light:
 
 
-
 ## Browser support
 
 Internet Explorer 9+ and modern browsers.
 
 
+## Changelog
+
+Changelog is available [here](https://github.com/ruedap/d3-meets-chart.js/blob/master/CHANGELOG.md).
+
+
 ## License
 
-Released under the [MIT license](LICENSE.md).  
+Released under the [MIT license](https://github.com/ruedap/d3-meets-chart.js/blob/master/LICENSE.md).  
