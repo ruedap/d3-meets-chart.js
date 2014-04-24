@@ -1,6 +1,6 @@
 # D3 meets Chart.js
 
-> Simple HTML5 Charts using the <svg> tag with [D3.js](http://d3js.org/).  
+> Simple HTML5 Charts using the \<svg\> tag with [D3.js](http://d3js.org/).  
 > The original implementation on which it is based, is [Chart.js](http://www.chartjs.org/).
 
 ## Why use D3 meets Chart.js?
