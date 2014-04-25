@@ -2,4 +2,17 @@
 title: D3 meets Chart.js
 ---
 
-%p welcome
+.comparisons
+  %h2.comparisons__heading Comparison with Chart.js
+
+  - %w(Bar Line Pie Doughnut Radar Polar).each do |chart_name|
+    - class_name = chart_name.downcase
+    - chart_name = 'Polar area' if chart_name == 'Polar'
+    %div{ class: "comparison--#{class_name}-chart" }
+      %h3{ class: "comparison--#{class_name}-chart__heading" }
+        = "#{chart_name} chart"
+      %div{ class: "comparison--#{class_name}-chart__charts" }
+        %div{ class: "comparison--#{class_name}-chart__chart--original" }
+          %canvas(width='560' height='400'){ id: "js-comparison--#{class_name}-chart__chart--original" }
+        %div{ class: "comparison--#{class_name}-chart__chart--alternative" }
+          %svg(width='560' height='400'){ id: "js-comparison--#{class_name}-chart__chart--alternative" }

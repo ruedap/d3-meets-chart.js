@@ -1,1 +1,57 @@
 @import normalize.css/normalize
+@import compass
+
+*, *::before, *::after
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+
+html
+  font-size: 62.5%
+
+body
+  font-size: 1.6rem
+  font-family: 'Lato', 'Avenir Next', 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif
+  font-weight: 400
+  word-wrap: break-word
+  -webkit-text-size-adjust: 100%
+  background-color: white
+
+img
+  vertical-align: bottom
+
+h1
+  font-weight: 100
+
+h2
+  font-size: 3.6rem
+  font-weight: 300
+
+h3
+  font-size: 2.4rem
+  font-weight: 700
+
+%comparisons
+  max-width: 1280px
+  margin: 0 auto
+
+%comparison__charts
+  +clearfix
+
+.comparisons
+  @extend %comparisons
+
+.comparison
+  &--bar-chart,
+  &--line-chart,
+  &--pie-chart,
+  &--doughnut-chart,
+  &--radar-chart,
+  &--polar-chart
+    &__charts
+      @extend %comparison__charts
+    &__chart
+      &--original
+        +float-left
+      &--alternative
+        +float-right
