@@ -127,6 +127,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  coffee-script (= 2.2.0)
   compass (= 1.0.0.alpha.19)
   haml (= 4.0.5)
   middleman (~> 3.3.2)
