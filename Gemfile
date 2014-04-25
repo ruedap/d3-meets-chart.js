@@ -16,3 +16,4 @@ gem 'haml', '4.0.5'
 gem 'sass', '3.3.5'
 gem 'compass', '1.0.0.alpha.19'  # for Sass 3.3
 gem 'coffee-script', '2.2.0'
+gem 'middleman-autoprefixer'
