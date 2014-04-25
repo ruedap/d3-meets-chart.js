@@ -10,6 +10,7 @@
   ],
   "dependencies": {
     "normalize.css": "~3.0.1",
-    "d3-meets-chart.js": "~0.1.0"
+    "d3-meets-chart.js": "~0.1.0",
+    "Chart.js": "*"
   }
 }
