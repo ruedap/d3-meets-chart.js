@@ -122,6 +122,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  haml (= 4.0.5)
   middleman (~> 3.3.2)
   middleman-deploy (= 0.1.4)
   middleman-livereload (~> 3.1.0)
