@@ -3,6 +3,12 @@
 > Simple HTML5 Charts using the \<svg\> tag with [D3.js](http://d3js.org/).  
 > The original implementation on which it is based, is [Chart.js](http://www.chartjs.org/).
 
+
+## Demo
+
+[Comparison with Chart.js](http://ruedap.github.io/d3-meets-chart.js/)
+
+
 ## Why use D3 meets Chart.js?
 
 If you :heart_eyes: SVG & CSS. Because everything is an element.  
@@ -46,13 +52,9 @@ Congrats! :congratulations:
 
 ## Chart types
 
-| Bar | Line | Radar |
-|:-:|:-:|:-:|
-| :ok_woman: Available | :ok_woman: Available | :no_good: Not available |
-
-| Pie | Doughnut | Polar |
-|:-:|:-:|:-:|
-| :ok_woman: Available | :ok_woman: Available | :no_good: Not available |
+| Bar | Line | Radar | Pie | Doughnut | Polar area |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| Available | Available | *Not available* | Available | Available | *Not available* |
 
 
 ## Chart options
