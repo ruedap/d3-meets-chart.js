@@ -1,2 +1,2 @@
-#= require Chart.js/Chart.min.js
-#= require comparisons/chartjs.js
+#= require Chart.js/Chart.js
+@ChartJS = Chart

@@ -12,17 +12,30 @@ notImplementedYet = (id) ->
     .attr(x: x, y: y)
     .text('Not implemented yet')
 
-bar = exports.comparisons.bar
-new Chart(bar.id.alternative).Bar(bar.data)
+$('.comparison--bar-chart__chart--alternative').one 'inview', ->
+  exports.comparisons.delay ->
+    bar = exports.comparisons.bar
+    new Chart(bar.id.alternative).Bar(bar.data)
 
-line = exports.comparisons.line
-new Chart(line.id.alternative).Line(line.data)
+$('.comparison--line-chart__chart--alternative').one 'inview', ->
+  exports.comparisons.delay ->
+    line = exports.comparisons.line
+    new Chart(line.id.alternative).Line(line.data)
 
-pie = exports.comparisons.pie
-new Chart(pie.id.alternative).Pie(pie.data)
+$('.comparison--pie-chart__chart--alternative').one 'inview', ->
+  exports.comparisons.delay ->
+    pie = exports.comparisons.pie
+    new Chart(pie.id.alternative).Pie(pie.data)
 
-doughnut = exports.comparisons.doughnut
-new Chart(doughnut.id.alternative).Doughnut(doughnut.data)
+$('.comparison--doughnut-chart__chart--alternative').one 'inview', ->
+  exports.comparisons.delay ->
+    doughnut = exports.comparisons.doughnut
+    new Chart(doughnut.id.alternative).Doughnut(doughnut.data)
 
-notImplementedYet(exports.comparisons.radar.id.alternative)
-notImplementedYet(exports.comparisons.polar.id.alternative)
+$('.comparison--radar-chart__chart--alternative').one 'inview', ->
+  exports.comparisons.delay ->
+    notImplementedYet(exports.comparisons.radar.id.alternative)
+
+$('.comparison--polar-chart__chart--alternative').one 'inview', ->
+  exports.comparisons.delay ->
+    notImplementedYet(exports.comparisons.polar.id.alternative)
