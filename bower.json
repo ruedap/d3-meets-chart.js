@@ -27,6 +27,8 @@
     "package.json",
     "karma.conf.js",
     "gulpfile.js",
-    "gulpfile.coffee"
+    "gulpfile.coffee",
+    "source",
+    "build"
   ]
 }
