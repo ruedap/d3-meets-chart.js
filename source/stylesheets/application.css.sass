@@ -16,6 +16,7 @@ body
   word-wrap: break-word
   -webkit-text-size-adjust: 100%
   background-color: white
+  color: #3c3c45
 
 img
   vertical-align: bottom
@@ -32,6 +33,10 @@ h3
   font-size: 2.4rem
   font-weight: 700
 
+h4
+  font-size: 1.4rem
+  font-weight: 300
+
 .header
   display: block
   text-align: center
@@ -43,9 +48,11 @@ h3
   padding: 8rem 0 9rem
   &__heading
     margin: 0
+    text-indent: -0.2em
   &__description
     font-size: 2.4rem
     font-weight: 100
+    letter-spacing: 0.03em
   &__download-button
     display: inline-block
     margin: 2.6rem 0 0
@@ -61,9 +68,11 @@ h3
       background-color: rgba(#444, .7)
 
 .comparisons
-  max-width: 1280px
+  max-width: 1220px
   margin: 8rem auto 12rem
   text-align: center
+  &__heading
+    margin-bottom: 8rem
   .comparison
     &--bar-chart,
     &--line-chart,
@@ -71,9 +80,32 @@ h3
     &--doughnut-chart,
     &--radar-chart,
     &--polar-chart
+      margin-bottom: 12rem
+      &__heading
+        margin-bottom: 4rem
       &__charts
         +clearfix
+        width: 100%
+        position: relative
+        &::before
+          display: block
+          position: absolute
+          content: ''
+          top: 0
+          left: 50%
+          width: 1px
+          height: 100%
+          background-color: #ddd
+      &__chart-heading
+        display: block
+        width: 18rem
+        background-color: #f2f2f2
+        padding: 1rem
+        margin: 0 auto 5rem
       &__chart
+        &--original,
+        &--alternative
+          padding-bottom: 6rem
         &--original
           +float-left
         &--alternative
@@ -81,11 +113,13 @@ h3
 
 .footer
   text-align: center
-  background-color: #f5f5f5
+  background-color: #f2f2f2
   font-size: 1.6rem
   font-weight: 300
   height: 6rem
   line-height: 6rem
-  a
-    text-decoration: none
-    color: #ff4d5d
+  &__description
+    margin: 0
+    a
+      text-decoration: none
+      color: #ff4d5d

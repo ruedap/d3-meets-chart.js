@@ -13,6 +13,8 @@ title: D3 meets Chart.js
         = "#{chart_name} chart"
       %div{ class: "comparison--#{class_name}-chart__charts" }
         %div{ class: "comparison--#{class_name}-chart__chart--original" }
+          %h4{ class: "comparison--#{class_name}-chart__chart-heading" } Chart.js (Original)
           %canvas(width='560' height='400'){ id: "js-comparison--#{class_name}-chart__chart--original" }
         %div{ class: "comparison--#{class_name}-chart__chart--alternative" }
+          %h4{ class: "comparison--#{class_name}-chart__chart-heading" } D3 meets Chart.js
           %svg(width='560' height='400'){ id: "js-comparison--#{class_name}-chart__chart--alternative" }
