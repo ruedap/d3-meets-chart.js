@@ -21,6 +21,7 @@ img
   vertical-align: bottom
 
 h1
+  font-size: 7.2rem
   font-weight: 100
 
 h2
@@ -31,27 +32,57 @@ h3
   font-size: 2.4rem
   font-weight: 700
 
-%comparisons
+%width-constrain
   max-width: 1280px
   margin: 0 auto
 
 %comparison__charts
   +clearfix
 
-.comparisons
-  @extend %comparisons
+.header
+  display: block
+  text-align: center
+  width: 100%
+  background-color: #a3cce8
+  background: rgba(0,0,0,0) image-url('images/header-bg.svg') center 24%
+  background-size: cover
+  color: white
+  padding: 8rem 0 9rem
+  &__heading
+    margin: 0
+  &__description
+    font-size: 2.4rem
+    font-weight: 100
+  &__download-button
+    display: inline-block
+    margin: 2.6rem 0 0
+    padding: 1.3rem 8.0rem 1.6rem
+    font-size: 2.0rem
+    letter-spacing: 0.04em
+    font-weight: 300
+    text-decoration: none
+    color: white
+    background-color: rgba(#444, .6)
+    border-radius: 4px
+    &:hover
+      background-color: rgba(#444, .7)
 
-.comparison
-  &--bar-chart,
-  &--line-chart,
-  &--pie-chart,
-  &--doughnut-chart,
-  &--radar-chart,
-  &--polar-chart
-    &__charts
-      @extend %comparison__charts
-    &__chart
-      &--original
-        +float-left
-      &--alternative
-        +float-right
+
+
+.comparisons
+  @extend %width-constrain
+  text-align: center
+  .comparison
+    &--bar-chart,
+    &--line-chart,
+    &--pie-chart,
+    &--doughnut-chart,
+    &--radar-chart,
+    &--polar-chart
+      &__charts
+        @extend %comparison__charts
+      &__chart
+        &--original
+          +float-left
+        &--alternative
+          +float-right
