@@ -37,6 +37,9 @@ h4
   font-size: 1.4rem
   font-weight: 300
 
+=hidden
+  opacity: 0
+
 .header
   display: block
   text-align: center
@@ -64,8 +67,11 @@ h4
     color: white
     background-color: rgba(#444, .5)
     border-radius: 4px
+    transition: opacity 500ms ease-in-out
     &:hover
       background-color: rgba(#444, .6)
+    &.hidden
+      +hidden
     .svg-github-icon
       display: inline-block
       margin-left: 4px

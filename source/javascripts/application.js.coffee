@@ -6,3 +6,8 @@
 #= require comparisons/data.js
 #= require comparisons/chartjs.js
 #= require comparisons/d3mcjs.js
+
+$('#js-download-button').one 'inview', ->
+  setTimeout =>
+    $(this).removeClass('hidden')
+  , 400
