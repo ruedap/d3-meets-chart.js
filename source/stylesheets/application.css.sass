@@ -40,6 +40,10 @@ h4
 =hidden
   opacity: 0
 
+=media-desktop
+  @media only screen and (min-width: 1120px)
+    @content
+
 .header
   display: block
   text-align: center
@@ -100,15 +104,16 @@ h4
         +clearfix
         width: 100%
         position: relative
-        &::before
-          display: block
-          position: absolute
-          content: ''
-          top: 0
-          left: 50%
-          width: 1px
-          height: 100%
-          background-color: #ddd
+        +media-desktop
+          &::before
+            display: block
+            position: absolute
+            content: ''
+            top: 0
+            left: 50%
+            width: 1px
+            height: 100%
+            background-color: #ddd
       &__chart-heading
         display: block
         width: 18rem
@@ -119,10 +124,11 @@ h4
         &--original,
         &--alternative
           padding-bottom: 6rem
-        &--original
-          +float-left
-        &--alternative
-          +float-right
+        +media-desktop
+          &--original
+            +float-left
+          &--alternative
+            +float-right
 
 .footer
   text-align: center
