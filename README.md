@@ -9,10 +9,10 @@
 [Comparison with Chart.js](http://ruedap.github.io/d3-meets-chart.js/)
 
 
-## Why use D3 meets Chart.js?
+## Why use this?
 
-If you :heart_eyes: SVG & CSS. Because everything is an element.  
-Otherwise, you might want to use [Chart.js](http://www.chartjs.org/).
+Because everything is an element.  
+For a SVG enthusiast. Otherwise, you might want to use [Chart.js](http://www.chartjs.org/).
 
 
 ## Getting started
