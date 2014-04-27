@@ -74,7 +74,7 @@ Internet Explorer 9+ and modern browsers.
 
 ## Changelog
 
-Changelog is available [here](https://github.com/ruedap/d3-meets-chart.js/blob/master/CHANGELOG.md).
+See details changes for each version in the [release notes](https://github.com/ruedap/d3-meets-chart.js/releases).
 
 
 ## License
