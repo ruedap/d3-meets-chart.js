@@ -1,5 +1,6 @@
 @exports =
   comparisons:
+    chart_names: ['bar', 'line', 'pie', 'doughnut', 'radar', 'polar']
     delay: (func) -> setTimeout func, 200
     bar:
       id:
