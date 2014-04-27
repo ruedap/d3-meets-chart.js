@@ -3,17 +3,24 @@ class Chart.D3Line extends Chart.D3Chart
   'use strict'
 
   @area: (xScale, yScale, labels, options, chartHeight) ->
-    # TODO: Implement bezierCurve
-    interpolate = if options.bezierCurve then 'linear' else 'linear'
+    interpolate = if options.bezierCurve then D3Line.bezierCurve else 'linear'
     d3.svg.area()
       .x((d, i) -> xScale(labels[i]))
       .y0(chartHeight)
       .y1((d) -> yScale(d))
       .interpolate(interpolate)
 
+  @bezierCurve: (points) ->
+    f = points.shift()
+    d = "#{f[0]} #{f[1]}"
+    points.forEach (p) ->
+      m = (p[0] - f[0]) / 2
+      d += " C #{f[0] + m} #{f[1]} #{p[0] - m} #{p[1]} #{p[0]} #{p[1]}"
+      f = p
+    d
+
   @line: (xScale, yScale, labels, options) ->
-    # TODO: Implement bezierCurve
-    interpolate = if options.bezierCurve then 'linear' else 'linear'
+    interpolate = if options.bezierCurve then D3Line.bezierCurve else 'linear'
     d3.svg.line()
       .x((d, i) -> xScale(labels[i]))
       .y((d) -> yScale(d))
