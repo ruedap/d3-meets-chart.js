@@ -701,7 +701,7 @@
 
     D3Line.area = function(xScale, yScale, labels, options, chartHeight) {
       var interpolate;
-      interpolate = options.bezierCurve ? 'linear' : 'linear';
+      interpolate = options.bezierCurve ? D3Line.bezierCurve : 'linear';
       return d3.svg.area().x(function(d, i) {
         return xScale(labels[i]);
       }).y0(chartHeight).y1(function(d) {
@@ -709,9 +709,22 @@
       }).interpolate(interpolate);
     };
 
+    D3Line.bezierCurve = function(points) {
+      var d, f;
+      f = points.shift();
+      d = "" + f[0] + " " + f[1];
+      points.forEach(function(p) {
+        var m;
+        m = (p[0] - f[0]) / 2;
+        d += " C " + (f[0] + m) + " " + f[1] + " " + (p[0] - m) + " " + p[1] + " " + p[0] + " " + p[1];
+        return f = p;
+      });
+      return d;
+    };
+
     D3Line.line = function(xScale, yScale, labels, options) {
       var interpolate;
-      interpolate = options.bezierCurve ? 'linear' : 'linear';
+      interpolate = options.bezierCurve ? D3Line.bezierCurve : 'linear';
       return d3.svg.line().x(function(d, i) {
         return xScale(labels[i]);
       }).y(function(d) {
