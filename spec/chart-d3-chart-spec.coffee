@@ -82,7 +82,7 @@ describe 'Chart.D3Chart', ->
     it 'should return an array', ->
       actual = instance.renderGrid()
       expect(actual).to.be.an(Array)
-      expect(actual).to.have.length(2)
+      expect(actual).to.have.length(0)
 
   describe '::renderXAxis', ->
     it 'should return an array', ->
@@ -104,7 +104,7 @@ describe 'Chart.D3Chart', ->
     it 'should return an array', ->
       actual = instance.updateScaleStrokeStyle(instance.options)
       expect(actual).to.be.an(Array)
-      expect(actual).to.have.length(2)
+      expect(actual).to.have.length(0)
 
   describe '::updateScaleTextStyle', ->
     it 'should return an array', ->
