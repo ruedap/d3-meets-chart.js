@@ -37,12 +37,23 @@ h4
   font-size: 1.4rem
   font-weight: 300
 
+a
+  text-decoration: none
+  color: #ff4d5d
+
 =hidden
   opacity: 0
 
 =media-desktop
   @media only screen and (min-width: 1120px)
     @content
+
+%root-section
+  max-width: 1220px
+  margin: 0 auto 12rem
+  text-align: center
+  > h2
+    margin-bottom: 6rem
 
 .header
   display: block
@@ -54,6 +65,7 @@ h4
   background-size: cover
   color: white
   padding: 8rem 0 9rem
+  margin-bottom: 10rem
   &__heading
     margin: 0
     text-indent: -0.2em
@@ -84,51 +96,54 @@ h4
       path
         fill: white
 
+.why-use-this,
 .comparisons
-  max-width: 1220px
-  margin: 8rem auto 12rem
-  text-align: center
-  &__heading
-    margin-bottom: 8rem
-  .comparison
-    &--bar-chart,
-    &--line-chart,
-    &--pie-chart,
-    &--doughnut-chart,
-    &--radar-chart,
-    &--polar-chart
-      margin-bottom: 12rem
-      &__heading
-        margin-bottom: 4rem
-      &__charts
-        +clearfix
-        width: 100%
-        position: relative
-        +media-desktop
-          &::before
-            display: block
-            position: absolute
-            content: ''
-            top: 0
-            left: 50%
-            width: 1px
-            height: 100%
-            background-color: #ddd
-      &__chart-heading
-        display: block
-        width: 18rem
-        background-color: #f2f2f2
-        padding: 1rem
-        margin: 0 auto 5rem
-      &__chart
-        &--original,
+  @extend %root-section
+
+.why-use-this
+  &__description
+    font-size: 2.0rem
+    font-weight: 300
+
+.comparison
+  &--bar-chart,
+  &--line-chart,
+  &--pie-chart,
+  &--doughnut-chart,
+  &--radar-chart,
+  &--polar-chart
+    margin-bottom: 12rem
+    &__heading
+      margin-bottom: 4rem
+    &__charts
+      +clearfix
+      width: 100%
+      position: relative
+      +media-desktop
+        &::before
+          display: block
+          position: absolute
+          content: ''
+          top: 0
+          left: 50%
+          width: 1px
+          height: 100%
+          background-color: #ddd
+    &__chart-heading
+      display: block
+      width: 18rem
+      background-color: #f2f2f2
+      padding: 1rem
+      margin: 0 auto 5rem
+    &__chart
+      &--original,
+      &--alternative
+        padding-bottom: 6rem
+      +media-desktop
+        &--original
+          +float-left
         &--alternative
-          padding-bottom: 6rem
-        +media-desktop
-          &--original
-            +float-left
-          &--alternative
-            +float-right
+          +float-right
 
 .footer
   text-align: center
@@ -139,6 +154,3 @@ h4
   line-height: 6rem
   &__description
     margin: 0
-    a
-      text-decoration: none
-      color: #ff4d5d
