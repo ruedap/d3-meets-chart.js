@@ -17,6 +17,10 @@
     "name": "ruedap",
     "email": "ruedap@ruedap.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ruedap/d3-meets-chart.js.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "coffee-script": "~1.7.1",
