@@ -58,7 +58,9 @@ class Chart.D3Bar extends Chart.D3Chart
     chartHeight = @height
 
     x0Scale = D3Bar.xScale(labels, chartWidth)
-    x1Scale = D3Bar.xScale(d3.range(datasets.length), x0Scale.rangeBand() - (options.barValueSpacing * 2))
+    _domain = d3.range(datasets.length)
+    _max = x0Scale.rangeBand() - (options.barValueSpacing * 2)
+    x1Scale = D3Bar.xScale(_domain, _max)
     yScale = D3Bar.yScale(data, chartHeight)
 
     @renderXGrid(x0Scale, chartHeight)

@@ -22,11 +22,15 @@ describe 'Chart.D3Bar', ->
     args.options =
       animationSteps: 60
       animationEasing: 'easeOutQuad'
+      barStrokeWidth: 2
+      barValueSpacing: 5
     instance = new Chart.D3Bar('#svg', args.data, args.options)
-    x0Scale = Chart.D3Bar.xScale([0, 0], 0)
-    x1Scale = Chart.D3Bar.xScale([0, 100], 100)
-    _data = instance.generateData(args.data.labels, args.data.datasets)
-    yScale = Chart.D3Bar.yScale(_data, 0)
+    x0Scale = Chart.D3Bar.xScale(args.data.labels, instance.width)
+    _domain = d3.range(args.data.datasets.length)
+    _max = x0Scale.rangeBand() - (args.options.barValueSpacing * 2)
+    x1Scale = Chart.D3Bar.xScale(_domain, _max)
+    args.generatedData = instance.generateData(args.data.labels, args.data.datasets)
+    yScale = Chart.D3Bar.yScale(args.generatedData, instance.height)
 
   afterEach ->
     args = {}
@@ -41,10 +45,10 @@ describe 'Chart.D3Bar', ->
 
   describe '.rectBorderPath', ->
     it 'should return a string of `d` attribute', ->
-      data = instance.generateData(args.data.labels, args.data.datasets)
+      data = args.generatedData
       datum = data[0].values[0]
-      actual = Chart.D3Bar.rectBorderPath(datum, 0, 450, x1Scale, yScale, 3)
-      expectation = 'M1.5,450L1.5,1.5L47.5,1.5L47.5,450'
+      actual = Chart.D3Bar.rectBorderPath(datum, 0, 450, x1Scale, yScale, args.options)
+      expectation = 'M1,450L1,145.55L30,145.55L30,450'
       expect(actual).to.be(expectation)
 
   describe '.xScale', ->
@@ -103,17 +107,17 @@ describe 'Chart.D3Bar', ->
 
   describe '::renderBars', ->
     it 'should return an array', ->
-      actual = instance.renderBars([], x0Scale)
+      actual = instance.renderBars([], x0Scale, args.options)
       expect(actual).to.be.an(Array)
 
   describe '::renderBar', ->
     it 'should return an array', ->
-      actual = instance.renderBar(0, x1Scale, yScale)
+      actual = instance.renderBar(0, x1Scale, yScale, args.options)
       expect(actual).to.be.an(Array)
 
   describe '::renderBarBorder', ->
     it 'should return an array', ->
-      actual = instance.renderBarBorder(0, x1Scale, yScale, 0)
+      actual = instance.renderBarBorder(0, x1Scale, yScale, args.options)
       expect(actual).to.be.an(Array)
 
   describe '::transitBar', ->
