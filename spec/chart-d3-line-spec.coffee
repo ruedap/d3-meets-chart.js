@@ -46,6 +46,11 @@ describe 'Chart.D3Line', ->
       )
       expect(actual).to.be.a('function')
 
+  describe '.bezierCurve', ->
+    it 'should return a string', ->
+      actual = Chart.D3Line.bezierCurve([[0, 100], [100, 250]])
+      expect(actual).to.be('0 100 C 50 100 50 250 100 250')
+
   describe '.line', ->
     it 'should return a function', ->
       actual = Chart.D3Line.line(xScale, yScale, args.data.labels, args.options)
