@@ -19,8 +19,11 @@
         background: white;
       }
     </style>
-    <canvas id="canvas" width="600" height="450"></canvas>
-    <svg id="svg" class="d3mc" width="600" height="450"></svg>
+    <canvas id="canvas1" width="600" height="450"></canvas>
+    <svg id="svg1" class="d3mc" width="600" height="450"></svg>
+    <br>
+    <canvas id="canvas2" width="600" height="450"></canvas>
+    <svg id="svg2" class="d3mc" width="600" height="450"></svg>
 
     <script>
 
@@ -93,13 +96,13 @@
         barShowStroke : true,
 
         //Number - Pixel width of the bar stroke
-        barStrokeWidth : 2,
+        barStrokeWidth : 8,
 
         //Number - Spacing between each of the X value sets
-        barValueSpacing : 1,
+        barValueSpacing : 10,
 
         //Number - Spacing between data sets within X values
-        barDatasetSpacing : 1,
+        barDatasetSpacing : 10,
 
         // animation: true,
         // animationSteps: 100,
@@ -133,10 +136,13 @@
         onAnimationComplete: function () { console.log('hello'); }
       };
 
-      var myChartJS = new ChartJS(document.getElementById("canvas").getContext("2d"))
-        .Bar(data, options);
-      var myChart = new Chart("#svg")
-        .Bar(data, options);
+      // 1
+      new ChartJS(document.getElementById("canvas1").getContext("2d")).Bar(data);
+      new Chart("#svg1").Bar(data);
+
+      // 2
+      new ChartJS(document.getElementById("canvas2").getContext("2d")).Bar(data, options);
+      new Chart("#svg2").Bar(data, options);
 
     </script>
   </body>
