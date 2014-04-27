@@ -144,9 +144,9 @@ class @Chart
       # Boolean - Whether to show a dot for each point.
       pointDot: true
       # Number - Radius of each point dot in pixels.
-      pointDotRadius: 3
+      pointDotRadius: 4
       # Number - Pixel width of point dot stroke.
-      pointDotStrokeWidth: 1
+      pointDotStrokeWidth: 2
       # Boolean - Whether to show a stroke for datasets.
       datasetStroke: true
       # Number - Pixel width of dataset stroke.
