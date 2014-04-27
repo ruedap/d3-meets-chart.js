@@ -62,6 +62,16 @@ describe 'Chart', ->
         expect(instance.Line.defaults.animation).to.be.ok()
         expect(line.options.animation).not.to.be.ok()
 
+      it 'should have a pointDotRadius value', ->
+        line = instance.Line([], args.options)
+        expect(instance.Line.defaults.pointDotRadius).to.be(4)
+        expect(line.options.pointDotRadius).to.be(4)
+
+      it 'should have a pointDotStrokeWidth value', ->
+        line = instance.Line([], args.options)
+        expect(instance.Line.defaults.pointDotStrokeWidth).to.be(2)
+        expect(line.options.pointDotStrokeWidth).to.be(2)
+
   describe '::Pie', ->
     it 'should return the same constructor name', ->
       pie = instance.Pie([])
