@@ -2,9 +2,9 @@
 <html>
   <head>
     <title>Line Chart</title>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" charset="utf-8"></script>
+    <script src="../../bower_components/Chart.js/Chart.min.js" charset="utf-8"></script>
     <script>
-      window.ChartJs = Chart;
+      window.ChartJS = Chart;
     </script>
     <script src="../../bower_components/d3/d3.min.js" charset="utf-8"></script>
     <script src="../../tmp/d3-meets-chart.min.js"></script>
@@ -98,10 +98,10 @@
         pointDot : true,
 
         //Number - Radius of each point dot in pixels
-        pointDotRadius : 3,
+        // pointDotRadius : 3,
 
         //Number - Pixel width of point dot stroke
-        pointDotStrokeWidth : 1,
+        // pointDotStrokeWidth : 1,
 
         //Boolean - Whether to show a stroke for datasets
         datasetStroke : true,
@@ -156,7 +156,7 @@
         onAnimationComplete: function () { console.log('hello'); }
       };
 
-      var myChartJs = new ChartJs(document.getElementById("canvas").getContext("2d"))
+      var myChartJS = new ChartJS(document.getElementById("canvas").getContext("2d"))
         .Line(data, options);
       var myChart = new Chart("#svg")
         .Line(data, options);
