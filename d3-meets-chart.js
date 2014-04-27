@@ -110,8 +110,8 @@
         scaleGridLineWidth: 1,
         bezierCurve: true,
         pointDot: true,
-        pointDotRadius: 3,
-        pointDotStrokeWidth: 1,
+        pointDotRadius: 4,
+        pointDotStrokeWidth: 2,
         datasetStroke: true,
         datasetStrokeWidth: 2,
         datasetFill: true,
@@ -503,10 +503,10 @@
       return rangeBand - 1;
     };
 
-    D3Bar.rectBorderPath = function(datum, i, chartHeight, x1Scale, yScale, strokeWidth) {
+    D3Bar.rectBorderPath = function(datum, i, chartHeight, x1Scale, yScale, options) {
       var _ch, _data, _swh, _w, _x, _y;
       _ch = chartHeight;
-      _swh = strokeWidth / 2;
+      _swh = options.barStrokeWidth / 2;
       _x = x1Scale(i);
       _w = D3Bar.adjustRangeBand(x1Scale.rangeBand());
       _y = yScale(datum.value) + _swh;
@@ -588,7 +588,7 @@
     };
 
     D3Bar.prototype.render = function() {
-      var chartHeight, chartWidth, data, datasets, el, labels, options, strokeWidth, x0Scale, x1Scale, yScale;
+      var chartHeight, chartWidth, data, datasets, el, labels, options, x0Scale, x1Scale, yScale, _domain, _max;
       labels = this.data.labels;
       datasets = this.data.datasets;
       data = this.generateData(labels, datasets);
@@ -596,20 +596,21 @@
         return this;
       }
       options = this.options;
-      strokeWidth = this.options.barStrokeWidth;
       chartWidth = this.width;
       chartHeight = this.height;
       x0Scale = D3Bar.xScale(labels, chartWidth);
-      x1Scale = D3Bar.xScale(d3.range(datasets.length), x0Scale.rangeBand());
+      _domain = d3.range(datasets.length);
+      _max = x0Scale.rangeBand() - (options.barValueSpacing * 2);
+      x1Scale = D3Bar.xScale(_domain, _max);
       yScale = D3Bar.yScale(data, chartHeight);
       this.renderXGrid(x0Scale, chartHeight);
       this.renderYGrid(yScale, chartWidth);
       this.renderGrid();
       this.renderXAxis(x0Scale, chartHeight);
       this.renderYAxis(yScale);
-      this.renderBars(data, x0Scale);
-      this.renderBar(chartHeight, x1Scale, yScale);
-      this.renderBarBorder(chartHeight, x1Scale, yScale, strokeWidth);
+      this.renderBars(data, x0Scale, options);
+      this.renderBar(chartHeight, x1Scale, yScale, options);
+      this.renderBarBorder(chartHeight, x1Scale, yScale, options);
       this.updateGridTickStyle(options);
       this.updateScaleStrokeStyle(options);
       this.updateScaleTextStyle(options);
@@ -619,13 +620,13 @@
       return this;
     };
 
-    D3Bar.prototype.renderBars = function(data, x0Scale) {
+    D3Bar.prototype.renderBars = function(data, x0Scale, options) {
       return this.getRootElement().select('.margin-convention-element').append('g').classed('bar-chart', true).selectAll('.bars-group').data(data).enter().append('g').classed('bars-group', true).attr('transform', function(d) {
-        return "translate(" + (x0Scale(d.key)) + ",0)";
+        return "translate(" + (x0Scale(d.key) + options.barValueSpacing) + ",0)";
       });
     };
 
-    D3Bar.prototype.renderBar = function(chartHeight, x1Scale, yScale) {
+    D3Bar.prototype.renderBar = function(chartHeight, x1Scale, yScale, options) {
       return this.getRootElement().selectAll('.bars-group').selectAll('rect').data(function(d, i) {
         return d.values;
       }).enter().append('g').classed('bar-group', true).append('rect').classed('bar', true).attr('x', function(d, i) {
@@ -639,12 +640,12 @@
       });
     };
 
-    D3Bar.prototype.renderBarBorder = function(chartHeight, x1Scale, yScale, strokeWidth) {
+    D3Bar.prototype.renderBarBorder = function(chartHeight, x1Scale, yScale, options) {
       return this.getRootElement().selectAll('.bars-group').selectAll('.bar-group').append('path').classed('bar-border', true).attr('d', function(d, i) {
-        return D3Bar.rectBorderPath(d, i, chartHeight, x1Scale, yScale, strokeWidth);
+        return D3Bar.rectBorderPath(d, i, chartHeight, x1Scale, yScale, options);
       }).attr('fill', 'none').attr('stroke', function(d) {
         return d.strokeColor;
-      }).attr('stroke-width', strokeWidth);
+      }).attr('stroke-width', options.barStrokeWidth);
     };
 
     D3Bar.prototype.transitBar = function(el, chartHeight, yScale) {
