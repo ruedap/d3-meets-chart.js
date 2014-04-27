@@ -107,12 +107,9 @@ describe 'Chart.D3Bar', ->
 
   describe '::renderBars', ->
     it 'should return an array', ->
-      actual = instance.renderBars([], x0Scale, args.options)
-      expect(actual).to.be.an(Array)
-
-    xit 'should return an array', ->
       actual = instance.renderBars(args.generatedData, x0Scale, args.options)
-      expect(actual[0][0].outerHTML).to.contain('translate(7,0)')
+      expect(actual).to.be.an(Array)
+      expect(actual[0]).to.have.length(7)
 
   describe '::renderBar', ->
     it 'should return an array', ->
