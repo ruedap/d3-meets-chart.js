@@ -11,7 +11,7 @@
   "dependencies": {
     "normalize.css": "3.0.1",
     "d3": "3.4.6",
-    "d3-meets-chart.js": "0.3.0",
+    "d3-meets-chart.js": "0.4.0",
     "Chart.js": "*",
     "jquery": "2.1.0",
     "jquery.inview": "1.0.0"
