@@ -21,6 +21,7 @@ describe 'Chart.D3Pie', ->
       animateRotate: true
       animateScale: true
       onAnimationComplete: -> 'foo'
+    args.margin = top: 5, right: 5, bottom: 5, left: 5
     instance = new Chart.D3Pie('#svg', args.data, {})
 
   afterEach ->
@@ -42,16 +43,6 @@ describe 'Chart.D3Pie', ->
   describe '::attrSegmentStroke', ->
     it 'pending'
 
-  describe '::renderPie', ->
-    it 'should return an array', ->
-      actual = instance.renderPie(args.data, args.options)
-      expect(actual).to.be.an(Array)
-
-  xdescribe '::renderPiePath', ->
-    it 'should return an array', ->
-      # actual = instance.renderPiePath()
-      expect(actual).to.be.an(Array)
-
   describe '::getOuterRadius', ->
     it 'should return a Number', ->
       actual = instance.getOuterRadius(450, 400.5, 5)
@@ -64,6 +55,22 @@ describe 'Chart.D3Pie', ->
 
   describe '::render', ->
     it 'pending'
+
+  describe '::renderPie', ->
+    it 'should return an array', ->
+      actual = instance.renderPie(args.data, args.options)
+      expect(actual).to.be.an(Array)
+
+  describe '::renderPiePath', ->
+    it 'should return an array', ->
+      outerRadius = instance.getOuterRadius(
+        instance.width, instance.height, args.margin
+      )
+      innerRadius = instance.getInnerRadius(outerRadius, args.options)
+      arc = instance.getArc(innerRadius, outerRadius)
+      sl = instance.renderPie(args.data, args.options)
+      actual = instance.renderPiePath(sl, arc)
+      expect(actual).to.be.an(Array)
 
   describe '::setAnimationComplete', ->
     context 'when an argument is invalid', ->
