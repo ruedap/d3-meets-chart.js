@@ -79,7 +79,7 @@
         var myChartJS = new ChartJS(document.getElementById("canvas").getContext("2d"))
           .Pie(data, options);
       });
-      $('#svg').on('inview', function() {
+      $('#svg').one('inview', function() {
         var myChart = new Chart("#svg")
           .Pie(data, options);
       });

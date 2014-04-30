@@ -3,6 +3,7 @@ describe 'Chart.D3Pie', ->
 
   args = {}
   instance = null
+  arc = null
 
   beforeEach ->
     args.data = [
@@ -20,22 +21,27 @@ describe 'Chart.D3Pie', ->
       animation: true
       animateRotate: true
       animateScale: true
+      animationEasing: 'easeOutBounce'
       onAnimationComplete: -> 'foo'
     args.margin = top: 5, right: 5, bottom: 5, left: 5
     instance = new Chart.D3Pie('#svg', args.data, {})
 
+    outerRadius = instance.getOuterRadius(
+      instance.width, instance.height, args.margin.top
+    )
+    innerRadius = instance.getInnerRadius(outerRadius, args.options)
+    arc = instance.getArc(innerRadius, outerRadius)
+
   afterEach ->
     args = {}
     instance = null
+    arc = null
 
   describe '::constructor', ->
     it 'should have same values in properties', ->
       expect(instance.selectors).to.be('#svg')
       expect(instance.data).to.be(args.data)
       expect(instance.options).to.eql({})
-
-  describe '::animateRotate', ->
-    it 'pending'
 
   describe '::animateScale', ->
     it 'pending'
@@ -63,11 +69,6 @@ describe 'Chart.D3Pie', ->
 
   describe '::renderPiePath', ->
     it 'should return an array', ->
-      outerRadius = instance.getOuterRadius(
-        instance.width, instance.height, args.margin
-      )
-      innerRadius = instance.getInnerRadius(outerRadius, args.options)
-      arc = instance.getArc(innerRadius, outerRadius)
       sl = instance.renderPie(args.data, args.options)
       actual = instance.renderPiePath(sl, arc)
       expect(actual).to.be.an(Array)
@@ -98,6 +99,12 @@ describe 'Chart.D3Pie', ->
           args.options.animation = false
           actual = instance.setAnimationComplete(args.options)
           expect(isNaN(actual)).to.be.ok()
+
+  describe '::transitRotation', ->
+    it 'should return an array', ->
+      sl = instance.renderPie(args.data, args.options)
+      actual = instance.transitRotation(sl, arc, args.options)
+      expect(actual).to.be.an(Array)
 
   describe '::transitionEndAll', ->
     it 'pending'

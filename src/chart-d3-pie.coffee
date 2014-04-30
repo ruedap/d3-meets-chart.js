@@ -3,21 +3,11 @@ class Chart.D3Pie extends Chart.D3Chart
   'use strict'
 
   constructor: (selectors, data, options) ->
-    margin = top: 5, right: 5, bottom: 5, left: 5
+    margin = top: 0, right: 0, bottom: 0, left: 0
     super(selectors, data, options, margin)
 
-  animateRotate: (sl, arc, options) ->
-    return if !(options.animation and options.animateRotate)
-    sl.transition()
-      .call(@transitionEndAll, options)
-      .duration @duration()
-      .ease(options.animationEasing)
-      .attrTween 'd', (d) ->
-        interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d)
-        (t) -> arc(interpolate(t))
-
   animateScale: (options) ->
-    return if !(options.animation and options.animateScale)
+    return null if !(options.animation and options.animateScale)
     @getRootElement()
       .selectAll('g')
       .attr(transform: "#{@attrTranslateToCenter()} scale(0)")
@@ -46,11 +36,11 @@ class Chart.D3Pie extends Chart.D3Chart
 
   # TODO: enable spec
   render: ->
+    margin = 5
     options = @options
     data = @data
     chartWidth = @width
     chartHeight = @height
-    margin = d3.max([@margin.top, @margin.right, @margin.bottom, @margin.left])
     outerRadius = @getOuterRadius(chartWidth, chartHeight, margin)
     innerRadius = @getInnerRadius(outerRadius, options)
     arc = @getArc(innerRadius, outerRadius)
@@ -60,11 +50,11 @@ class Chart.D3Pie extends Chart.D3Chart
 
     switch
       when options.animation and options.animateRotate and options.animateScale
-        @animateRotate(sl, arc, options)
+        @transitRotation(sl, arc, options)
         @animateScale(options)
-      when options.animation and options.animateRotate
-        @animateRotate(sl, arc, options)
-      when options.animation and options.animateScale
+      when options.animation and options.animateRotate and !options.animateScale
+        @transitRotation(sl, arc, options)
+      when options.animation and options.animateScale and !options.animateRotate
         @renderPiePath(sl, arc)
         @animateScale(options)
       else
@@ -76,6 +66,7 @@ class Chart.D3Pie extends Chart.D3Chart
     pie = d3.layout.pie().value((d) -> d.value).sort(null)
     colors = data.map((d) -> d.color)
     @getRootElement()
+      .select('.margin-convention-element')
       .append('g')
       .selectAll('path')
       .data pie(data)
@@ -90,13 +81,24 @@ class Chart.D3Pie extends Chart.D3Chart
     sl.attr(d: arc)
 
   setAnimationComplete: (options) ->
-    return Infinity unless typeof options.onAnimationComplete is 'function'
-    if options.animation and options.animateRotate and options.animateScale
+    o = options
+    return Infinity unless typeof o.onAnimationComplete is 'function'
+    if o.animation and o.animateRotate and o.animateScale
       2
-    else if options.animation and (options.animateRotate or options.animateScale)
+    else if o.animation and (o.animateRotate or o.animateScale)
       1
     else
       NaN
+
+  transitRotation: (sl, arc, options) ->
+    return null if !(options.animation and options.animateRotate)
+    sl.transition()
+      .call(@transitionEndAll, options)
+      .duration(@duration())
+      .ease(options.animationEasing)
+      .attrTween 'd', (d) ->
+        interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d)
+        (t) -> arc(interpolate(t))
 
   transitionEndAll: (transition, options) =>
     n = 0
