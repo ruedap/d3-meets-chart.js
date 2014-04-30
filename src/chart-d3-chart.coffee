@@ -10,13 +10,13 @@ class Chart.D3Chart
     d3.svg.axis().scale(yScale).ticks(20).tickSize(3, 0)
       .tickPadding(7).orient('left')
 
-  constructor: (@selectors, @data, @options, @margin) ->
-    @margin or= top: 0, right: 0, bottom: 0, left: 0
+  constructor: (@selectors, @data, @options, margin) ->
+    margin or= top: 0, right: 0, bottom: 0, left: 0
     @defineRootElement(
       @getRootElement(),
       @getRootElementWidth(),
       @getRootElementHeight(),
-      @margin
+      margin
     )
 
   attrTranslateToCenter: =>
