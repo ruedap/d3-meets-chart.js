@@ -5,10 +5,9 @@ class Chart.D3Pie extends Chart.D3Chart
   constructor: (selectors, data, options) ->
     super(selectors, data, options)
 
-  animateRotate: (path, arc, options) ->
+  animateRotate: (sl, arc, options) ->
     return if !(options.animation and options.animateRotate)
-    path
-      .transition()
+    sl.transition()
       .call(@transitionEndAll, options)
       .duration @duration()
       .ease(options.animationEasing)
@@ -46,7 +45,6 @@ class Chart.D3Pie extends Chart.D3Chart
       .append('path')
       .attr(@attrSegmentStroke(options))
       .attr
-        d: arc
         transform: @attrTranslateToCenter()
         fill: (d, i) -> colors[i]
 
@@ -58,18 +56,33 @@ class Chart.D3Pie extends Chart.D3Chart
 
   # TODO: enable spec
   render: ->
+    options = @options
     width = @getRootElementWidth()
     height = @getRootElementHeight()
     margin = 5
     outerRadius = @getOuterRadius(width, height, margin)
     innerRadius = @getInnerRadius(outerRadius, @options)
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
-    path = @drawChart(arc, @options)
+    sl = @drawChart(arc, @options)
     @transitionEndAllCount = @setAnimationComplete(@options)
     @options.onAnimationComplete.call(this) if isNaN(@transitionEndAllCount)
-    @animateRotate(path, arc, @options)
-    @animateScale(@options)
+
+    switch
+      when options.animation and options.animateRotate and options.animateScale
+        @animateRotate(sl, arc, options)
+        @animateScale(options)
+      when options.animation and options.animateRotate
+        @animateRotate(sl, arc, options)
+      when options.animation and options.animateScale
+        @renderPiePath(sl, arc)
+        @animateScale(options)
+      else
+        @renderPiePath(sl, arc)
+
     this
+
+  renderPiePath: (sl, arc) ->
+    sl.attr(d: arc)
 
   setAnimationComplete: (options) ->
     return Infinity unless typeof options.onAnimationComplete is 'function'
