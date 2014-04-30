@@ -3,6 +3,8 @@ describe 'Chart.D3Pie', ->
 
   args = {}
   instance = null
+  outerRadius = null
+  innerRadius = null
   arc = null
 
   beforeEach ->
@@ -35,7 +37,12 @@ describe 'Chart.D3Pie', ->
   afterEach ->
     args = {}
     instance = null
+    outerRadius = null
+    innerRadius = null
     arc = null
+
+  describe '::attrSegmentStroke', ->
+    it 'pending'
 
   describe '::constructor', ->
     it 'should have same values in properties', ->
@@ -43,18 +50,20 @@ describe 'Chart.D3Pie', ->
       expect(instance.data).to.be(args.data)
       expect(instance.options).to.eql({})
 
-  describe '::attrSegmentStroke', ->
-    it 'pending'
-
-  describe '::getOuterRadius', ->
-    it 'should return a Number', ->
-      actual = instance.getOuterRadius(450, 400.5, 5)
-      expect(actual).to.be(195)
+  describe '::getArc', ->
+    it 'should return a function', ->
+      actual = instance.getArc(innerRadius, outerRadius)
+      expect(actual).to.be.a('function')
 
   describe '::getInnerRadius', ->
     it 'should return 0', ->
       actual = instance.getInnerRadius(195, args.options)
       expect(actual).to.be(0)
+
+  describe '::getOuterRadius', ->
+    it 'should return a Number', ->
+      actual = instance.getOuterRadius(450, 400.5, 5)
+      expect(actual).to.be(195)
 
   describe '::render', ->
     it 'pending'
@@ -97,6 +106,24 @@ describe 'Chart.D3Pie', ->
           actual = instance.setAnimationComplete(args.options)
           expect(isNaN(actual)).to.be.ok()
 
+  describe '::transitExpansion', ->
+    context 'when `animation` is false', ->
+      it 'should return a null', ->
+        args.options.animation = false
+        actual = instance.transitExpansion(args.options)
+        expect(actual).not.to.be.ok()
+
+    context 'when `animateScale` is false', ->
+      it 'should return a null', ->
+        args.options.animateScale = false
+        actual = instance.transitExpansion(args.options)
+        expect(actual).not.to.be.ok()
+
+    context 'when `animation` is true and `animateScale` is true', ->
+      it 'should return an array', ->
+        actual = instance.transitExpansion(args.options)
+        expect(actual).to.be.an(Array)
+
   describe '::transitRotation', ->
     context 'when `animation` is false', ->
       it 'should return a null', ->
@@ -116,24 +143,6 @@ describe 'Chart.D3Pie', ->
       it 'should return an array', ->
         sl = instance.renderPie(args.data, args.options)
         actual = instance.transitRotation(sl, arc, args.options)
-        expect(actual).to.be.an(Array)
-
-  describe '::transitExpansion', ->
-    context 'when `animation` is false', ->
-      it 'should return a null', ->
-        args.options.animation = false
-        actual = instance.transitExpansion(args.options)
-        expect(actual).not.to.be.ok()
-
-    context 'when `animateScale` is false', ->
-      it 'should return a null', ->
-        args.options.animateScale = false
-        actual = instance.transitExpansion(args.options)
-        expect(actual).not.to.be.ok()
-
-    context 'when `animation` is true and `animateScale` is true', ->
-      it 'should return an array', ->
-        actual = instance.transitExpansion(args.options)
         expect(actual).to.be.an(Array)
 
   describe '::transitionEndAll', ->

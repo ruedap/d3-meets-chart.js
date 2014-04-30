@@ -2,10 +2,6 @@
 class Chart.D3Pie extends Chart.D3Chart
   'use strict'
 
-  constructor: (selectors, data, options) ->
-    margin = top: 0, right: 0, bottom: 0, left: 0
-    super(selectors, data, options, margin)
-
   attrSegmentStroke: (options) ->
     if options.segmentShowStroke
       stroke: options.segmentStrokeColor
@@ -14,14 +10,18 @@ class Chart.D3Pie extends Chart.D3Chart
       stroke: 'none'
       'stroke-width': 0
 
-  getOuterRadius: (chartWidth, chartHeight, margin) ->
-    ~~(Math.min(chartWidth, chartHeight) / 2 - margin)
+  constructor: (selectors, data, options) ->
+    margin = top: 0, right: 0, bottom: 0, left: 0
+    super(selectors, data, options, margin)
+
+  getArc: (innerRadius, outerRadius) ->
+    d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
 
   getInnerRadius: (outerRadius, options) ->
     0
 
-  getArc: (innerRadius, outerRadius) ->
-    d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
+  getOuterRadius: (chartWidth, chartHeight, margin) ->
+    ~~(Math.min(chartWidth, chartHeight) / 2 - margin)
 
   # TODO: enable spec
   render: ->
@@ -79,16 +79,6 @@ class Chart.D3Pie extends Chart.D3Chart
     else
       NaN
 
-  transitRotation: (sl, arc, options) ->
-    return null if !(options.animation and options.animateRotate)
-    sl.transition()
-      .call(@transitionEndAll, options)
-      .duration(@duration())
-      .ease(options.animationEasing)
-      .attrTween 'd', (d) ->
-        interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d)
-        (t) -> arc(interpolate(t))
-
   transitExpansion: (options) ->
     return null if !(options.animation and options.animateScale)
     @getRootElement()
@@ -99,6 +89,16 @@ class Chart.D3Pie extends Chart.D3Chart
       .duration(@duration())
       .ease(options.animationEasing)
       .attr(transform: 'scale(1)')
+
+  transitRotation: (sl, arc, options) ->
+    return null if !(options.animation and options.animateRotate)
+    sl.transition()
+      .call(@transitionEndAll, options)
+      .duration(@duration())
+      .ease(options.animationEasing)
+      .attrTween 'd', (d) ->
+        interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d)
+        (t) -> arc(interpolate(t))
 
   transitionEndAll: (transition, options) =>
     n = 0
