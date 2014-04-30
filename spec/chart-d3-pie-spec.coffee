@@ -43,9 +43,6 @@ describe 'Chart.D3Pie', ->
       expect(instance.data).to.be(args.data)
       expect(instance.options).to.eql({})
 
-  describe '::animateScale', ->
-    it 'pending'
-
   describe '::attrSegmentStroke', ->
     it 'pending'
 
@@ -101,10 +98,43 @@ describe 'Chart.D3Pie', ->
           expect(isNaN(actual)).to.be.ok()
 
   describe '::transitRotation', ->
-    it 'should return an array', ->
-      sl = instance.renderPie(args.data, args.options)
-      actual = instance.transitRotation(sl, arc, args.options)
-      expect(actual).to.be.an(Array)
+    context 'when `animation` is false', ->
+      it 'should return a null', ->
+        args.options.animation = false
+        sl = instance.renderPie(args.data, args.options)
+        actual = instance.transitRotation(sl, arc, args.options)
+        expect(actual).not.to.be.ok()
+
+    context 'when `animateRotate` is false', ->
+      it 'should return a null', ->
+        args.options.animateRotate = false
+        sl = instance.renderPie(args.data, args.options)
+        actual = instance.transitRotation(sl, arc, args.options)
+        expect(actual).not.to.be.ok()
+
+    context 'when `animation` is true and `animateRotate` is true', ->
+      it 'should return an array', ->
+        sl = instance.renderPie(args.data, args.options)
+        actual = instance.transitRotation(sl, arc, args.options)
+        expect(actual).to.be.an(Array)
+
+  describe '::transitExpansion', ->
+    context 'when `animation` is false', ->
+      it 'should return a null', ->
+        args.options.animation = false
+        actual = instance.transitExpansion(args.options)
+        expect(actual).not.to.be.ok()
+
+    context 'when `animateScale` is false', ->
+      it 'should return a null', ->
+        args.options.animateScale = false
+        actual = instance.transitExpansion(args.options)
+        expect(actual).not.to.be.ok()
+
+    context 'when `animation` is true and `animateScale` is true', ->
+      it 'should return an array', ->
+        actual = instance.transitExpansion(args.options)
+        expect(actual).to.be.an(Array)
 
   describe '::transitionEndAll', ->
     it 'pending'

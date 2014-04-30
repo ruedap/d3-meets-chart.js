@@ -6,17 +6,6 @@ class Chart.D3Pie extends Chart.D3Chart
     margin = top: 0, right: 0, bottom: 0, left: 0
     super(selectors, data, options, margin)
 
-  animateScale: (options) ->
-    return null if !(options.animation and options.animateScale)
-    @getRootElement()
-      .selectAll('g')
-      .attr(transform: "#{@attrTranslateToCenter()} scale(0)")
-      .transition()
-      .call(@transitionEndAll, options)
-      .duration(@duration())
-      .ease(options.animationEasing)
-      .attr(transform: 'scale(1)')
-
   attrSegmentStroke: (options) ->
     if options.segmentShowStroke
       stroke: options.segmentStrokeColor
@@ -51,12 +40,12 @@ class Chart.D3Pie extends Chart.D3Chart
     switch
       when options.animation and options.animateRotate and options.animateScale
         @transitRotation(sl, arc, options)
-        @animateScale(options)
+        @transitExpansion(options)
       when options.animation and options.animateRotate and !options.animateScale
         @transitRotation(sl, arc, options)
       when options.animation and options.animateScale and !options.animateRotate
         @renderPiePath(sl, arc)
-        @animateScale(options)
+        @transitExpansion(options)
       else
         @renderPiePath(sl, arc)
 
@@ -99,6 +88,17 @@ class Chart.D3Pie extends Chart.D3Chart
       .attrTween 'd', (d) ->
         interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d)
         (t) -> arc(interpolate(t))
+
+  transitExpansion: (options) ->
+    return null if !(options.animation and options.animateScale)
+    @getRootElement()
+      .selectAll('g')
+      .attr(transform: "#{@attrTranslateToCenter()} scale(0)")
+      .transition()
+      .call(@transitionEndAll, options)
+      .duration(@duration())
+      .ease(options.animationEasing)
+      .attr(transform: 'scale(1)')
 
   transitionEndAll: (transition, options) =>
     n = 0
