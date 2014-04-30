@@ -25,6 +25,10 @@ describe 'Chart.D3Pie', ->
       animateScale: true
       animationEasing: 'easeOutBounce'
       onAnimationComplete: -> 'foo'
+      segmentShowStroke: true
+      segmentStrokeColor: '#fff'
+      segmentStrokeWidth: 2
+
     args.margin = top: 5, right: 5, bottom: 5, left: 5
     instance = new Chart.D3Pie('#svg', args.data, {})
 
@@ -42,7 +46,18 @@ describe 'Chart.D3Pie', ->
     arc = null
 
   describe '::attrSegmentStroke', ->
-    it 'pending'
+    context 'when `segmentShowStroke` is true', ->
+      it 'should return a object', ->
+        actual = instance.attrSegmentStroke(args.options)
+        expect(actual.stroke).to.be(args.options.segmentStrokeColor)
+        expect(actual['stroke-width']).to.be(args.options.segmentStrokeWidth)
+
+    context 'when `segmentShowStroke` is false', ->
+      it 'should return a object', ->
+        args.options.segmentShowStroke = false
+        actual = instance.attrSegmentStroke(args.options)
+        expect(actual.stroke).to.be('none')
+        expect(actual['stroke-width']).to.be(0)
 
   describe '::constructor', ->
     it 'should have same values in properties', ->
