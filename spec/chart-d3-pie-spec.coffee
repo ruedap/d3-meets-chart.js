@@ -47,6 +47,11 @@ describe 'Chart.D3Pie', ->
       actual = instance.renderPie(args.data, args.options)
       expect(actual).to.be.an(Array)
 
+  xdescribe '::renderPiePath', ->
+    it 'should return an array', ->
+      # actual = instance.renderPiePath()
+      expect(actual).to.be.an(Array)
+
   describe '::getOuterRadius', ->
     it 'should return a Number', ->
       actual = instance.getOuterRadius(450, 400.5, 5)

@@ -3,7 +3,8 @@ class Chart.D3Pie extends Chart.D3Chart
   'use strict'
 
   constructor: (selectors, data, options) ->
-    super(selectors, data, options)
+    margin = top: 5, right: 5, bottom: 5, left: 5
+    super(selectors, data, options, margin)
 
   animateRotate: (sl, arc, options) ->
     return if !(options.animation and options.animateRotate)
@@ -34,23 +35,25 @@ class Chart.D3Pie extends Chart.D3Chart
       stroke: 'none'
       'stroke-width': 0
 
-
-  getOuterRadius: (width, height, margin) ->
-    ~~(Math.min(width, height) / 2 - margin)
+  getOuterRadius: (chartWidth, chartHeight, margin) ->
+    ~~(Math.min(chartWidth, chartHeight) / 2 - margin)
 
   getInnerRadius: (outerRadius, options) ->
     0
+
+  getArc: (innerRadius, outerRadius) ->
+    d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
 
   # TODO: enable spec
   render: ->
     options = @options
     data = @data
-    width = @getRootElementWidth()
-    height = @getRootElementHeight()
-    margin = 5
-    outerRadius = @getOuterRadius(width, height, margin)
+    chartWidth = @width
+    chartHeight = @height
+    margin = d3.max([@margin.top, @margin.right, @margin.bottom, @margin.left])
+    outerRadius = @getOuterRadius(chartWidth, chartHeight, margin)
     innerRadius = @getInnerRadius(outerRadius, options)
-    arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
+    arc = @getArc(innerRadius, outerRadius)
     sl = @renderPie(data, options)
     @transitionEndAllCount = @setAnimationComplete(options)
     options.onAnimationComplete.call(this) if isNaN(@transitionEndAllCount)
