@@ -368,38 +368,6 @@
     'use strict';
     __extends(D3Pie, _super);
 
-    function D3Pie(selectors, data, options) {
-      this.transitionEndAll = __bind(this.transitionEndAll, this);
-      D3Pie.__super__.constructor.call(this, selectors, data, options);
-    }
-
-    D3Pie.prototype.animateRotate = function(path, arc, options) {
-      if (!(options.animation && options.animateRotate)) {
-        return;
-      }
-      return path.transition().call(this.transitionEndAll, options).duration(this.duration()).ease(options.animationEasing).attrTween('d', function(d) {
-        var interpolate;
-        interpolate = d3.interpolate({
-          startAngle: 0,
-          endAngle: 0
-        }, d);
-        return function(t) {
-          return arc(interpolate(t));
-        };
-      });
-    };
-
-    D3Pie.prototype.animateScale = function(options) {
-      if (!(options.animation && options.animateScale)) {
-        return;
-      }
-      return this.getRootElement().selectAll('g').attr({
-        transform: "" + (this.attrTranslateToCenter()) + " scale(0)"
-      }).transition().call(this.transitionEndAll, options).duration(this.duration()).ease(options.animationEasing).attr({
-        transform: 'scale(1)'
-      });
-    };
-
     D3Pie.prototype.attrSegmentStroke = function(options) {
       if (options.segmentShowStroke) {
         return {
@@ -414,16 +382,72 @@
       }
     };
 
-    D3Pie.prototype.drawChart = function(arc, options) {
+    function D3Pie(selectors, data, options) {
+      this.transitionEndAll = __bind(this.transitionEndAll, this);
+      var margin;
+      margin = {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+      };
+      D3Pie.__super__.constructor.call(this, selectors, data, options, margin);
+    }
+
+    D3Pie.prototype.getArc = function(innerRadius, outerRadius) {
+      return d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
+    };
+
+    D3Pie.prototype.getInnerRadius = function(outerRadius, options) {
+      return 0;
+    };
+
+    D3Pie.prototype.getOuterRadius = function(chartWidth, chartHeight, margin) {
+      return ~~(Math.min(chartWidth, chartHeight) / 2 - margin);
+    };
+
+    D3Pie.prototype.render = function() {
+      var arc, chartHeight, chartWidth, data, innerRadius, margin, options, outerRadius, sl;
+      margin = 5;
+      options = this.options;
+      data = this.data;
+      chartWidth = this.width;
+      chartHeight = this.height;
+      outerRadius = this.getOuterRadius(chartWidth, chartHeight, margin);
+      innerRadius = this.getInnerRadius(outerRadius, options);
+      arc = this.getArc(innerRadius, outerRadius);
+      sl = this.renderPie(data, options);
+      this.transitionEndAllCount = this.setAnimationComplete(options);
+      if (isNaN(this.transitionEndAllCount)) {
+        options.onAnimationComplete.call(this);
+      }
+      switch (false) {
+        case !(options.animation && options.animateRotate && options.animateScale):
+          this.transitRotation(sl, arc, options);
+          this.transitExpansion(options);
+          break;
+        case !(options.animation && options.animateRotate && !options.animateScale):
+          this.transitRotation(sl, arc, options);
+          break;
+        case !(options.animation && options.animateScale && !options.animateRotate):
+          this.renderPiePath(sl, arc);
+          this.transitExpansion(options);
+          break;
+        default:
+          this.renderPiePath(sl, arc);
+      }
+      return this;
+    };
+
+    D3Pie.prototype.renderPie = function(data, options) {
       var colors, pie;
       pie = d3.layout.pie().value(function(d) {
         return d.value;
       }).sort(null);
-      colors = this.data.map(function(d) {
+      colors = data.map(function(d) {
         return d.color;
       });
-      return this.getRootElement().append('g').selectAll('path').data(pie(this.data)).enter().append('path').attr(this.attrSegmentStroke(options)).attr({
-        d: arc,
+      return this.getRootElement().select('.margin-convention-element').append('g').selectAll('path').data(pie(data)).enter().append('path').attr(this.attrSegmentStroke(options)).attr({
         transform: this.attrTranslateToCenter(),
         fill: function(d, i) {
           return colors[i];
@@ -431,43 +455,52 @@
       });
     };
 
-    D3Pie.prototype.getOuterRadius = function(width, height, margin) {
-      return ~~(Math.min(width, height) / 2 - margin);
-    };
-
-    D3Pie.prototype.getInnerRadius = function(outerRadius, options) {
-      return 0;
-    };
-
-    D3Pie.prototype.render = function() {
-      var arc, height, innerRadius, margin, outerRadius, path, width;
-      width = this.getRootElementWidth();
-      height = this.getRootElementHeight();
-      margin = 5;
-      outerRadius = this.getOuterRadius(width, height, margin);
-      innerRadius = this.getInnerRadius(outerRadius, this.options);
-      arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-      path = this.drawChart(arc, this.options);
-      this.transitionEndAllCount = this.setAnimationComplete(this.options);
-      if (isNaN(this.transitionEndAllCount)) {
-        this.options.onAnimationComplete.call(this);
-      }
-      this.animateRotate(path, arc, this.options);
-      this.animateScale(this.options);
-      return this;
+    D3Pie.prototype.renderPiePath = function(sl, arc) {
+      return sl.attr({
+        d: arc
+      });
     };
 
     D3Pie.prototype.setAnimationComplete = function(options) {
-      if (typeof options.onAnimationComplete !== 'function') {
+      var o;
+      o = options;
+      if (typeof o.onAnimationComplete !== 'function') {
         return Infinity;
       }
-      if (options.animation && options.animateRotate && options.animateScale) {
+      if (o.animation && o.animateRotate && o.animateScale) {
         return 2;
-      } else if (options.animation && (options.animateRotate || options.animateScale)) {
+      } else if (o.animation && (o.animateRotate || o.animateScale)) {
         return 1;
       } else {
         return NaN;
       }
+    };
+
+    D3Pie.prototype.transitExpansion = function(options) {
+      if (!(options.animation && options.animateScale)) {
+        return null;
+      }
+      return this.getRootElement().selectAll('g').attr({
+        transform: "" + (this.attrTranslateToCenter()) + " scale(0)"
+      }).transition().call(this.transitionEndAll, options).duration(this.duration()).ease(options.animationEasing).attr({
+        transform: 'scale(1)'
+      });
+    };
+
+    D3Pie.prototype.transitRotation = function(sl, arc, options) {
+      if (!(options.animation && options.animateRotate)) {
+        return null;
+      }
+      return sl.transition().call(this.transitionEndAll, options).duration(this.duration()).ease(options.animationEasing).attrTween('d', function(d) {
+        var interpolate;
+        interpolate = d3.interpolate({
+          startAngle: 0,
+          endAngle: 0
+        }, d);
+        return function(t) {
+          return arc(interpolate(t));
+        };
+      });
     };
 
     D3Pie.prototype.transitionEndAll = function(transition, options) {
@@ -676,8 +709,8 @@
     'use strict';
     __extends(D3Doughnut, _super);
 
-    function D3Doughnut(selectors, data, options) {
-      D3Doughnut.__super__.constructor.call(this, selectors, data, options);
+    function D3Doughnut() {
+      return D3Doughnut.__super__.constructor.apply(this, arguments);
     }
 
     D3Doughnut.prototype.getInnerRadius = function(outerRadius, options) {
