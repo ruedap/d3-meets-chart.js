@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Pie Chart</title>
+    <script src="../../bower_components/jquery/dist/jquery.min.js" charset="utf-8"></script>
+    <script src="../../bower_components/jquery.inview/jquery.inview.min.js" charset="utf-8"></script>
+    <script src="../../bower_components/Chart.js/Chart.min.js" charset="utf-8"></script>
+    <script>
+      window.ChartJS = Chart;
+    </script>
+    <script src="../../bower_components/d3/d3.min.js" charset="utf-8"></script>
+    <script src="../../tmp/d3-meets-chart.min.js"></script>
+    <meta name="viewport" content="initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <style>
+      body {
+        background: skyblue;
+        background: white;
+      }
+    </style>
+    <canvas id="canvas" width="450" height="450"></canvas>
+    <svg id="svg" class="d3mc" width="450" height="450"></svg>
+
+    <script>
+
+      var data = [
+        {
+          value : 30,
+          color :"#f38630"
+        },
+        {
+          value : 50,
+          color : "#e0e4cc"
+        },
+        {
+          value : 100,
+          color : "#69D2E7"
+        }
+      ];
+
+      var options = {
+        // segmentShowStroke: true,
+        // segmentStrokeColor: '#000',
+        // segmentStrokeWidth: 10,
+        // animation: true,
+        // animationSteps: 100,
+        // animationEasing: 'linear',
+        // animationEasing: 'easeInQuad',
+        // animationEasing: 'easeOutQuad',
+        // animationEasing: 'easeInOutQuad',
+        // animationEasing: 'easeInCubic',
+        // animationEasing: 'easeOutCubic',
+        // animationEasing: 'easeInOutCubic',
+        // animationEasing: 'easeInSine',
+        // animationEasing: 'easeOutSine',
+        // animationEasing: 'easeInOutSine',
+        // animationEasing: 'easeInExpo',
+        // animationEasing: 'easeOutExpo',
+        // animationEasing: 'easeInOutExpo',
+        // animationEasing: 'easeInCirc',
+        // animationEasing: 'easeOutCirc',
+        // animationEasing: 'easeInOutCirc',
+        // animationEasing: 'easeInElastic',
+        // animationEasing: 'easeOutElastic',
+        // animationEasing: 'easeInOutElastic',
+        // animationEasing: 'easeInBack',
+        // animationEasing: 'easeOutBack',
+        // animationEasing: 'easeInOutBack',
+        // animationEasing: 'easeInBounce',
+        // animationEasing: 'easeOutBounce',
+        // animationEasing: 'easeInOutBounce',
+        animateRotate: true,
+        animateScale: true,
+        // onAnimationComplete: function () { console.log('hello'); }
+      };
+
+      $('#canvas').on('inview', function() {
+        var myChartJS = new ChartJS(document.getElementById("canvas").getContext("2d"))
+          .Pie(data, options);
+      });
+      $('#svg').on('inview', function() {
+        var myChart = new Chart("#svg")
+          .Pie(data, options);
+      });
+
+    </script>
+  </body>
+</html>

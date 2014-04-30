@@ -42,8 +42,10 @@ describe 'Chart.D3Pie', ->
   describe '::attrSegmentStroke', ->
     it 'pending'
 
-  describe '::drawChart', ->
-    it 'pending'
+  describe '::renderPie', ->
+    it 'should return an array', ->
+      actual = instance.renderPie(args.data, args.options)
+      expect(actual).to.be.an(Array)
 
   describe '::getOuterRadius', ->
     it 'should return a Number', ->

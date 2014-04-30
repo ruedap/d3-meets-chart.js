@@ -34,19 +34,6 @@ class Chart.D3Pie extends Chart.D3Chart
       stroke: 'none'
       'stroke-width': 0
 
-  drawChart: (arc, options) ->
-    pie = d3.layout.pie().value((d) -> d.value).sort(null)
-    colors = @data.map((d) -> d.color)
-    @getRootElement()
-      .append('g')
-      .selectAll('path')
-      .data pie(@data)
-      .enter()
-      .append('path')
-      .attr(@attrSegmentStroke(options))
-      .attr
-        transform: @attrTranslateToCenter()
-        fill: (d, i) -> colors[i]
 
   getOuterRadius: (width, height, margin) ->
     ~~(Math.min(width, height) / 2 - margin)
@@ -57,15 +44,16 @@ class Chart.D3Pie extends Chart.D3Chart
   # TODO: enable spec
   render: ->
     options = @options
+    data = @data
     width = @getRootElementWidth()
     height = @getRootElementHeight()
     margin = 5
     outerRadius = @getOuterRadius(width, height, margin)
-    innerRadius = @getInnerRadius(outerRadius, @options)
+    innerRadius = @getInnerRadius(outerRadius, options)
     arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
-    sl = @drawChart(arc, @options)
-    @transitionEndAllCount = @setAnimationComplete(@options)
-    @options.onAnimationComplete.call(this) if isNaN(@transitionEndAllCount)
+    sl = @renderPie(data, options)
+    @transitionEndAllCount = @setAnimationComplete(options)
+    options.onAnimationComplete.call(this) if isNaN(@transitionEndAllCount)
 
     switch
       when options.animation and options.animateRotate and options.animateScale
@@ -80,6 +68,20 @@ class Chart.D3Pie extends Chart.D3Chart
         @renderPiePath(sl, arc)
 
     this
+
+  renderPie: (data, options) ->
+    pie = d3.layout.pie().value((d) -> d.value).sort(null)
+    colors = data.map((d) -> d.color)
+    @getRootElement()
+      .append('g')
+      .selectAll('path')
+      .data pie(data)
+      .enter()
+      .append('path')
+      .attr(@attrSegmentStroke(options))
+      .attr
+        transform: @attrTranslateToCenter()
+        fill: (d, i) -> colors[i]
 
   renderPiePath: (sl, arc) ->
     sl.attr(d: arc)
