@@ -10,25 +10,30 @@
   #why-use-this-chart.why-use-this__example
     .why-use-this__code
       %pre
-        = preserve do
-          :escaped
-            /* CSS Example */
-            .d3mc-bars-group:nth-of-type(3) > :first-of-type rect {
-              fill: pink;
-            }
-            .d3mc-bars-group:nth-of-type(3) > :first-of-type path {
-              stoke: tomato;
-            }
-            .d3mc-scale-x-group > .d3mc-tick:nth-of-type(3) text {
-              fill: red;
-            }
+        %code
+          = preserve do
+            :escaped
+              /* CSS Example */
+              .d3mc-bars-group:nth-of-type(3) > :first-of-type rect {
+                fill: pink;
+              }
+              .d3mc-bars-group:nth-of-type(3) > :first-of-type path {
+                stoke: tomato;
+              }
+              .d3mc-scale-x-group > .d3mc-tick:nth-of-type(3) text {
+                fill: red;
+              }
 
-            /* JavaScript Example */
-            $(".d3mc-bar-group rect").hover(function(event) {
-              $(event.target).fadeTo(200, 0.5);
-            }, function(event) {
-              $(event.target).fadeTo(200, 1);
-            });
+      %pre
+        %code
+          = preserve do
+            :escaped
+              /* jQuery Example */
+              $(".d3mc-bar-group rect").hover(function(event) {
+                $(event.target).fadeTo(200, 0.5);
+              }, function(event) {
+                $(event.target).fadeTo(200, 1);
+              });
     .why-use-this__chart
       %svg(width='560' height='400'){ id: "js-why-use-this-chart" }
 
