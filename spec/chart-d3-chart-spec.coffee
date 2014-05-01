@@ -41,6 +41,11 @@ describe 'Chart.D3Chart', ->
       actual = instance.classedName('foo-bar')
       expect(actual).to.be('d3mc-foo-bar')
 
+  describe '::className', ->
+    it 'should return a string', ->
+      actual = instance.className('foo-bar')
+      expect(actual).to.be('.d3mc-foo-bar')
+
   describe '::defineRootElement', ->
     it 'pending'
 
