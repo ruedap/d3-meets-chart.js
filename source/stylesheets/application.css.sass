@@ -12,7 +12,7 @@ html
 body
   font-size: 1.6rem
   font-family: 'Lato', 'Avenir Next', 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif
-  font-weight: 400
+  font-weight: 300
   word-wrap: break-word
   -webkit-text-size-adjust: 100%
   background-color: white
@@ -104,6 +104,42 @@ a
   &__description
     font-size: 2.0rem
     font-weight: 300
+    margin-bottom: 4rem
+    span
+      font-weight: 700
+  &__example
+    +clearfix
+  &__code
+    margin-top: 1rem
+    margin-bottom: 4rem
+    +media-desktop
+      padding: 0 0 0 30px
+      +float-left
+    pre
+      text-align: left
+      display: block
+      width: 500px
+      margin: 0 auto
+      background-color: #f5f5f5
+      border: 1px solid #eee
+      padding: 1.3rem
+      font-size: 1.3rem
+      line-height: 1.6em
+      font-family: Consolas, "Liberation Mono", Courier, monospace
+  &__chart
+    +media-desktop
+      +float-right
+
+
+#js-why-use-this-chart
+  .d3mc-bars-group:nth-of-type(3) > :first-of-type
+    rect
+      fill: pink
+    path
+      stroke: tomato
+  .d3mc-scale-x-group > .d3mc-tick:nth-of-type(3)
+    text
+      fill: red
 
 .comparison
   &--bar-chart,
@@ -132,7 +168,7 @@ a
     &__chart-heading
       display: block
       width: 18rem
-      background-color: #f2f2f2
+      background-color: #f3f3f3
       padding: 1rem
       margin: 0 auto 5rem
     &__chart
@@ -147,7 +183,7 @@ a
 
 .footer
   text-align: center
-  background-color: #f2f2f2
+  background-color: #f3f3f3
   font-size: 1.6rem
   font-weight: 300
   height: 6rem

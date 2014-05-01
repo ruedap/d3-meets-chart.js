@@ -10,4 +10,16 @@
 $('#js-download-button').one 'inview', ->
   setTimeout =>
     $(this).removeClass('hidden')
-  , 400
+  , 300
+
+
+$('#js-why-use-this-chart').one 'inview', ->
+  data = exports.comparisons['bar'].data
+  selector = '#js-why-use-this-chart'
+  $(selector).empty()
+  chart = new Chart(selector).Bar(data)
+
+  $('#why-use-this-chart .d3mc-bar-group rect').hover (event) ->
+    $(event.target).fadeTo(200, 0.5)
+  , (event) ->
+    $(event.target).fadeTo(200, 1)
