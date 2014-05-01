@@ -1,6 +1,6 @@
 {
   "name": "d3-meets-chart.js",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Simple HTML5 Charts using the <svg> tag with D3.js",
   "main": "d3-meets-chart.js",
   "files": [
