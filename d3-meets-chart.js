@@ -203,6 +203,8 @@
 
   Chart.D3Chart = (function() {
     'use strict';
+    var _className;
+
     D3Chart.xAxis = function(xScale, ticks) {
       if (ticks == null) {
         ticks = 10;
@@ -212,6 +214,13 @@
 
     D3Chart.yAxis = function(yScale) {
       return d3.svg.axis().scale(yScale).ticks(20).tickSize(3, 0).tickPadding(7).orient('left');
+    };
+
+    D3Chart.prototype.attrTranslateToCenter = function() {
+      var halfHeight, halfWidth;
+      halfWidth = this.getRootElementWidth() / 2;
+      halfHeight = this.getRootElementHeight() / 2;
+      return "translate(" + halfWidth + ", " + halfHeight + ")";
     };
 
     function D3Chart(selectors, data, options, margin) {
@@ -240,11 +249,18 @@
       this.defineRootElement(this.getRootElement(), this.getRootElementWidth(), this.getRootElementHeight(), margin);
     }
 
-    D3Chart.prototype.attrTranslateToCenter = function() {
-      var halfHeight, halfWidth;
-      halfWidth = this.getRootElementWidth() / 2;
-      halfHeight = this.getRootElementHeight() / 2;
-      return "translate(" + halfWidth + ", " + halfHeight + ")";
+    D3Chart.prototype.classedName = function(name) {
+      return _className(name, false);
+    };
+
+    D3Chart.prototype.className = function(name) {
+      return _className(name, true);
+    };
+
+    _className = function(name, isSelector) {
+      var dot;
+      dot = isSelector ? '.' : '';
+      return "" + dot + "d3mc-" + name;
     };
 
     D3Chart.prototype.defineRootElement = function(element, width, height, margin) {
@@ -256,9 +272,7 @@
         height: this.height + margin.top + margin.bottom
       }).append('g').attr({
         transform: "translate(" + margin.left + "," + margin.top + ")"
-      }).classed({
-        'margin-convention-element': true
-      });
+      }).classed(this.classedName('base-group'), true);
     };
 
     D3Chart.prototype.duration = function(options) {
@@ -287,52 +301,41 @@
     D3Chart.prototype.renderXGrid = function(x0Scale, chartHeight) {
       var x;
       x = x0Scale.rangeBand() / 2;
-      return this.getRootElement().select('.margin-convention-element').append('g').classed({
-        'grid-group': true,
-        'grid-x-group': true
-      }).call(D3Chart.xAxis(x0Scale).tickFormat('')).selectAll('.tick line').attr({
+      this.getRootElement().select(this.className('base-group')).append('g').classed(this.classedName('grid-group'), true).classed(this.classedName('grid-x-group'), true).call(D3Chart.xAxis(x0Scale).tickFormat('')).selectAll('.tick').classed(this.classedName('tick'), true).classed('tick', false).selectAll('line').attr({
         x1: x,
         x2: x,
         y2: chartHeight
       });
+      return this.getRootElement().selectAll(this.className('grid-x-group')).select('.domain').remove();
     };
 
     D3Chart.prototype.renderYGrid = function(yScale, chartWidth) {
-      return this.getRootElement().select('.margin-convention-element').append('g').classed({
-        'grid-group': true,
-        'grid-y-group': true
-      }).call(D3Chart.yAxis(yScale).tickFormat('')).selectAll('.tick line').attr({
+      return this.getRootElement().select(this.className('base-group')).append('g').classed(this.classedName('grid-group'), true).classed(this.classedName('grid-y-group'), true).call(D3Chart.yAxis(yScale).tickFormat('')).selectAll('.tick').classed(this.classedName('tick'), true).classed('tick', false).selectAll('line').attr({
         x1: 0,
         x2: chartWidth
       });
     };
 
     D3Chart.prototype.renderGrid = function() {
-      return this.getRootElement().selectAll('.grid-group').selectAll('.domain, text').data([]).exit().remove();
+      return this.getRootElement().selectAll("" + (this.className('grid-group'))).selectAll("" + (this.className('domain')) + ", text").data([]).exit().remove();
     };
 
     D3Chart.prototype.renderXAxis = function(xScale, chartHeight) {
-      return this.getRootElement().select('.margin-convention-element').append('g').classed({
-        'scale-group': true,
-        'scale-x-group': true
-      }).attr('transform', "translate(0," + chartHeight + ")").call(D3Chart.xAxis(xScale));
+      return this.getRootElement().select(this.className('base-group')).append('g').classed(this.classedName('scale-group'), true).classed(this.classedName('scale-x-group'), true).attr('transform', "translate(0," + chartHeight + ")").call(D3Chart.xAxis(xScale)).selectAll('.tick').classed(this.classedName('tick'), true).classed('tick', false);
     };
 
     D3Chart.prototype.renderYAxis = function(yScale) {
-      return this.getRootElement().select('.margin-convention-element').append('g').classed({
-        'scale-group': true,
-        'scale-y-group': true
-      }).call(D3Chart.yAxis(yScale)).select('.tick > text').remove();
+      return this.getRootElement().select(this.className('base-group')).append('g').classed(this.classedName('scale-group'), true).classed(this.classedName('scale-y-group'), true).call(D3Chart.yAxis(yScale)).selectAll('.tick').classed(this.classedName('tick'), true).classed('tick', false).select(':first-child > text').remove();
     };
 
     D3Chart.prototype.updateGridTickStyle = function(options) {
-      return this.getRootElement().selectAll('.grid-group .tick line').attr({
+      return this.getRootElement().selectAll("" + (this.className('grid-group')) + " " + (this.className('tick')) + " line").attr({
         stroke: options.scaleGridLineColor
       });
     };
 
     D3Chart.prototype.updateScaleStrokeStyle = function(options) {
-      return this.getRootElement().selectAll('.scale-group').selectAll('.domain, .tick line').attr({
+      return this.getRootElement().selectAll("" + (this.className('scale-group'))).selectAll(".domain, " + (this.className('tick')) + " line").attr({
         fill: 'none'
       }).attr({
         stroke: options.scaleLineColor
@@ -342,7 +345,7 @@
     };
 
     D3Chart.prototype.updateScaleTextStyle = function(options) {
-      return this.getRootElement().selectAll('.scale-group text').attr({
+      return this.getRootElement().selectAll("" + (this.className('scale-group')) + " text").attr({
         'font-family': options.scaleFontFamily
       }).attr({
         'font-size': options.scaleFontSize
@@ -439,15 +442,18 @@
       return this;
     };
 
-    D3Pie.prototype.renderPie = function(data, options) {
+    D3Pie.prototype.renderPie = function(data, options, baseClassName) {
       var colors, pie;
+      if (baseClassName == null) {
+        baseClassName = 'pie';
+      }
       pie = d3.layout.pie().value(function(d) {
         return d.value;
       }).sort(null);
       colors = data.map(function(d) {
         return d.color;
       });
-      return this.getRootElement().select('.margin-convention-element').append('g').selectAll('path').data(pie(data)).enter().append('path').attr(this.attrSegmentStroke(options)).attr({
+      return this.getRootElement().select(this.className('base-group')).append('g').classed(this.classedName("" + baseClassName + "-chart-group"), true).selectAll('path').data(pie(data)).enter().append('path').classed(this.classedName(baseClassName), true).attr(this.attrSegmentStroke(options)).attr({
         transform: this.attrTranslateToCenter(),
         fill: function(d, i) {
           return colors[i];
@@ -654,15 +660,15 @@
     };
 
     D3Bar.prototype.renderBars = function(data, x0Scale, options) {
-      return this.getRootElement().select('.margin-convention-element').append('g').classed('bar-chart', true).selectAll('.bars-group').data(data).enter().append('g').classed('bars-group', true).attr('transform', function(d) {
+      return this.getRootElement().select(this.className('base-group')).append('g').classed(this.classedName('bar-chart-group'), true).selectAll(this.className('bars-group')).data(data).enter().append('g').classed(this.classedName('bars-group'), true).attr('transform', function(d) {
         return "translate(" + (x0Scale(d.key) + options.barValueSpacing) + ",0)";
       });
     };
 
     D3Bar.prototype.renderBar = function(chartHeight, x1Scale, yScale, options) {
-      return this.getRootElement().selectAll('.bars-group').selectAll('rect').data(function(d, i) {
+      return this.getRootElement().selectAll(this.className('bars-group')).selectAll('rect').data(function(d, i) {
         return d.values;
-      }).enter().append('g').classed('bar-group', true).append('rect').classed('bar', true).attr('x', function(d, i) {
+      }).enter().append('g').classed(this.classedName('bar-group'), true).append('rect').classed(this.classedName('bar'), true).attr('x', function(d, i) {
         return x1Scale(i);
       }).attr('width', D3Bar.adjustRangeBand(x1Scale.rangeBand())).attr('y', function(d, i) {
         return yScale(d.value);
@@ -674,7 +680,7 @@
     };
 
     D3Bar.prototype.renderBarBorder = function(chartHeight, x1Scale, yScale, options) {
-      return this.getRootElement().selectAll('.bars-group').selectAll('.bar-group').append('path').classed('bar-border', true).attr('d', function(d, i) {
+      return this.getRootElement().selectAll(this.className('bars-group')).selectAll(this.className('bar-group')).append('path').classed(this.classedName('bar-border'), true).attr('d', function(d, i) {
         return D3Bar.rectBorderPath(d, i, chartHeight, x1Scale, yScale, options);
       }).attr('fill', 'none').attr('stroke', function(d) {
         return d.strokeColor;
@@ -682,8 +688,8 @@
     };
 
     D3Bar.prototype.transitBar = function(el, chartHeight, yScale) {
-      this.getRootElement().selectAll('.bar').attr('y', chartHeight).attr('height', 0);
-      return el.selectAll('.bar').attr('y', function(d, i) {
+      this.getRootElement().selectAll(this.className('bar')).attr('y', chartHeight).attr('height', 0);
+      return el.selectAll(this.className('bar')).attr('y', function(d, i) {
         return yScale(d.value);
       }).attr('height', function(d) {
         return chartHeight - yScale(d.value);
@@ -691,8 +697,8 @@
     };
 
     D3Bar.prototype.transitBarBorder = function(el, chartHeight) {
-      this.getRootElement().selectAll('.bar-border').attr('transform', "translate(0," + chartHeight + ") scale(1,0)");
-      return el.selectAll('.bar-border').attr('transform', 'translate(0,0) scale(1,1)');
+      this.getRootElement().selectAll(this.className('bar-border')).attr('transform', "translate(0," + chartHeight + ") scale(1,0)");
+      return el.selectAll(this.className('bar-border')).attr('transform', 'translate(0,0) scale(1,1)');
     };
 
     return D3Bar;
@@ -715,6 +721,10 @@
 
     D3Doughnut.prototype.getInnerRadius = function(outerRadius, options) {
       return ~~(outerRadius * (options.percentageInnerCutout / 100));
+    };
+
+    D3Doughnut.prototype.renderPie = function(data, options) {
+      return D3Doughnut.__super__.renderPie.call(this, data, options, 'doughnut');
     };
 
     return D3Doughnut;
@@ -834,14 +844,14 @@
     };
 
     D3Line.prototype.renderLinesGroup = function(data) {
-      return this.getRootElement().select('.margin-convention-element').append('g').classed('line-chart', true).append('g').classed('lines-group', true).selectAll('g').data(data).enter().append('g').classed('line-group', true);
+      return this.getRootElement().select(this.className('base-group')).append('g').classed(this.classedName('line-chart-group'), true).append('g').classed(this.classedName('lines-group'), true).selectAll('g').data(data).enter().append('g').classed(this.classedName('line-group'), true);
     };
 
     D3Line.prototype.renderAreas = function(area, data, options) {
       if (!options.datasetFill) {
         return null;
       }
-      return this.getRootElement().selectAll('.line-group').data(data).append('path').classed('area', true).attr('d', function(d) {
+      return this.getRootElement().selectAll(this.className('line-group')).data(data).append('path').classed(this.classedName('area'), true).attr('d', function(d) {
         return area(d.data);
       }).attr('stroke', 'none').attr('fill', function(d) {
         return d.fillColor;
@@ -864,11 +874,9 @@
           };
         });
       });
-      return this.getRootElement().selectAll('.line-group').data(dataset).selectAll('.dot').data(function(d) {
+      return this.getRootElement().selectAll(this.className('line-group')).data(dataset).selectAll(this.className('dot')).data(function(d) {
         return d;
-      }).enter().append('circle').classed({
-        dot: true
-      }).attr({
+      }).enter().append('circle').classed(this.classedName('dot'), true).attr({
         r: options.pointDotRadius
       }).attr('cx', function(d, i) {
         return xScale(labels[i]);
@@ -882,7 +890,7 @@
     };
 
     D3Line.prototype.renderLines = function(line, data, options) {
-      return this.getRootElement().selectAll('.line-group').data(data).append('path').classed('line', true).attr('d', function(d) {
+      return this.getRootElement().selectAll(this.className('line-group')).data(data).append('path').classed(this.classedName('line'), true).attr('d', function(d) {
         return line(d.data);
       }).attr('stroke', function(d) {
         return d.strokeColor;
@@ -890,20 +898,20 @@
     };
 
     D3Line.prototype.transitAreas = function(el, chartHeight) {
-      this.getRootElement().selectAll('.area').attr('transform', "translate(0," + chartHeight + ") scale(1,0)");
-      return el.selectAll('.area').attr('transform', 'translate(0,0) scale(1,1)');
+      this.getRootElement().selectAll(this.className('area')).attr('transform', "translate(0," + chartHeight + ") scale(1,0)");
+      return el.selectAll(this.className('area')).attr('transform', 'translate(0,0) scale(1,1)');
     };
 
     D3Line.prototype.transitDots = function(el, chartHeight, yScale) {
-      this.getRootElement().selectAll('.dot').attr('cy', chartHeight);
-      return el.selectAll('.dot').attr('cy', function(d, i) {
+      this.getRootElement().selectAll(this.className('dot')).attr('cy', chartHeight);
+      return el.selectAll(this.className('dot')).attr('cy', function(d, i) {
         return yScale(d.value);
       });
     };
 
     D3Line.prototype.transitLines = function(el, chartHeight) {
-      this.getRootElement().selectAll('.line').attr('transform', "translate(0," + chartHeight + ") scale(1,0)");
-      return el.selectAll('.line').attr('transform', 'translate(0,0) scale(1,1)');
+      this.getRootElement().selectAll(this.className('line')).attr('transform', "translate(0," + chartHeight + ") scale(1,0)");
+      return el.selectAll(this.className('line')).attr('transform', 'translate(0,0) scale(1,1)');
     };
 
     return D3Line;
