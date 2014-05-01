@@ -78,7 +78,7 @@ class Chart.D3Line extends Chart.D3Chart
 
   renderLinesGroup: (data) =>
     @getRootElement()
-      .select(@className('margin-convention-element'))
+      .select(@className('base-group'))
       .append('g')
       .classed(@classedName('line-chart-group'), true)
       .append('g')

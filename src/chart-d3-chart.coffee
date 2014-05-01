@@ -43,7 +43,7 @@ class Chart.D3Chart
       .attr(height: @height + margin.top + margin.bottom)
       .append('g')
       .attr(transform: "translate(#{margin.left},#{margin.top})")
-      .classed(@classedName('margin-convention-element'), true)
+      .classed(@classedName('base-group'), true)
 
   duration: (options = @options) ->
     options.animationSteps * 17.333
@@ -66,7 +66,7 @@ class Chart.D3Chart
   renderXGrid: (x0Scale, chartHeight) =>
     x = x0Scale.rangeBand() / 2
     @getRootElement()
-      .select(@className('margin-convention-element'))
+      .select(@className('base-group'))
       .append('g')
       .classed(@classedName('grid-group'), true)
       .classed(@classedName('grid-x-group'), true)
@@ -82,7 +82,7 @@ class Chart.D3Chart
 
   renderYGrid: (yScale, chartWidth) =>
     @getRootElement()
-      .select(@className('margin-convention-element'))
+      .select(@className('base-group'))
       .append('g')
       .classed(@classedName('grid-group'), true)
       .classed(@classedName('grid-y-group'), true)
@@ -103,7 +103,7 @@ class Chart.D3Chart
 
   renderXAxis: (xScale, chartHeight) =>
     @getRootElement()
-      .select(@className('margin-convention-element'))
+      .select(@className('base-group'))
       .append('g')
       .classed(@classedName('scale-group'), true)
       .classed(@classedName('scale-x-group'), true)
@@ -115,7 +115,7 @@ class Chart.D3Chart
 
   renderYAxis: (yScale) =>
     @getRootElement()
-      .select(@className('margin-convention-element'))
+      .select(@className('base-group'))
       .append('g')
       .classed(@classedName('scale-group'), true)
       .classed(@classedName('scale-y-group'), true)

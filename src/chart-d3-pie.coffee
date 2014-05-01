@@ -55,7 +55,7 @@ class Chart.D3Pie extends Chart.D3Chart
     pie = d3.layout.pie().value((d) -> d.value).sort(null)
     colors = data.map((d) -> d.color)
     @getRootElement()
-      .select(@className('margin-convention-element'))
+      .select(@className('base-group'))
       .append('g')
       .classed(@classedName("#{baseClassName}-chart-group"), true)
       .selectAll('path')

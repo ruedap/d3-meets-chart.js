@@ -84,7 +84,7 @@ class Chart.D3Bar extends Chart.D3Chart
 
   renderBars: (data, x0Scale, options) =>
     @getRootElement()
-      .select(@className('margin-convention-element'))
+      .select(@className('base-group'))
       .append('g')
       .classed(@classedName('bar-chart-group'), true)
       .selectAll(@className('bars-group'))
