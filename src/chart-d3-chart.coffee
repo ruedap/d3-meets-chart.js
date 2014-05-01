@@ -10,6 +10,11 @@ class Chart.D3Chart
     d3.svg.axis().scale(yScale).ticks(20).tickSize(3, 0)
       .tickPadding(7).orient('left')
 
+  attrTranslateToCenter: =>
+    halfWidth = @getRootElementWidth() / 2
+    halfHeight = @getRootElementHeight() / 2
+    "translate(#{halfWidth}, #{halfHeight})"
+
   constructor: (@selectors, @data, @options, margin) ->
     margin or= top: 0, right: 0, bottom: 0, left: 0
     @defineRootElement(
@@ -19,10 +24,15 @@ class Chart.D3Chart
       margin
     )
 
-  attrTranslateToCenter: =>
-    halfWidth = @getRootElementWidth() / 2
-    halfHeight = @getRootElementHeight() / 2
-    "translate(#{halfWidth}, #{halfHeight})"
+  classedName: (name) ->
+    _className(name, false)
+
+  className: (name) ->
+    _className(name, true)
+
+  _className = (name, isSelector) ->
+    dot = if isSelector then '.' else ''
+    "#{dot}d3mc-#{name}"
 
   # http://bl.ocks.org/mbostock/3019563
   defineRootElement: (element, width, height, margin) ->
@@ -33,7 +43,7 @@ class Chart.D3Chart
       .attr(height: @height + margin.top + margin.bottom)
       .append('g')
       .attr(transform: "translate(#{margin.left},#{margin.top})")
-      .classed('margin-convention-element': true)
+      .classed(@classedName('margin-convention-element'), true)
 
   duration: (options = @options) ->
     options.animationSteps * 17.333
@@ -56,62 +66,81 @@ class Chart.D3Chart
   renderXGrid: (x0Scale, chartHeight) =>
     x = x0Scale.rangeBand() / 2
     @getRootElement()
-      .select('.margin-convention-element')
+      .select(@className('margin-convention-element'))
       .append('g')
-      .classed('grid-group': true, 'grid-x-group': true)
+      .classed(@classedName('grid-group'), true)
+      .classed(@classedName('grid-x-group'), true)
       .call(D3Chart.xAxis(x0Scale).tickFormat(''))
-      .selectAll('.tick line')
+      .selectAll('.tick')
+      .classed(@classedName('tick'), true)
+      .classed('tick', false)
+      .selectAll('line')
       .attr(x1: x, x2: x, y2: chartHeight)
+    @getRootElement()
+      .selectAll(@className('grid-x-group'))
+      .select('.domain').remove()
 
   renderYGrid: (yScale, chartWidth) =>
     @getRootElement()
-      .select('.margin-convention-element')
+      .select(@className('margin-convention-element'))
       .append('g')
-      .classed('grid-group': true, 'grid-y-group': true)
+      .classed(@classedName('grid-group'), true)
+      .classed(@classedName('grid-y-group'), true)
       .call(D3Chart.yAxis(yScale).tickFormat(''))
-      .selectAll('.tick line')
+      .selectAll('.tick')
+      .classed(@classedName('tick'), true)
+      .classed('tick', false)
+      .selectAll('line')
       .attr(x1: 0, x2: chartWidth)
 
   renderGrid: =>
     @getRootElement()
-      .selectAll('.grid-group')
-      .selectAll('.domain, text')
+      .selectAll("#{@className('grid-group')}")
+      .selectAll("#{@className('domain')}, text")
       .data([])
       .exit()
       .remove()
 
   renderXAxis: (xScale, chartHeight) =>
     @getRootElement()
-      .select('.margin-convention-element')
+      .select(@className('margin-convention-element'))
       .append('g')
-      .classed('scale-group': true, 'scale-x-group': true)
+      .classed(@classedName('scale-group'), true)
+      .classed(@classedName('scale-x-group'), true)
       .attr('transform', "translate(0,#{chartHeight})")
       .call(D3Chart.xAxis(xScale))
+      .selectAll('.tick')
+      .classed(@classedName('tick'), true)
+      .classed('tick', false)
 
   renderYAxis: (yScale) =>
     @getRootElement()
-      .select('.margin-convention-element')
+      .select(@className('margin-convention-element'))
       .append('g')
-      .classed('scale-group': true, 'scale-y-group': true)
+      .classed(@classedName('scale-group'), true)
+      .classed(@classedName('scale-y-group'), true)
       .call(D3Chart.yAxis(yScale))
-      .select('.tick > text').remove()  # Remove first tick
+      .selectAll('.tick')
+      .classed(@classedName('tick'), true)
+      .classed('tick', false)
+      .select(':first-child > text').remove()  # Remove first tick text
 
   updateGridTickStyle: (options) =>
     @getRootElement()
-      .selectAll('.grid-group .tick line')
+      .selectAll("#{@className('grid-group')} #{@className('tick')} line")
       .attr(stroke: options.scaleGridLineColor)
 
   updateScaleStrokeStyle: (options) =>
     @getRootElement()
-      .selectAll('.scale-group')
-      .selectAll('.domain, .tick line')
+      .selectAll("#{@className('scale-group')}")
+      .selectAll(".domain, #{@className('tick')} line")
       .attr(fill: 'none')
       .attr(stroke: options.scaleLineColor)
       .attr('stroke-width': options.scaleLineWidth)
 
   updateScaleTextStyle: (options) =>
     @getRootElement()
-      .selectAll('.scale-group text')
+      .selectAll("#{@className('scale-group')} text")
       .attr('font-family': options.scaleFontFamily)
       .attr('font-size': options.scaleFontSize)
       .attr('font-style': options.scaleFontStyle)

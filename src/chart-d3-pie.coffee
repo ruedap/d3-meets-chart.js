@@ -51,16 +51,18 @@ class Chart.D3Pie extends Chart.D3Chart
 
     this
 
-  renderPie: (data, options) ->
+  renderPie: (data, options, baseClassName = 'pie') ->
     pie = d3.layout.pie().value((d) -> d.value).sort(null)
     colors = data.map((d) -> d.color)
     @getRootElement()
-      .select('.margin-convention-element')
+      .select(@className('margin-convention-element'))
       .append('g')
+      .classed(@classedName("#{baseClassName}-chart-group"), true)
       .selectAll('path')
-      .data pie(data)
+      .data(pie(data))
       .enter()
       .append('path')
+      .classed(@classedName(baseClassName), true)
       .attr(@attrSegmentStroke(options))
       .attr
         transform: @attrTranslateToCenter()
