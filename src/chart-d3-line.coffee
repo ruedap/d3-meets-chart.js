@@ -78,24 +78,24 @@ class Chart.D3Line extends Chart.D3Chart
 
   renderLinesGroup: (data) =>
     @getRootElement()
-      .select('.margin-convention-element')
+      .select(@className('base-group'))
       .append('g')
-      .classed('line-chart', true)
+      .classed(@classedName('line-chart-group'), true)
       .append('g')
-      .classed('lines-group', true)
+      .classed(@classedName('lines-group'), true)
       .selectAll('g')
       .data(data)
       .enter()
       .append('g')
-      .classed('line-group', true)
+      .classed(@classedName('line-group'), true)
 
   renderAreas: (area, data, options) =>
     return null unless options.datasetFill
     @getRootElement()
-      .selectAll('.line-group')
+      .selectAll(@className('line-group'))
       .data(data)
       .append('path')
-      .classed('area', true)
+      .classed(@classedName('area'), true)
       .attr('d', (d) -> area(d.data))
       .attr('stroke', 'none')
       .attr('fill', (d) -> d.fillColor)
@@ -110,13 +110,13 @@ class Chart.D3Line extends Chart.D3Chart
         pointColor: d1.pointColor
         pointStrokeColor: d1.pointStrokeColor
     @getRootElement()
-      .selectAll('.line-group')
+      .selectAll(@className('line-group'))
       .data(dataset)
-      .selectAll('.dot')
+      .selectAll(@className('dot'))
       .data((d) -> d)
       .enter()
       .append('circle')
-      .classed(dot: true)
+      .classed(@classedName('dot'), true)
       .attr(r: options.pointDotRadius)
       .attr('cx', (d, i) -> xScale(labels[i]))
       .attr('cy', (d) -> yScale(d.value))
@@ -126,10 +126,10 @@ class Chart.D3Line extends Chart.D3Chart
 
   renderLines: (line, data, options) =>
     @getRootElement()
-      .selectAll('.line-group')
+      .selectAll(@className('line-group'))
       .data(data)
       .append('path')
-      .classed('line', true)
+      .classed(@classedName('line'), true)
       .attr('d', (d) -> line(d.data))
       .attr('stroke', (d) -> d.strokeColor)
       .attr('stroke-width', options.datasetStrokeWidth)
@@ -137,21 +137,21 @@ class Chart.D3Line extends Chart.D3Chart
 
   transitAreas: (el, chartHeight) =>
     @getRootElement()
-      .selectAll('.area')
+      .selectAll(@className('area'))
       .attr('transform', "translate(0,#{chartHeight}) scale(1,0)")
-    el.selectAll('.area')
+    el.selectAll(@className('area'))
       .attr('transform', 'translate(0,0) scale(1,1)')
 
   transitDots: (el, chartHeight, yScale) =>
     @getRootElement()
-      .selectAll('.dot')
+      .selectAll(@className('dot'))
       .attr('cy', chartHeight)
-    el.selectAll('.dot')
+    el.selectAll(@className('dot'))
       .attr('cy', (d, i) -> yScale(d.value))
 
   transitLines: (el, chartHeight) =>
     @getRootElement()
-      .selectAll('.line')
+      .selectAll(@className('line'))
       .attr('transform', "translate(0,#{chartHeight}) scale(1,0)")
-    el.selectAll('.line')
+    el.selectAll(@className('line'))
       .attr('transform', 'translate(0,0) scale(1,1)')

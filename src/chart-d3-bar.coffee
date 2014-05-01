@@ -84,26 +84,26 @@ class Chart.D3Bar extends Chart.D3Chart
 
   renderBars: (data, x0Scale, options) =>
     @getRootElement()
-      .select('.margin-convention-element')
+      .select(@className('base-group'))
       .append('g')
-      .classed('bar-chart', true)
-      .selectAll('.bars-group')
+      .classed(@classedName('bar-chart-group'), true)
+      .selectAll(@className('bars-group'))
       .data(data)
       .enter()
       .append('g')
-      .classed('bars-group', true)
+      .classed(@classedName('bars-group'), true)
       .attr('transform', (d) -> "translate(#{x0Scale(d.key) + options.barValueSpacing},0)")
 
   renderBar: (chartHeight, x1Scale, yScale, options) =>
     @getRootElement()
-      .selectAll('.bars-group')
+      .selectAll(@className('bars-group'))
       .selectAll('rect')
       .data((d, i) -> d.values)
       .enter()
       .append('g')
-      .classed('bar-group', true)
+      .classed(@classedName('bar-group'), true)
       .append('rect')
-      .classed('bar', true)
+      .classed(@classedName('bar'), true)
       .attr('x', (d, i) -> x1Scale(i))
       .attr('width', D3Bar.adjustRangeBand(x1Scale.rangeBand()))
       .attr('y', (d, i) -> yScale(d.value))
@@ -112,10 +112,10 @@ class Chart.D3Bar extends Chart.D3Chart
 
   renderBarBorder: (chartHeight, x1Scale, yScale, options) =>
     @getRootElement()
-      .selectAll('.bars-group')
-      .selectAll('.bar-group')
+      .selectAll(@className('bars-group'))
+      .selectAll(@className('bar-group'))
       .append('path')
-      .classed('bar-border', true)
+      .classed(@classedName('bar-border'), true)
       .attr 'd', (d, i) ->
         D3Bar.rectBorderPath(d, i, chartHeight, x1Scale, yScale, options)
       .attr('fill', 'none')
@@ -124,17 +124,17 @@ class Chart.D3Bar extends Chart.D3Chart
 
   transitBar: (el, chartHeight, yScale) =>
     @getRootElement()
-      .selectAll('.bar')
+      .selectAll(@className('bar'))
       .attr('y', chartHeight)
       .attr('height', 0)
-    el.selectAll('.bar')
+    el.selectAll(@className('bar'))
       .attr('y', (d, i) -> yScale(d.value))
       .attr('height', (d) -> chartHeight - yScale(d.value))
 
   # FIXME: stroke width problem
   transitBarBorder: (el, chartHeight) =>
     @getRootElement()
-      .selectAll('.bar-border')
+      .selectAll(@className('bar-border'))
       .attr('transform', "translate(0,#{chartHeight}) scale(1,0)")
-    el.selectAll('.bar-border')
+    el.selectAll(@className('bar-border'))
       .attr('transform', 'translate(0,0) scale(1,1)')
