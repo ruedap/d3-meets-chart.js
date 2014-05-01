@@ -32,15 +32,20 @@ describe 'Chart.D3Chart', ->
       expect(instance.options).to.eql({})
 
   describe '::attrTranslateToCenter', ->
-    it "should return String of 'translate' attribute", ->
+    it 'should return a string of `translate` attribute', ->
       actual = instance.attrTranslateToCenter()
       expect(actual).to.be('translate(300, 225)')
+
+  describe '::classedName', ->
+    it 'should return a string', ->
+      actual = instance.classedName('foo-bar')
+      expect(actual).to.be('d3mc-foo-bar')
 
   describe '::defineRootElement', ->
     it 'pending'
 
   describe '::duration', ->
-    it 'should return Number', ->
+    it 'should return a number', ->
       options = animationSteps: 100
       expect(instance.duration(options)).to.be(1733.2999999999997)
 
