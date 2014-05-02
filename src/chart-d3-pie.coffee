@@ -27,7 +27,7 @@ class Chart.D3Pie extends Chart.D3Chart
   render: ->
     margin = 5
     options = @options
-    data = @data
+    data = @setDefaultColors(@data)
     chartWidth = @width
     chartHeight = @height
     outerRadius = @getOuterRadius(chartWidth, chartHeight, margin)
@@ -81,6 +81,13 @@ class Chart.D3Pie extends Chart.D3Chart
     else
       NaN
 
+  setDefaultColors: (data, colors = _defaultColors()) ->
+    data.map (d) ->
+      value = d.value
+      defaultColor = colors.shift()
+      color = if d.color? then d.color else defaultColor
+      { value, color }
+
   transitExpansion: (options) ->
     return null if !(options.animation and options.animateScale)
     @getRootElement()
@@ -110,3 +117,9 @@ class Chart.D3Pie extends Chart.D3Chart
         # TODO: need spec
         if !--n and (--@transitionEndAllCount == 0)
           options.onAnimationComplete.apply(this, arguments)
+
+  _defaultColors = ->
+    [
+      '#f38630', '#e0e4cc', '#69d2e7', '#b5cf6b', '#9c9ede',
+      '#de483d', '#4292c7', '#e377c2', '#e7ba52', '#54cc86'
+    ]
