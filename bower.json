@@ -5,7 +5,7 @@
     "ruedap <ruedap@ruedap.com>"
   ],
   "description": "Simple HTML5 Charts using the <svg> tag with D3.js",
-  "main": "d3-meets-chart.js",
+  "main": "./dist/d3-meets-chart.js",
   "dependencies": {
     "d3": ">=3.4.4"
   },
