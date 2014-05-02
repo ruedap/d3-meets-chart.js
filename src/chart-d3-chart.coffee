@@ -31,7 +31,7 @@ class Chart.D3Chart
     _className(name, true)
 
   defaultColors: ->
-    [ '#dcdcdc', '#97bbcd', '#ed6881' ]
+    [ '#dcdcdc', '#97bbcd', '#ed91a2', '#7abf8a', '#f1af31' ]
 
   # http://bl.ocks.org/mbostock/3019563
   defineRootElement: (element, width, height, margin) ->
@@ -128,7 +128,7 @@ class Chart.D3Chart
     return null unless datasets?
     datasets.map (d) ->
       defaultColor = colors.shift()
-      defaultColor = '#777' unless defaultColor?
+      defaultColor = '#8f8f8f' unless defaultColor?
       alphaColor = Chart.Util.alpha(defaultColor, 0.5)
       data = d.data
       fillColor = if d.fillColor? then d.fillColor else alphaColor

@@ -31,9 +31,6 @@ class Chart.D3Bar extends Chart.D3Chart
     margin = top: 13, right: 23, bottom: 24, left: 55
     super(selectors, data, options, margin)
 
-  defaultColors: ->
-    [ '#dcdcdc', '#97bbcd', '#ed6881', '#7abf8a', '#f1af31' ]
-
   generateData: (labels, datasets) ->
     return null if !(labels? and datasets?)
     array = []

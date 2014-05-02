@@ -14,6 +14,12 @@ class Chart.D3Pie extends Chart.D3Chart
     margin = top: 0, right: 0, bottom: 0, left: 0
     super(selectors, data, options, margin)
 
+  defaultColors: ->
+    [
+      '#f38630', '#e0e4cc', '#69d2e7', '#b5cf6b', '#9c9ede',
+      '#e377c2', '#e7ba52', '#54cc86'
+    ]
+
   getArc: (innerRadius, outerRadius) ->
     d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
 
@@ -81,10 +87,11 @@ class Chart.D3Pie extends Chart.D3Chart
     else
       NaN
 
-  setDefaultColors: (data, colors = _defaultColors()) ->
+  setDefaultColors: (data, colors = @defaultColors()) ->
     data.map (d) ->
-      value = d.value
       defaultColor = colors.shift()
+      defaultColor = '#777' unless defaultColor?
+      value = d.value
       color = if d.color? then d.color else defaultColor
       { value, color }
 
@@ -117,9 +124,3 @@ class Chart.D3Pie extends Chart.D3Chart
         # TODO: need spec
         if !--n and (--@transitionEndAllCount == 0)
           options.onAnimationComplete.apply(this, arguments)
-
-  _defaultColors = ->
-    [
-      '#f38630', '#e0e4cc', '#69d2e7', '#b5cf6b', '#9c9ede',
-      '#de483d', '#4292c7', '#e377c2', '#e7ba52', '#54cc86'
-    ]
