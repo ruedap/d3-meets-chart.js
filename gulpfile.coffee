@@ -14,6 +14,7 @@ runSequence = require('run-sequence')
 
 dir =
   tmp: './tmp/'
+  dist: './dist/'
 
 file =
   main: 'd3-meets-chart.js'
@@ -36,9 +37,12 @@ src =
   stylusSrc: [
     './src/d3-meets-chart.styl'
   ]
-  main: dir.tmp + file.main
-  mainMin: dir.tmp + file.mainMin
-  specRunner: dir.tmp + file.specRunner
+  tmp:
+    main: dir.tmp + file.main
+    mainMin: dir.tmp + file.mainMin
+  dist:
+    main: dir.dist + file.main
+    mainMin: dir.dist + file.mainMin
   karmaFiles: [
     'bower_components/d3/d3.min.js',
     'tmp/d3-meets-chart.js',
@@ -47,41 +51,41 @@ src =
 
 # Tasks
 
-gulp.task 'coffee-src', ->
-  gulp.src(src.coffeeSrc)
+taskCoffee = (srcPath, concatPath, destPath) ->
+  gulp.src(srcPath)
     .pipe(plumber())
     .pipe(coffee())
-    .pipe(concat(file.main))
-    .pipe(gulp.dest(dir.tmp))
+    .pipe(concat(concatPath))
+    .pipe(gulp.dest(destPath))
 
-gulp.task 'coffee-spec', ->
-  gulp.src(src.coffeeSpec)
-    .pipe(plumber())
-    .pipe(coffee())
-    .pipe(concat(file.specRunner))
-    .pipe(gulp.dest(dir.tmp))
+gulp.task('coffee:src:tmp', -> taskCoffee(src.coffeeSrc, file.main, dir.tmp))
+gulp.task('coffee:spec:tmp', -> taskCoffee(src.coffeeSpec, file.specRunner, dir.tmp))
+gulp.task('coffee:src:dist', -> taskCoffee(src.coffeeSrc, file.main, dir.dist))
 
-gulp.task 'stylus-src', ->
+gulp.task 'stylus:src', ->
   gulp.src(src.stylusSrc)
     .pipe(plumber())
     .pipe(stylus())
-    .pipe gulp.dest(dir.tmp)
+    .pipe(gulp.dest(dir.tmp))
 
-gulp.task 'uglify', ->
-  gulp.src(src.main)
-    .pipe(rename(src.mainMin))
+taskUglify = (srcPath, renamePath) ->
+  gulp.src(srcPath)
+    .pipe(rename(renamePath))
     .pipe(uglify())
     .pipe(gulp.dest('./'))
 
-gulp.task 'clean', ->
-  gulp.src(dir.tmp)
+gulp.task('uglify:tmp', -> taskUglify(src.tmp.main, src.tmp.mainMin))
+gulp.task('uglify:dist', -> taskUglify(src.dist.main, src.dist.mainMin))
+
+taskClean = (srcPath) ->
+  gulp.src(srcPath)
     .pipe(plumber())
     .pipe(rimraf())
 
-gulp.task 'licenses', ->
-  licenseFind().pipe(gulp.dest('./audit'))
+gulp.task('clean:tmp', -> taskClean(dir.tmp))
+gulp.task('clean:dist', -> taskClean(dir.dist))
 
-gulp.task 'karma-travis', ->
+gulp.task 'karma:travis', ->
   gulp.src(src.karmaFiles)
     .pipe(
       karma(
@@ -93,18 +97,12 @@ gulp.task 'karma-travis', ->
     )
     .on('error', (err) -> throw err)
 
+gulp.task('licenses', -> licenseFind().pipe(gulp.dest('./audit')))
+
 # Runners
-
-gulp.task 'compile', ->
-  runSequence('clean', 'coffee-src', 'coffee-spec', 'stylus-src', 'uglify')
-
-gulp.task 'travis', ->
-  runSequence('clean', 'coffee-src', 'coffee-spec', 'stylus-src', 'uglify', 'karma-travis')
-
-gulp.task('coffee', ['coffee-src', 'coffee-spec'])
-gulp.task('stylus', ['stylus-src'])
-
-gulp.task 'watch', ->
-  gulp.watch(['./src/*.coffee', './src/*.styl', './spec/*.coffee'], ['compile'])
-
-gulp.task('default', ['compile'])
+gulp.task('compile:tmp', -> runSequence('clean:tmp', 'coffee:src:tmp', 'coffee:spec:tmp', 'stylus:src', 'uglify:tmp'))
+gulp.task('compile:dist', -> runSequence('clean:dist', 'coffee:src:dist', 'uglify:dist'))
+gulp.task('travis', -> runSequence('clean:tmp', 'coffee:src:tmp', 'coffee:spec:tmp', 'stylus:src', 'uglify:tmp', 'karma:travis'))
+gulp.task('watch', -> gulp.watch(['./src/*.coffee', './src/*.styl', './spec/*.coffee'], ['compile:tmp']))
+gulp.task('build', ['compile:dist'])
+gulp.task('default', ['compile:tmp'])
