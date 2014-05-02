@@ -1,6 +1,10 @@
 describe 'Chart.Util', ->
   'use strict'
 
+  describe '.alpha', ->
+    it 'should return a string', ->
+      expect(Chart.Util.alpha('#336699', 0.5)).to.be('rgba(51,102,153,0.5)')
+
   describe '.extend', ->
     context 'when 2 arguments', ->
       it 'should return a merged object', ->
