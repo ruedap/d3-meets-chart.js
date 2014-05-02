@@ -19,6 +19,7 @@
     </style>
     <canvas id="canvas" width="450" height="450"></canvas>
     <svg id="svg" class="d3mc" width="450" height="450"></svg>
+    <svg id="svg2" class="d3mc" width="450" height="450"></svg>
 
     <script>
 
@@ -43,6 +44,20 @@
           value : 120,
           color : "#4D5360"
         }
+      ];
+
+      var data2 = [
+        { value : 100 },
+        { value : 100 },
+        { value : 100 },
+        { value : 100 },
+        { value : 100 },
+        { value : 100 },
+        { value : 100 },
+        { value : 100 },
+        { value : 100 },
+        { value : 100 },
+        { value : 100 },
       ];
 
       var options = {
@@ -84,8 +99,8 @@
 
       var myChartJS = new ChartJS(document.getElementById("canvas").getContext("2d"))
         .Doughnut(data, options);
-      var myChat = new Chart("#svg")
-        .Doughnut(data, options);
+      new Chart("#svg").Doughnut(data, options);
+      new Chart("#svg2").Doughnut(data2);
 
     </script>
   </body>
