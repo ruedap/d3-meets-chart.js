@@ -30,9 +30,8 @@ class Chart.D3Chart
   className: (name) ->
     _className(name, true)
 
-  _className = (name, isSelector) ->
-    dot = if isSelector then '.' else ''
-    "#{dot}d3mc-#{name}"
+  defaultColors: ->
+    [ '#dcdcdc', '#97bbcd', '#ed6881' ]
 
   # http://bl.ocks.org/mbostock/3019563
   defineRootElement: (element, width, height, margin) ->
@@ -125,6 +124,19 @@ class Chart.D3Chart
       .classed('tick', false)
       .select(':first-child > text').remove()  # Remove first tick text
 
+  setDefaultColors: (datasets, colors = @defaultColors()) ->
+    return null unless datasets?
+    datasets.map (d) ->
+      defaultColor = colors.shift()
+      defaultColor = '#777' unless defaultColor?
+      alphaColor = Chart.Util.alpha(defaultColor, 0.5)
+      data = d.data
+      fillColor = if d.fillColor? then d.fillColor else alphaColor
+      strokeColor = if d.strokeColor? then d.strokeColor else defaultColor
+      pointColor = if d.pointColor? then d.pointColor else defaultColor
+      pointStrokeColor = if d.pointStrokeColor? then d.pointStrokeColor else '#fff'
+      { data, fillColor, strokeColor, pointColor, pointStrokeColor }
+
   updateGridTickStyle: (options) =>
     @getRootElement()
       .selectAll("#{@className('grid-group')} #{@className('tick')} line")
@@ -145,3 +157,7 @@ class Chart.D3Chart
       .attr('font-size': options.scaleFontSize)
       .attr('font-style': options.scaleFontStyle)
       .attr('fill': options.scaleFontColor)
+
+  _className = (name, isSelector) ->
+    dot = if isSelector then '.' else ''
+    "#{dot}d3mc-#{name}"

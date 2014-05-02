@@ -46,6 +46,11 @@ describe 'Chart.D3Chart', ->
       actual = instance.className('foo-bar')
       expect(actual).to.be('.d3mc-foo-bar')
 
+  describe '::defaultColors', ->
+    it 'should return an array', ->
+      actual = instance.defaultColors()
+      expect(actual).to.be.an(Array)
+
   describe '::defineRootElement', ->
     it 'pending'
 
@@ -103,6 +108,23 @@ describe 'Chart.D3Chart', ->
     it 'should return an array', ->
       actual = instance.renderYAxis(yScale)
       expect(actual).to.be.an(Array)
+
+  xdescribe '::setDefaultColors', ->
+    context "when an argument doesn't include color property", ->
+      it 'should return default colors', ->
+        data = [ { value: 0 }, { value: 0 }, { value: 0 } ]
+        d = instance.setDefaultColors(data)
+        expect(d[0].color).to.be('#f38630')
+        expect(d[1].color).to.be('#e0e4cc')
+        expect(d[2].color).to.be('#69d2e7')
+
+    context "when an argument include color property", ->
+      it 'should not return default colors', ->
+        data = [ { value: 0, color: '#fff' }, { value: 0 }, { value: 0, color: 'black' } ]
+        d = instance.setDefaultColors(data)
+        expect(d[0].color).to.be('#fff')
+        expect(d[1].color).to.be('#e0e4cc')
+        expect(d[2].color).to.be('black')
 
   describe '::updateGridTickStyle', ->
     it 'should return an array', ->
