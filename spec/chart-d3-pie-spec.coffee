@@ -121,6 +121,23 @@ describe 'Chart.D3Pie', ->
           actual = instance.setAnimationComplete(args.options)
           expect(isNaN(actual)).to.be.ok()
 
+  describe '::setDefaultColors', ->
+    context "when an argument doesn't include color property", ->
+      it 'should return default colors', ->
+        data = [ { value: 0 }, { value: 0 }, { value: 0 } ]
+        d = instance.setDefaultColors(data)
+        expect(d[0].color).to.be('#f38630')
+        expect(d[1].color).to.be('#e0e4cc')
+        expect(d[2].color).to.be('#69d2e7')
+
+    context "when an argument include color property", ->
+      it 'should not return default colors', ->
+        data = [ { value: 0, color: '#fff' }, { value: 0 }, { value: 0, color: 'black' } ]
+        d = instance.setDefaultColors(data)
+        expect(d[0].color).to.be('#fff')
+        expect(d[1].color).to.be('#e0e4cc')
+        expect(d[2].color).to.be('black')
+
   describe '::transitExpansion', ->
     context 'when `animation` is false', ->
       it 'should return a null', ->

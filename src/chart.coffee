@@ -4,6 +4,10 @@ class @Chart
 
   # Concrete class for utility fucntions
   class Chart.Util
+    @alpha: (color, alpha) ->
+      c = d3.rgb(color)
+      "rgba(#{c.r},#{c.g},#{c.b},#{alpha})"
+      
     @extend: (dest, sources...) ->
       for source in sources
         dest[key] = value for key, value of source

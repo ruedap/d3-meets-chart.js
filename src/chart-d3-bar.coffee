@@ -49,7 +49,8 @@ class Chart.D3Bar extends Chart.D3Chart
   render: =>
     labels = @data.labels
     datasets = @data.datasets
-    data = @generateData(labels, datasets)
+    data = @setDefaultColors(@data.datasets)
+    data = @generateData(labels, data)
     return this unless (data? or data?.length?)
 
     options = @options

@@ -14,6 +14,12 @@ class Chart.D3Pie extends Chart.D3Chart
     margin = top: 0, right: 0, bottom: 0, left: 0
     super(selectors, data, options, margin)
 
+  defaultColors: ->
+    [
+      '#f38630', '#e0e4cc', '#69d2e7', '#b5cf6b', '#9c9ede',
+      '#e377c2', '#e7ba52', '#54cc86'
+    ]
+
   getArc: (innerRadius, outerRadius) ->
     d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius)
 
@@ -27,7 +33,7 @@ class Chart.D3Pie extends Chart.D3Chart
   render: ->
     margin = 5
     options = @options
-    data = @data
+    data = @setDefaultColors(@data)
     chartWidth = @width
     chartHeight = @height
     outerRadius = @getOuterRadius(chartWidth, chartHeight, margin)
@@ -80,6 +86,14 @@ class Chart.D3Pie extends Chart.D3Chart
       1
     else
       NaN
+
+  setDefaultColors: (data, colors = @defaultColors()) ->
+    data.map (d) ->
+      defaultColor = colors.shift()
+      defaultColor = '#777' unless defaultColor?
+      value = d.value
+      color = if d.color? then d.color else defaultColor
+      { value, color }
 
   transitExpansion: (options) ->
     return null if !(options.animation and options.animateScale)

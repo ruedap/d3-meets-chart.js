@@ -40,7 +40,8 @@ class Chart.D3Line extends Chart.D3Chart
   # TODO: enable spec
   render: =>
     labels = @data.labels
-    data = @data.datasets
+    data = @setDefaultColors(@data.datasets)
+
     return this unless (data? or data?.length?)
 
     options = @options

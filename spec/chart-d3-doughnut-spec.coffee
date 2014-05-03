@@ -38,3 +38,20 @@ describe 'Chart.D3Doughnut', ->
       options = percentageInnerCutout: 50.2
       actual = instance.getInnerRadius(195, options)
       expect(actual).to.be(97)
+
+  describe '::setDefaultColors', ->
+    context "when an argument doesn't include color property", ->
+      it 'should return default colors', ->
+        data = [ { value: 0 }, { value: 0 }, { value: 0 } ]
+        d = instance.setDefaultColors(data)
+        expect(d[0].color).to.be('#f7464a')
+        expect(d[1].color).to.be('#46bfbd')
+        expect(d[2].color).to.be('#fdb45c')
+
+    context "when an argument include color property", ->
+      it 'should not return default colors', ->
+        data = [ { value: 0, color: '#fff' }, { value: 0 }, { value: 0, color: 'black' } ]
+        d = instance.setDefaultColors(data)
+        expect(d[0].color).to.be('#fff')
+        expect(d[1].color).to.be('#46bfbd')
+        expect(d[2].color).to.be('black')

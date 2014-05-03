@@ -21,6 +21,8 @@
     </style>
     <canvas id="canvas" width="600" height="450"></canvas>
     <svg id="svg" class="d3mc" width="600" height="450"></svg>
+    <svg id="svg2" class="d3mc" width="600" height="450"></svg>
+    <svg id="svg3" class="d3mc" width="600" height="450"></svg>
 
     <script>
       var data = {
@@ -40,6 +42,31 @@
             pointStrokeColor : "#fff",
             data : [28,48,40,19,96,27,100]
           }
+        ]
+      };
+
+      var data2 = {
+        labels : ["January","February","March","April","May","June","July"],
+        datasets : [
+          { data : [65,59,90,81,56,55,40] },
+          { data : [100,80,30,21,46,85,10] },
+          { data : [95,29,60,31,66,45,80] },
+          { data : [65,39,40,51,16,35,60] },
+          { data : [28,48,50,19,96,27,100] },
+          // { data : [48,98,20,49,36,67,2] }
+        ]
+      };
+
+      var n = d3.random.normal(50, 10)
+      var data3 = {
+        labels : ["January","February","March","April","May","June","July"],
+        datasets : [
+          { data : [n(),n(),n(),n(),n(),n(),n()] },
+          { data : [n(),n(),n(),n(),n(),n(),n()] },
+          { data : [n(),n(),n(),n(),n(),n(),n()] },
+          { data : [n(),n(),n(),n(),n(),n(),n()] },
+          { data : [n(),n(),n(),n(),n(),n(),n()] },
+          // { data : [n(),n(),n(),n(),n(),n(),n()] },
         ]
       };
 
@@ -158,8 +185,9 @@
 
       var myChartJS = new ChartJS(document.getElementById("canvas").getContext("2d"))
         .Line(data, options);
-      var myChart = new Chart("#svg")
-        .Line(data, options);
+      new Chart("#svg").Line(data, options);
+      new Chart("#svg2").Line(data2);
+      new Chart("#svg3").Line(data3);
 
     </script>
   </body>
