@@ -106,17 +106,8 @@ gulp.task 'diff', ->
   casperChild = spawn('casperjs', ['test'].concat(tests))
   casperChild.stdout.on 'data', (data) ->
     gutil.log('CasperJS:', data.toString().slice(0, -1))
-
   casperChild.on 'close', (code) ->
-    exitCode = code
-    process.emit('exit') if exitCode != 0
-
-exitCode = 0
-process.on 'exit', ->
-  process.nextTick ->
-    msg = "gulp '#{gulp.seq}' failed."
-    gutil.log(gutil.colors.red(msg))
-    process.exit(exitCode)
+    throw new Error("CasperJS exited with code #{code}") if code
 
 # Runners
 gulp.task('compile:tmp', -> runSequence('clean:tmp', 'coffee:src:tmp', 'coffee:spec:tmp', 'stylus:src', 'uglify:tmp'))
