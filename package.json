@@ -26,7 +26,7 @@
   "devDependencies": {
     "coffee-script": "~1.7.1",
     "expect.js": "~0.3.1",
-    "gulp": "~3.5.5",
+    "gulp": "~3.6.2",
     "gulp-coffee": "~1.4.1",
     "gulp-concat": "~2.2.0",
     "gulp-karma": "~0.0.4",
