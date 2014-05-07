@@ -123,14 +123,14 @@ describe 'Chart.D3Bar', ->
 
   describe '::transitBar', ->
     it 'should return an array', ->
-      el = instance.getRootElement()
+      el = instance.getBaseSelection()
       actual = instance.transitBar(el, 0, yScale)
       expect(actual).to.be.an(Array)
       expect(actual).to.have.length(1)
 
   describe '::transitBarBorder', ->
     it 'should return an array', ->
-      el = instance.getRootElement()
+      el = instance.getBaseSelection()
       actual = instance.transitBarBorder(el, 0)
       expect(actual).to.be.an(Array)
       expect(actual).to.have.length(1)

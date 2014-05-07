@@ -78,13 +78,13 @@ class Chart.D3Bar extends Chart.D3Chart
     @updateScaleStrokeStyle(options)
     @updateScaleTextStyle(options)
 
-    el = @getTransitionElement(@duration(), options)
+    el = @getTransitionSelection(@duration(), options)
     @transitBar(el, chartHeight, yScale)
     @transitBarBorder(el, chartHeight)
     this
 
   renderBars: (data, x0Scale, options) =>
-    @getRootElement()
+    @getBaseSelection()
       .select(@className('base-group'))
       .append('g')
       .classed(@classedName('bar-chart-group'), true)
@@ -96,7 +96,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('transform', (d) -> "translate(#{x0Scale(d.key) + options.barValueSpacing},0)")
 
   renderBar: (chartHeight, x1Scale, yScale, options) =>
-    @getRootElement()
+    @getBaseSelection()
       .selectAll(@className('bars-group'))
       .selectAll('rect')
       .data((d, i) -> d.values)
@@ -112,7 +112,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('fill', (d) -> d.fillColor)
 
   renderBarBorder: (chartHeight, x1Scale, yScale, options) =>
-    @getRootElement()
+    @getBaseSelection()
       .selectAll(@className('bars-group'))
       .selectAll(@className('bar-group'))
       .append('path')
@@ -124,7 +124,7 @@ class Chart.D3Bar extends Chart.D3Chart
       .attr('stroke-width', options.barStrokeWidth)
 
   transitBar: (el, chartHeight, yScale) =>
-    @getRootElement()
+    @getBaseSelection()
       .selectAll(@className('bar'))
       .attr('y', chartHeight)
       .attr('height', 0)
@@ -134,7 +134,7 @@ class Chart.D3Bar extends Chart.D3Chart
 
   # FIXME: stroke width problem
   transitBarBorder: (el, chartHeight) =>
-    @getRootElement()
+    @getBaseSelection()
       .selectAll(@className('bar-border'))
       .attr('transform', "translate(0,#{chartHeight}) scale(1,0)")
     el.selectAll(@className('bar-border'))
