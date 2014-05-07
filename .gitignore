@@ -7,3 +7,5 @@ audit/
 bower_components/
 source/
 build/
+spec/diff/screenshots/*.diff.png
+
