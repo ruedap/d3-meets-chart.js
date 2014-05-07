@@ -74,10 +74,10 @@ describe 'Chart.D3Chart', ->
       actual = instance.getBaseSelectionWidth()
       expect(actual).to.be(600)
 
-  describe '::getTransitionElement', ->
+  describe '::getTransitionSelection', ->
     it 'should return an array', ->
       options = animationEasing: 'easeOutQuad'
-      actual = instance.getTransitionElement(100, options)
+      actual = instance.getTransitionSelection(100, options)
       expect(actual).to.be.an(Array)
       expect(actual).to.have.length(1)
 

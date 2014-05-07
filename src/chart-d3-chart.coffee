@@ -56,7 +56,7 @@ class Chart.D3Chart
   getBaseSelectionWidth: =>
     +(@getBaseSelection().attr('width'))
 
-  getTransitionElement: (duration, options) =>
+  getTransitionSelection: (duration, options) =>
     @getBaseSelection()
       .transition()
       .duration(duration)
