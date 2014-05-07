@@ -1,4 +1,5 @@
 gulp = require('gulp')
+gutil = require('gulp-util')
 mocha = require('gulp-mocha')
 karma = require('gulp-karma')
 coffee = require('gulp-coffee')
@@ -11,6 +12,7 @@ rename = require('gulp-rename')
 plumber = require('gulp-plumber')
 licenseFind = require('gulp-license-finder')
 runSequence = require('run-sequence')
+spawn = require('child_process').spawn
 
 dir =
   tmp: './tmp/'
@@ -99,10 +101,27 @@ gulp.task 'karma:travis', ->
 
 gulp.task('licenses', -> licenseFind().pipe(gulp.dest('./audit')))
 
+gulp.task 'diff', ->
+  tests = ['./spec/diff/diff-runner.coffee']
+  casperChild = spawn('casperjs', ['test'].concat(tests))
+  casperChild.stdout.on 'data', (data) ->
+    gutil.log('CasperJS:', data.toString().slice(0, -1))
+
+  casperChild.on 'close', (code) ->
+    exitCode = code
+    process.emit('exit') if exitCode != 0
+
+exitCode = 0
+process.on 'exit', ->
+  process.nextTick ->
+    msg = "gulp '#{gulp.seq}' failed."
+    gutil.log(gutil.colors.red(msg))
+    process.exit(exitCode)
+
 # Runners
 gulp.task('compile:tmp', -> runSequence('clean:tmp', 'coffee:src:tmp', 'coffee:spec:tmp', 'stylus:src', 'uglify:tmp'))
 gulp.task('compile:dist', -> runSequence('clean:dist', 'coffee:src:dist', 'uglify:dist'))
-gulp.task('travis', -> runSequence('clean:tmp', 'coffee:src:tmp', 'coffee:spec:tmp', 'stylus:src', 'uglify:tmp', 'karma:travis'))
+gulp.task('travis', -> runSequence('clean:tmp', 'coffee:src:tmp', 'coffee:spec:tmp', 'stylus:src', 'uglify:tmp', 'karma:travis', 'diff'))
 gulp.task('watch', -> gulp.watch(['./src/*.coffee', './src/*.styl', './spec/*.coffee'], ['compile:tmp']))
 gulp.task('build', ['compile:dist'])
 gulp.task('default', ['compile:tmp'])
