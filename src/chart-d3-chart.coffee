@@ -17,7 +17,7 @@ class Chart.D3Chart
 
   constructor: (@selectors, @data, @options, margin) ->
     margin or= top: 0, right: 0, bottom: 0, left: 0
-    @defineRootElement(
+    @defineBaseElement(
       @getRootElement(),
       @getRootElementWidth(),
       @getRootElementHeight(),
@@ -34,7 +34,7 @@ class Chart.D3Chart
     [ '#dcdcdc', '#97bbcd', '#ed91a2', '#7abf8a', '#f1af31' ]
 
   # http://bl.ocks.org/mbostock/3019563
-  defineRootElement: (element, width, height, margin) ->
+  defineBaseElement: (element, width, height, margin) ->
     @width = width - margin.left - margin.right
     @height = height - margin.top - margin.bottom
     @getRootElement()
