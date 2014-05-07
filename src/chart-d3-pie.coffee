@@ -60,7 +60,7 @@ class Chart.D3Pie extends Chart.D3Chart
   renderPie: (data, options, baseClassName = 'pie') ->
     pie = d3.layout.pie().value((d) -> d.value).sort(null)
     colors = data.map((d) -> d.color)
-    @getRootElement()
+    @getBaseSelection()
       .select(@className('base-group'))
       .append('g')
       .classed(@classedName("#{baseClassName}-chart-group"), true)
@@ -97,7 +97,7 @@ class Chart.D3Pie extends Chart.D3Chart
 
   transitExpansion: (options) ->
     return null if !(options.animation and options.animateScale)
-    @getRootElement()
+    @getBaseSelection()
       .selectAll('g')
       .attr(transform: "#{@attrTranslateToCenter()} scale(0)")
       .transition()

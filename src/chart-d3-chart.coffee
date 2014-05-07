@@ -11,16 +11,16 @@ class Chart.D3Chart
       .tickPadding(7).orient('left')
 
   attrTranslateToCenter: =>
-    halfWidth = @getRootElementWidth() / 2
-    halfHeight = @getRootElementHeight() / 2
+    halfWidth = @getBaseSelectionWidth() / 2
+    halfHeight = @getBaseSelectionHeight() / 2
     "translate(#{halfWidth}, #{halfHeight})"
 
   constructor: (@selectors, @data, @options, margin) ->
     margin or= top: 0, right: 0, bottom: 0, left: 0
     @defineBaseElement(
-      @getRootElement(),
-      @getRootElementWidth(),
-      @getRootElementHeight(),
+      @getBaseSelection(),
+      @getBaseSelectionWidth(),
+      @getBaseSelectionHeight(),
       margin
     )
 
@@ -37,7 +37,7 @@ class Chart.D3Chart
   defineBaseElement: (element, width, height, margin) ->
     @width = width - margin.left - margin.right
     @height = height - margin.top - margin.bottom
-    @getRootElement()
+    @getBaseSelection()
       .attr(width: @width + margin.left + margin.right)
       .attr(height: @height + margin.top + margin.bottom)
       .append('g')
@@ -47,24 +47,24 @@ class Chart.D3Chart
   duration: (options = @options) ->
     options.animationSteps * 17.333
 
-  getRootElement: =>
+  getBaseSelection: =>
     d3.select(@selectors)
 
-  getRootElementHeight: =>
-    +(@getRootElement().attr('height'))
+  getBaseSelectionHeight: =>
+    +(@getBaseSelection().attr('height'))
 
-  getRootElementWidth: =>
-    +(@getRootElement().attr('width'))
+  getBaseSelectionWidth: =>
+    +(@getBaseSelection().attr('width'))
 
   getTransitionElement: (duration, options) =>
-    @getRootElement()
+    @getBaseSelection()
       .transition()
       .duration(duration)
       .ease(options.animationEasing)
 
   renderXGrid: (x0Scale, chartHeight) =>
     x = x0Scale.rangeBand() / 2
-    @getRootElement()
+    @getBaseSelection()
       .select(@className('base-group'))
       .append('g')
       .classed(@classedName('grid-group'), true)
@@ -75,12 +75,12 @@ class Chart.D3Chart
       .classed('tick', false)
       .selectAll('line')
       .attr(x1: x, x2: x, y2: chartHeight)
-    @getRootElement()
+    @getBaseSelection()
       .selectAll(@className('grid-x-group'))
       .select('.domain').remove()
 
   renderYGrid: (yScale, chartWidth) =>
-    @getRootElement()
+    @getBaseSelection()
       .select(@className('base-group'))
       .append('g')
       .classed(@classedName('grid-group'), true)
@@ -93,7 +93,7 @@ class Chart.D3Chart
       .attr(x1: 0, x2: chartWidth)
 
   renderGrid: =>
-    @getRootElement()
+    @getBaseSelection()
       .selectAll("#{@className('grid-group')}")
       .selectAll("#{@className('domain')}, text")
       .data([])
@@ -101,7 +101,7 @@ class Chart.D3Chart
       .remove()
 
   renderXAxis: (xScale, chartHeight) =>
-    @getRootElement()
+    @getBaseSelection()
       .select(@className('base-group'))
       .append('g')
       .classed(@classedName('scale-group'), true)
@@ -113,7 +113,7 @@ class Chart.D3Chart
       .classed('tick', false)
 
   renderYAxis: (yScale) =>
-    @getRootElement()
+    @getBaseSelection()
       .select(@className('base-group'))
       .append('g')
       .classed(@classedName('scale-group'), true)
@@ -138,12 +138,12 @@ class Chart.D3Chart
       { data, fillColor, strokeColor, pointColor, pointStrokeColor }
 
   updateGridTickStyle: (options) =>
-    @getRootElement()
+    @getBaseSelection()
       .selectAll("#{@className('grid-group')} #{@className('tick')} line")
       .attr(stroke: options.scaleGridLineColor)
 
   updateScaleStrokeStyle: (options) =>
-    @getRootElement()
+    @getBaseSelection()
       .selectAll("#{@className('scale-group')}")
       .selectAll(".domain, #{@className('tick')} line")
       .attr(fill: 'none')
@@ -151,7 +151,7 @@ class Chart.D3Chart
       .attr('stroke-width': options.scaleLineWidth)
 
   updateScaleTextStyle: (options) =>
-    @getRootElement()
+    @getBaseSelection()
       .selectAll("#{@className('scale-group')} text")
       .attr('font-family': options.scaleFontFamily)
       .attr('font-size': options.scaleFontSize)

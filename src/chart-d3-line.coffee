@@ -78,7 +78,7 @@ class Chart.D3Line extends Chart.D3Chart
     this
 
   renderLinesGroup: (data) =>
-    @getRootElement()
+    @getBaseSelection()
       .select(@className('base-group'))
       .append('g')
       .classed(@classedName('line-chart-group'), true)
@@ -92,7 +92,7 @@ class Chart.D3Line extends Chart.D3Chart
 
   renderAreas: (area, data, options) =>
     return null unless options.datasetFill
-    @getRootElement()
+    @getBaseSelection()
       .selectAll(@className('line-group'))
       .data(data)
       .append('path')
@@ -110,7 +110,7 @@ class Chart.D3Line extends Chart.D3Chart
         strokeColor: d1.strokeColor
         pointColor: d1.pointColor
         pointStrokeColor: d1.pointStrokeColor
-    @getRootElement()
+    @getBaseSelection()
       .selectAll(@className('line-group'))
       .data(dataset)
       .selectAll(@className('dot'))
@@ -126,7 +126,7 @@ class Chart.D3Line extends Chart.D3Chart
       .attr('fill', (d, i) -> d.pointColor)
 
   renderLines: (line, data, options) =>
-    @getRootElement()
+    @getBaseSelection()
       .selectAll(@className('line-group'))
       .data(data)
       .append('path')
@@ -137,21 +137,21 @@ class Chart.D3Line extends Chart.D3Chart
       .attr('fill', 'none')
 
   transitAreas: (el, chartHeight) =>
-    @getRootElement()
+    @getBaseSelection()
       .selectAll(@className('area'))
       .attr('transform', "translate(0,#{chartHeight}) scale(1,0)")
     el.selectAll(@className('area'))
       .attr('transform', 'translate(0,0) scale(1,1)')
 
   transitDots: (el, chartHeight, yScale) =>
-    @getRootElement()
+    @getBaseSelection()
       .selectAll(@className('dot'))
       .attr('cy', chartHeight)
     el.selectAll(@className('dot'))
       .attr('cy', (d, i) -> yScale(d.value))
 
   transitLines: (el, chartHeight) =>
-    @getRootElement()
+    @getBaseSelection()
       .selectAll(@className('line'))
       .attr('transform', "translate(0,#{chartHeight}) scale(1,0)")
     el.selectAll(@className('line'))

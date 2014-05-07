@@ -59,19 +59,19 @@ describe 'Chart.D3Chart', ->
       options = animationSteps: 100
       expect(instance.duration(options)).to.be(1733.2999999999997)
 
-  describe '::getRootElement', ->
+  describe '::getBaseSelection', ->
     it 'should return the same id of element', ->
-      element = instance.getRootElement()
+      element = instance.getBaseSelection()
       expect(element.attr('id')).to.be('svg')
 
-  describe '::getRootElementHeight', ->
+  describe '::getBaseSelectionHeight', ->
     it 'should return the height of element', ->
-      actual = instance.getRootElementHeight()
+      actual = instance.getBaseSelectionHeight()
       expect(actual).to.be(450)
 
-  describe '::getRootElementWidth', ->
+  describe '::getBaseSelectionWidth', ->
     it 'should return the width of element', ->
-      actual = instance.getRootElementWidth()
+      actual = instance.getBaseSelectionWidth()
       expect(actual).to.be(600)
 
   describe '::getTransitionElement', ->
