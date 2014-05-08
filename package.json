@@ -23,6 +23,9 @@
     "url": "git@github.com:ruedap/d3-meets-chart.js.git"
   },
   "license": "MIT",
+  "dependencies": {
+    "d3": ">=3.4.4"
+  },
   "devDependencies": {
     "coffee-script": "~1.7.1",
     "expect.js": "~0.3.1",

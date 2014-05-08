@@ -92,7 +92,7 @@ gulp.task 'karma:travis', ->
     .pipe(
       karma(
         configFile: 'karma.conf.js'
-        browsers: ['Firefox', 'PhantomJS']
+        browsers: ['Chrome', 'Firefox', 'Safari', 'PhantomJS']
         reporters: ['progress', 'coverage']
         action: 'run'
       )
