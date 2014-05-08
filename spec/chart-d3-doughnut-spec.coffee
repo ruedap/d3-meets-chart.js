@@ -33,6 +33,12 @@ describe 'Chart.D3Doughnut', ->
       expect(instance.data).to.eql(args.data)
       expect(instance.options).to.eql({})
 
+  describe '::defaultColors', ->
+    it 'should return an array', ->
+      actual = instance.defaultColors()
+      expect(actual[0]).to.be('#f7464a')
+      expect(actual.length).to.be(8)
+
   describe '::getInnerRadius', ->
     it 'should return Number', ->
       options = percentageInnerCutout: 50.2
