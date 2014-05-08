@@ -120,15 +120,15 @@
         barShowStroke : true,
 
         //Number - Pixel width of the bar stroke
-        barStrokeWidth : 8,
+        // barStrokeWidth : 2,
 
         //Number - Spacing between each of the X value sets
-        barValueSpacing : 10,
+        // barValueSpacing : 10,
 
         //Number - Spacing between data sets within X values
-        barDatasetSpacing : 10,
+        // barDatasetSpacing : 10,
 
-        // animation: true,
+        animation: false,
         // animationSteps: 100,
         // animationEasing: 'linear',
         // animationEasing: 'easeInQuad',
@@ -162,9 +162,9 @@
 
       // 1
       new ChartJS(document.getElementById("canvas1").getContext("2d")).Bar(data);
-      new Chart("#svg1").Bar(data);
+      new Chart("#svg1").Bar(data, options);
 
-      new Chart("#svg2").Bar(data3);
+      new Chart("#svg2").Bar(data3, options);
 
     </script>
   </body>
