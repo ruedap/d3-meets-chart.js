@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Phantom CSS</title>
+    <script src="../../../bower_components/d3/d3.js" charset="utf-8"></script>
+    <script src="../../../tmp/d3-meets-chart.js"></script>
+    <meta name="viewport" content="initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <style>
+      body {
+        background: #fff;
+        width: 1200px;
+      }
+    </style>
+    <svg id="svgPie" class="d3mc" width="250" height="250"></svg>
+    <svg id="svgPie2" class="d3mc" width="250" height="250"></svg>
+    <svg id="svgDoughnut" class="d3mc" width="250" height="250"></svg>
+    <svg id="svgDoughnut2" class="d3mc" width="250" height="250"></svg>
+    <svg id="svgBar" class="d3mc" width="500" height="300"></svg>
+    <svg id="svgBar2" class="d3mc" width="500" height="300"></svg>
+    <svg id="svgLine" class="d3mc" width="500" height="300"></svg>
+    <svg id="svgLine2" class="d3mc" width="500" height="300"></svg>
+
+    <script>
+      var dataPie = [ { value: 30 }, { value: 50 }, { value: 100 } ];
+
+      var dataPie2 = [
+        { value: 100 }, { value: 100 }, { value: 100 }, { value: 100 },
+        { value: 100 }, { value: 100 }, { value: 100 }, { value: 100 },
+        { value: 100 },
+      ];
+
+      var dataDoughnut = dataPie;
+      var dataDoughnut2 = dataPie2;
+
+      var dataBar = {
+        labels : ["January","February","March","April","May","June","July"],
+        datasets : [
+          { data : [65,59,90,81,56,55,40] },
+          { data : [28,48,40,19,96,27,100] },
+        ]
+      };
+
+      var dataBar2 = {
+        labels : ["January","February","March","April","May","June","July"],
+        datasets : [
+          { data : [65,59,90,81,56,55,40] },
+          { data : [100,80,30,21,46,85,10] },
+          { data : [95,29,60,31,66,45,80] },
+          { data : [65,39,40,51,16,35,60] },
+          { data : [28,48,50,19,96,27,100] },
+          { data : [10,10,10,10,10,10,10] },
+        ]
+      };
+
+      var dataLine = dataBar;
+      var dataLine2 = dataBar2;
+
+      var options = {
+        animation: false
+      };
+
+      new Chart("#svgPie").Pie(dataPie, options);
+      new Chart("#svgPie2").Pie(dataPie2, options);
+      new Chart("#svgDoughnut").Doughnut(dataDoughnut, options);
+      new Chart("#svgDoughnut2").Doughnut(dataDoughnut2, options);
+      new Chart("#svgBar").Bar(dataBar, options);
+      new Chart("#svgBar2").Bar(dataBar2, options);
+      new Chart("#svgLine").Line(dataLine, options);
+      new Chart("#svgLine2").Line(dataLine2, options);
+    </script>
+  </body>
+</html>

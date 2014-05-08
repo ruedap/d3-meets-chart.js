@@ -1,10 +1,12 @@
-language: node_js
-node_js:
-- "0.10"
+language: objective-c
 before_install:
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
+- node --version
+- npm --version
+- brew update
+- brew install casperjs --devel
 - npm install -g bower
+before_script:
+- npm install
 - bower install
 script:
 - npm test
