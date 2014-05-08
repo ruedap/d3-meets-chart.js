@@ -65,6 +65,12 @@ describe 'Chart.D3Pie', ->
       expect(instance.data).to.be(args.data)
       expect(instance.options).to.eql({})
 
+  describe '::defaultColors', ->
+    it 'should return an array', ->
+      actual = instance.defaultColors()
+      expect(actual[0]).to.be('#f38630')
+      expect(actual.length).to.be(8)
+
   describe '::getArc', ->
     it 'should return a function', ->
       actual = instance.getArc(innerRadius, outerRadius)

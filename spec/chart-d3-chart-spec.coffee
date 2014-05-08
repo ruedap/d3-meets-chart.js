@@ -31,6 +31,12 @@ describe 'Chart.D3Chart', ->
       expect(instance.data).to.eql([])
       expect(instance.options).to.eql({})
 
+  describe '::defaultColors', ->
+    it 'should return an array', ->
+      actual = instance.defaultColors()
+      expect(actual[0]).to.be('#dcdcdc')
+      expect(actual.length).to.be(5)
+
   describe '::attrTranslateToCenter', ->
     it 'should return a string of `translate` attribute', ->
       actual = instance.attrTranslateToCenter()
