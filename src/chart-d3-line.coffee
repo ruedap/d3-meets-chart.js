@@ -70,10 +70,13 @@ class Chart.D3Line extends Chart.D3Chart
     @updateScaleStrokeStyle(options)
     @updateScaleTextStyle(options)
 
-    el = @getTransitionSelection(@duration(), options)
-    @transitAreas(el, chartHeight)
-    @transitLines(el, chartHeight)
-    @transitDots(el, chartHeight, yScale)
+    if options.animation
+      sl = @getTransitionSelection(@duration(), options)
+    else
+      sl = @getTransitionSelection(0, options)
+    @transitAreas(sl, chartHeight)
+    @transitLines(sl, chartHeight)
+    @transitDots(sl, chartHeight, yScale)
 
     this
 

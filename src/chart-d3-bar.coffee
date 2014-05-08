@@ -78,9 +78,13 @@ class Chart.D3Bar extends Chart.D3Chart
     @updateScaleStrokeStyle(options)
     @updateScaleTextStyle(options)
 
-    el = @getTransitionSelection(@duration(), options)
-    @transitBar(el, chartHeight, yScale)
-    @transitBarBorder(el, chartHeight)
+    if options.animation
+      sl = @getTransitionSelection(@duration(), options)
+    else
+      sl = @getTransitionSelection(0, options)
+    @transitBar(sl, chartHeight, yScale)
+    @transitBarBorder(sl, chartHeight)
+
     this
 
   renderBars: (data, x0Scale, options) =>

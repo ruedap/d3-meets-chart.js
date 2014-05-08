@@ -151,7 +151,7 @@
         //Function - Fires when the animation is complete
         onAnimationComplete : null,
 
-        // animation: true,
+        animation: false,
         // animationSteps: 100,
         // animationEasing: 'linear',
         // animationEasing: 'easeInQuad',
@@ -186,8 +186,8 @@
       var myChartJS = new ChartJS(document.getElementById("canvas").getContext("2d"))
         .Line(data, options);
       new Chart("#svg").Line(data, options);
-      new Chart("#svg2").Line(data2);
-      new Chart("#svg3").Line(data3);
+      new Chart("#svg2").Line(data2, options);
+      new Chart("#svg3").Line(data3, options);
 
     </script>
   </body>
