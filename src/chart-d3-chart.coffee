@@ -44,8 +44,9 @@ class Chart.D3Chart
       .attr(transform: "translate(#{margin.left},#{margin.top})")
       .classed(@classedName('base-group'), true)
 
-  duration: (options = @options) ->
-    options.animationSteps * 17.333
+  duration: (options = @options, rate = 17.333) ->
+    return 0 unless options.animation
+    options.animationSteps * rate
 
   getBaseSelection: =>
     d3.select(@selectors)

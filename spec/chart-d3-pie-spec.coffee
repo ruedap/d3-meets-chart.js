@@ -94,12 +94,6 @@ describe 'Chart.D3Pie', ->
       actual = instance.renderPie(args.data, args.options)
       expect(actual).to.be.an(Array)
 
-  describe '::renderPiePath', ->
-    it 'should return an array', ->
-      sl = instance.renderPie(args.data, args.options)
-      actual = instance.renderPiePath(sl, arc)
-      expect(actual).to.be.an(Array)
-
   describe '::setAnimationComplete', ->
     context 'when an argument is invalid', ->
       it 'should return Infinity', ->
