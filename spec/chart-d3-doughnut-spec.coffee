@@ -21,6 +21,16 @@ describe 'Chart.D3Doughnut', ->
       value: 120
       color: '#4D5360'
     ]
+    args.options =
+      percentageInnerCutout: 50.2
+      animation: true
+      animateRotate: true
+      animateScale: true
+      animationEasing: 'easeOutBounce'
+      onAnimationComplete: -> 'foo'
+      segmentShowStroke: true
+      segmentStrokeColor: '#fff'
+      segmentStrokeWidth: 2
     instance = new Chart.D3Doughnut('#svg', args.data, {})
 
   afterEach ->
@@ -44,6 +54,11 @@ describe 'Chart.D3Doughnut', ->
       options = percentageInnerCutout: 50.2
       actual = instance.getInnerRadius(195, options)
       expect(actual).to.be(97)
+
+  describe '::renderPie', ->
+    it 'should return an array', ->
+      actual = instance.renderPie(args.data, args.options)
+      expect(actual).to.be.an(Array)
 
   describe '::setDefaultColors', ->
     context "when an argument doesn't include color property", ->

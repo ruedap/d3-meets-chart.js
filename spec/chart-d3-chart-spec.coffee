@@ -25,18 +25,6 @@ describe 'Chart.D3Chart', ->
       actual = Chart.D3Chart.yAxis(d3.scale.ordinal())
       expect(actual).to.be.a('function')
 
-  describe '::constructor', ->
-    it 'should have same values in properties', ->
-      expect(instance.selectors).to.be('#svg')
-      expect(instance.data).to.eql([])
-      expect(instance.options).to.eql({})
-
-  describe '::defaultColors', ->
-    it 'should return an array', ->
-      actual = instance.defaultColors()
-      expect(actual[0]).to.be('#dcdcdc')
-      expect(actual.length).to.be(5)
-
   describe '::attrTranslateToCenter', ->
     it 'should return a string of `translate` attribute', ->
       actual = instance.attrTranslateToCenter()
@@ -52,18 +40,31 @@ describe 'Chart.D3Chart', ->
       actual = instance.className('foo-bar')
       expect(actual).to.be('.d3mc-foo-bar')
 
+  describe '::constructor', ->
+    it 'should have same values in properties', ->
+      expect(instance.selectors).to.be('#svg')
+      expect(instance.data).to.eql([])
+      expect(instance.options).to.eql({})
+
   describe '::defaultColors', ->
     it 'should return an array', ->
       actual = instance.defaultColors()
-      expect(actual).to.be.an(Array)
+      expect(actual[0]).to.be('#dcdcdc')
+      expect(actual.length).to.be(5)
 
   describe '::defineRootElement', ->
     it 'pending'
 
   describe '::duration', ->
-    it 'should return a number', ->
-      options = animationSteps: 100
-      expect(instance.duration(options)).to.be(1733.2999999999997)
+    context 'when animation option is true', ->
+      it 'should return a number', ->
+        options = animation: true, animationSteps: 100
+        expect(instance.duration(options)).to.be(1733.2999999999997)
+
+    context 'when animation option is false', ->
+      it 'should return zero', ->
+        options = animation: false
+        expect(instance.duration(options)).to.be(0)
 
   describe '::getBaseSelection', ->
     it 'should return the same id of element', ->
