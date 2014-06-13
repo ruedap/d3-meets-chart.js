@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1.0" name="viewport">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="Simple HTML5 Charts using the SVG tag with D3.js" name="description">
+    <title>D3 meets Chart.js</title>
+    <link href="http://fonts.googleapis.com/css?family=Lato:100,300,700" media="only all" rel="stylesheet">
+    <link href="stylesheets/application.css" rel="stylesheet" type="text/css" />
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-39361234-5', 'ruedap.github.io');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header__heading">D3 meets Chart.js</h1>
+      <p class="header__description">
+        Simple HTML5 Charts using the &lt;svg&gt; tag with D3.js
+        <br>
+        The original implementation on which it is based, is Chart.js
+      </p>
+      <a class="header__download-button hidden" href="https://github.com/ruedap/d3-meets-chart.js" id="js-download-button">
+        Download on GitHub
+        <svg class="svg-github-icon" width="23" height="22" xmlns="http://www.w3.org/2000/svg"><path d="M11.289.627c-5.808 0-10.519 4.71-10.519 10.52 0 4.648 3.014 8.591 7.194 9.982.526.097.718-.228.718-.507l-.014-1.789c-2.926.635-3.544-1.41-3.544-1.41-.479-1.215-1.168-1.539-1.168-1.539-.955-.652.072-.639.072-.639 1.056.074 1.611 1.084 1.611 1.084.938 1.607 2.463 1.143 3.062.874.096-.679.367-1.143.668-1.406-2.336-.265-4.792-1.168-4.792-5.199 0-1.148.41-2.088 1.083-2.823-.108-.266-.47-1.336.103-2.784 0 0 .883-.283 2.893 1.079.839-.234 1.739-.35 2.634-.355.894.005 1.793.121 2.634.355 2.008-1.361 2.89-1.079 2.89-1.079.574 1.448.213 2.518.105 2.784.674.735 1.081 1.675 1.081 2.823 0 4.042-2.46 4.931-4.803 5.191.377.325.714.967.714 1.948 0 1.407-.013 2.541-.013 2.886 0 .282.19.609.723.506 4.177-1.394 7.189-5.334 7.189-9.981 0-5.81-4.711-10.52-10.521-10.52"/></svg>
+      </a>
+    </header>
+    <section class="why-use-this">
+      <h2 class="why-use-this__heading">Why use this?</h2>
+      <p class="why-use-this__description">
+        Because&nbsp;<span>everything is an element</span>.
+        For
+        <span>SVG</span>
+        enthusiasts.
+      </p>
+      <div class="why-use-this__example" id="why-use-this-chart">
+        <div class="why-use-this__code">
+          <pre><code>/* CSS Example */&#x000A;.d3mc-bars-group:nth-of-type(3) &gt; :first-of-type rect {&#x000A;  fill: gold;&#x000A;}&#x000A;.d3mc-bars-group:nth-of-type(3) &gt; :first-of-type path {&#x000A;  stoke: orange;&#x000A;}&#x000A;.d3mc-scale-x-group &gt; .d3mc-tick:nth-of-type(3) text {&#x000A;  fill: darkorange;&#x000A;}</code></pre>
+          <pre><code>/* jQuery Example */&#x000A;$(&quot;.d3mc-bar-group rect&quot;).hover(function(event) {&#x000A;  $(event.target).fadeTo(200, 0.5);&#x000A;}, function(event) {&#x000A;  $(event.target).fadeTo(200, 1);&#x000A;});</code></pre>
+        </div>
+        <div class="why-use-this__chart">
+          <svg height="400" id="js-why-use-this-chart" width="560"></svg>
+        </div>
+      </div>
+    </section>
+    <section class="comparisons">
+      <h2 class="comparisons__heading">Comparison with Chart.js</h2>
+      <div class="comparison--bar-chart">
+        <h3 class="comparison--bar-chart__heading">
+          Bar chart
+        </h3>
+        <div class="comparison--bar-chart__charts">
+          <div class="comparison--bar-chart__chart--original">
+            <h4 class="comparison--bar-chart__chart-heading">Chart.js (Original)</h4>
+            <canvas height="400" id="js-comparison--bar-chart__chart--original" width="560"></canvas>
+          </div>
+          <div class="comparison--bar-chart__chart--alternative">
+            <h4 class="comparison--bar-chart__chart-heading">D3 meets Chart.js</h4>
+            <svg height="400" id="js-comparison--bar-chart__chart--alternative" width="560"></svg>
+          </div>
+        </div>
+      </div>
+      <div class="comparison--line-chart">
+        <h3 class="comparison--line-chart__heading">
+          Line chart
+        </h3>
+        <div class="comparison--line-chart__charts">
+          <div class="comparison--line-chart__chart--original">
+            <h4 class="comparison--line-chart__chart-heading">Chart.js (Original)</h4>
+            <canvas height="400" id="js-comparison--line-chart__chart--original" width="560"></canvas>
+          </div>
+          <div class="comparison--line-chart__chart--alternative">
+            <h4 class="comparison--line-chart__chart-heading">D3 meets Chart.js</h4>
+            <svg height="400" id="js-comparison--line-chart__chart--alternative" width="560"></svg>
+          </div>
+        </div>
+      </div>
+      <div class="comparison--pie-chart">
+        <h3 class="comparison--pie-chart__heading">
+          Pie chart
+        </h3>
+        <div class="comparison--pie-chart__charts">
+          <div class="comparison--pie-chart__chart--original">
+            <h4 class="comparison--pie-chart__chart-heading">Chart.js (Original)</h4>
+            <canvas height="400" id="js-comparison--pie-chart__chart--original" width="560"></canvas>
+          </div>
+          <div class="comparison--pie-chart__chart--alternative">
+            <h4 class="comparison--pie-chart__chart-heading">D3 meets Chart.js</h4>
+            <svg height="400" id="js-comparison--pie-chart__chart--alternative" width="560"></svg>
+          </div>
+        </div>
+      </div>
+      <div class="comparison--doughnut-chart">
+        <h3 class="comparison--doughnut-chart__heading">
+          Doughnut chart
+        </h3>
+        <div class="comparison--doughnut-chart__charts">
+          <div class="comparison--doughnut-chart__chart--original">
+            <h4 class="comparison--doughnut-chart__chart-heading">Chart.js (Original)</h4>
+            <canvas height="400" id="js-comparison--doughnut-chart__chart--original" width="560"></canvas>
+          </div>
+          <div class="comparison--doughnut-chart__chart--alternative">
+            <h4 class="comparison--doughnut-chart__chart-heading">D3 meets Chart.js</h4>
+            <svg height="400" id="js-comparison--doughnut-chart__chart--alternative" width="560"></svg>
+          </div>
+        </div>
+      </div>
+      <div class="comparison--radar-chart">
+        <h3 class="comparison--radar-chart__heading">
+          Radar chart
+        </h3>
+        <div class="comparison--radar-chart__charts">
+          <div class="comparison--radar-chart__chart--original">
+            <h4 class="comparison--radar-chart__chart-heading">Chart.js (Original)</h4>
+            <canvas height="400" id="js-comparison--radar-chart__chart--original" width="560"></canvas>
+          </div>
+          <div class="comparison--radar-chart__chart--alternative">
+            <h4 class="comparison--radar-chart__chart-heading">D3 meets Chart.js</h4>
+            <svg height="400" id="js-comparison--radar-chart__chart--alternative" width="560"></svg>
+          </div>
+        </div>
+      </div>
+      <div class="comparison--polar-chart">
+        <h3 class="comparison--polar-chart__heading">
+          Polar area chart
+        </h3>
+        <div class="comparison--polar-chart__charts">
+          <div class="comparison--polar-chart__chart--original">
+            <h4 class="comparison--polar-chart__chart-heading">Chart.js (Original)</h4>
+            <canvas height="400" id="js-comparison--polar-chart__chart--original" width="560"></canvas>
+          </div>
+          <div class="comparison--polar-chart__chart--alternative">
+            <h4 class="comparison--polar-chart__chart-heading">D3 meets Chart.js</h4>
+            <svg height="400" id="js-comparison--polar-chart__chart--alternative" width="560"></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="footer">
+      <p class="footer__description">
+        A special note of thanks to
+        <a href="http://www.chartjs.org/">Chart.js</a>
+        and
+        <a href="http://d3js.org/">D3.js</a>
+      </p>
+    </footer>
+    <script src="javascripts/application.js" type="text/javascript"></script>
+  </body>
+</html>
