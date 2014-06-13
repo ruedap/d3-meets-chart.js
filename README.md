@@ -12,7 +12,7 @@
 ## Why use this?
 
 Because everything is an element.  
-For a SVG enthusiast. Otherwise, you might want to use [Chart.js](http://www.chartjs.org/).
+For SVG enthusiasts. Otherwise, you might want to use [Chart.js](http://www.chartjs.org/).
 
 
 ## Getting started
